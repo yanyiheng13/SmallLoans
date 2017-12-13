@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical">
+
+    <!--<RelativeLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/title_height">-->
+
+    <TextView
+        android:id="@+id/tv_left_text"
+        android:layout_width="@dimen/title_back_height"
+        android:layout_height="@dimen/title_back_height"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:gravity="left|center"
+        android:minWidth="@dimen/title_back_height"
+        android:textColor="@android:color/white"
+        />
+
+        <ImageView
+            android:id="@+id/iv_left_img"
+            android:layout_width="@dimen/title_back_height"
+            android:layout_height="@dimen/title_back_height"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:visibility="invisible"
+            />
+    <RelativeLayout
+        android:id="@+id/view_close_contain"
+        android:layout_width="@dimen/title_close_two"
+        android:layout_height="@dimen/title_height"
+        android:layout_above="@id/view_back_line"
+        android:layout_toRightOf="@id/tv_left_text"
+        android:layout_marginLeft="15dp"
+        android:visibility="gone"
+        >
+
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/icon_h5_close"/>
+    </RelativeLayout>
+    <!--标题-->
+    <TextView
+        android:id="@+id/view_title_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="84dp"
+        android:layout_marginRight="84dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:lines="1"
+        android:textSize="@dimen/default_title_size"/>
+
+    <TextView
+        android:id="@+id/tv_right_text"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/title_height"
+        android:layout_above="@id/view_back_line"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
+        android:gravity="right|center"
+        android:minWidth="@dimen/title_height"
+        android:textColor="@android:color/white"
+        android:visibility="invisible"
+        />
+
+
+    <TextView
+        android:id="@+id/tv_right_text_second"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/title_height"
+        android:layout_above="@id/view_back_line"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/tv_right_text"
+        android:gravity="right|center"
+        android:lines="1"
+        android:minWidth="@dimen/title_height"
+        android:textColor="@android:color/white"
+        android:visibility="gone"
+        />
+
+
+    <ImageView
+        android:id="@+id/iv_right_img"
+        android:layout_width="@dimen/web_title_right_height"
+        android:layout_height="@dimen/web_title_right_height"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
+        android:visibility="invisible"
+        />
+
+    <ImageView
+        android:id="@+id/iv_right_img_second"
+        android:layout_width="@dimen/web_title_right_height"
+        android:layout_height="@dimen/web_title_right_height"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/tv_right_text"
+        android:background="@color/blue_main"
+        android:visibility="invisible"
+        />
+
+    <RelativeLayout
+        android:id="@+id/rl_right_custom"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/title_height"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:background="@color/blue_main"
+        android:gravity="center">
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view_back_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:background="@color/blue_main"/>
+    <!--</RelativeLayout>-->
+
+
+</merge>

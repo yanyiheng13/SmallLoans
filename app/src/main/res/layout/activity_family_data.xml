@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?><!--添加银行卡界面-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.virgo.financeloan.ui.view.CustomTitleView
+        android:id="@+id/title_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/def_height"
+        app:default_title="@string/title_family_property" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!--房本-->
+            <com.virgo.financeloan.ui.view.GroupView
+                android:id="@+id/group_view_house"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <!--车本-->
+            <com.virgo.financeloan.ui.view.GroupView
+                android:id="@+id/group_view_car"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <!--其他差产证明-->
+            <com.virgo.financeloan.ui.view.GroupView
+                android:id="@+id/group_view_other_property"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

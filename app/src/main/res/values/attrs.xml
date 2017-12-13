@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- looping viewpager -->
+    <declare-styleable name="CustomTitleView">
+        <!-- Style of the circle indicator. -->
+        <attr name="default_title" format="reference" />
+        <attr name="btn_text" format="string" />
+        <attr name="default_color" format="color" />
+        <attr name="default_size" format="dimension" />
+        <attr name="click_loading" format="boolean" />
+    </declare-styleable>
+
+    <!--密码输入框相关-->
+    <declare-styleable name="gridPasswordView">
+
+        <attr name="gpvTextColor" format="color|reference" />
+        <attr name="gpvTextSize" format="dimension" />
+
+        <attr name="gpvLineColor" format="color" />
+        <attr name="gpvGridColor" format="color" />
+        <attr name="gpvLineWidth" format="dimension" />
+
+        <attr name="gpvPasswordLength" format="integer" />
+        <attr name="gpvPasswordTransformation" format="string" />
+
+        <attr name="gpvPasswordType" format="enum">
+            <enum name="numberPassword" value="0" />
+            <enum name="textPassword" value="1" />
+            <enum name="textVisiblePassword" value="2" />
+            <enum name="textWebPassword" value="3" />
+        </attr>
+
+    </declare-styleable>
+    <!--<declare-styleable name="CirclePageIndicator">-->
+        <!--&lt;!&ndash; Whether or not the indicators should be centered. &ndash;&gt;-->
+        <!--<attr name="centered" />-->
+        <!--&lt;!&ndash; Color of the filled circle that represents the current page. &ndash;&gt;-->
+        <!--<attr name="fillColor" format="color" />-->
+        <!--&lt;!&ndash; Color of the filled circles that represents pages. &ndash;&gt;-->
+        <!--<attr name="pageColor" format="color" />-->
+        <!--&lt;!&ndash; Orientation of the indicator. &ndash;&gt;-->
+        <!--<attr name="android:orientation" />-->
+        <!--&lt;!&ndash; Radius of the circles. This is also the spacing between circles. &ndash;&gt;-->
+        <!--<attr name="radius" format="dimension" />-->
+        <!--<attr name="snap" format="boolean" />-->
+
+        <!--&lt;!&ndash; Color of the open circles. &ndash;&gt;-->
+        <!--<attr name="strokeColor" format="color" />-->
+        <!--&lt;!&ndash; Width of the stroke used to draw the circles. &ndash;&gt;-->
+        <!--<attr name="strokeWidth" />-->
+        <!--&lt;!&ndash; View background &ndash;&gt;-->
+        <!--<attr name="android:background" />-->
+
+        <!--&lt;!&ndash; Radius of the selected circles.&ndash;&gt;-->
+        <!--<attr name="selectedRadius" format="dimension" />-->
+    <!--</declare-styleable>-->
+
+    <!--<declare-styleable name="ViewPagerIndicator">-->
+        <!--&lt;!&ndash; Style of the circle indicator. &ndash;&gt;-->
+        <!--<attr name="vpiCirclePageIndicatorStyle" format="reference" />-->
+        <!--&lt;!&ndash; Style of the icon indicator's views. &ndash;&gt;-->
+        <!--<attr name="vpiIconPageIndicatorStyle" format="reference" />-->
+        <!--&lt;!&ndash; Style of the line indicator. &ndash;&gt;-->
+        <!--<attr name="vpiLinePageIndicatorStyle" format="reference" />-->
+        <!--&lt;!&ndash; Style of the title indicator. &ndash;&gt;-->
+        <!--<attr name="vpiTitlePageIndicatorStyle" format="reference" />-->
+        <!--&lt;!&ndash; Style of the tab indicator's tabs. &ndash;&gt;-->
+        <!--<attr name="vpiTabPageIndicatorStyle" format="reference" />-->
+        <!--&lt;!&ndash; Style of the underline indicator. &ndash;&gt;-->
+        <!--<attr name="vpiUnderlinePageIndicatorStyle" format="reference" />-->
+    <!--</declare-styleable>-->
+</resources>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/blue_main</color>
+    <color name="colorPrimaryDark">@color/blue_main</color>
+    <color name="colorAccent">@color/blue_main</color>
+
+    <!-- nav背景  -->
+    <color name="color_333333">#333333</color>
+    <color name="blue_main">#FF007AFF</color>  <!-- 主蓝色调 -->
+    <color name="blue_light">#FF2390FF</color>  <!-- 主蓝色调 -->
+    <color name="white">#ffffff</color>
+
+
+    <!-- 背景  -->
+    <color name="gray_bt_bg">#FF8C8C8C</color> <!-- 按钮背景灰 不可操作状态灰 -->
+
+    <color name="color_AFB1B3">#AFB1B3</color>
+    <color name="color_545454">#FF545454</color>
+    <color name="color_999999">#FF999999</color> <!-- 标售罄字体灰 -->
+    <color name="color_666666">#FF666666</color><!--绑定银行卡提示支持银行-->
+    <color name="color_FF6666">#FF6666</color>
+    <color name="main_bg">#f3f3f3</color>  <!-- 背景  -->
+    <color name="line_color">#ffe2e2e2</color>
+    <color name="black">#000000</color>
+
+
+</resources>

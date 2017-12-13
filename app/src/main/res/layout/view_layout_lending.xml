@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?><!-- 放款账号信息View -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="16dp"
+        android:text="@string/lending_account_info"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/font_size_16" />
+
+    <LinearLayout
+        android:id="@+id/bank_account_num_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minEms="4"
+            android:text="@string/bank_account"
+            android:textColor="@color/color_545454"
+            android:textSize="@dimen/font_size_15" />
+
+        <TextView
+            android:id="@+id/bank_account_num_et"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/bg_edit"
+            android:gravity="center_vertical"
+            android:inputType="number"
+            android:maxEms="20"
+            android:paddingLeft="5dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bank_account_name_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minEms="4"
+            android:text="账户名"
+            android:textColor="@color/color_545454"
+            android:textSize="@dimen/font_size_15" />
+
+        <TextView
+            android:id="@+id/bank_account_name_et"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/bg_edit"
+            android:gravity="center_vertical"
+            android:maxEms="6"
+            android:paddingLeft="5dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bank_account_bank_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minEms="4"
+            android:text="@string/open_bank_name"
+            android:textColor="@color/color_545454"
+            android:textSize="@dimen/font_size_15" />
+
+        <TextView
+            android:id="@+id/bank_account_bank_et"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/bg_edit"
+            android:gravity="center_vertical"
+            android:maxEms="25"
+            android:paddingLeft="5dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="25dp"
+        android:paddingBottom="20dp">
+
+        <TextView
+            android:id="@+id/lending_add_account_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:linksClickable="true"
+            android:paddingBottom="2dp"
+            android:paddingTop="10dp"
+            android:text="@string/add_account"
+            android:textColor="@color/color_666666"
+            android:textSize="@dimen/font_size_15" />
+
+        <TextView
+            android:id="@+id/lending_change_account_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:linksClickable="true"
+            android:paddingBottom="2dp"
+            android:paddingTop="10dp"
+            android:text="@string/change_account"
+            android:textColor="@color/color_666666"
+            android:layout_marginLeft="40dp"
+            android:textSize="@dimen/font_size_15" />
+    </LinearLayout>
+</LinearLayout>

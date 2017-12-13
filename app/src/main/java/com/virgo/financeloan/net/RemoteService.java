@@ -1,0 +1,75 @@
+package com.virgo.financeloan.net;
+
+
+import java.util.Map;
+
+import io.reactivex.Flowable;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Headers;
+import retrofit2.http.POST;
+import retrofit2.http.Path;
+
+/**
+ * 功能说明：
+ *
+ * @author: Yiheng Yan
+ * @Email: yanyiheng86@163.com
+ * @date: 17-8-24 上午12:15
+ * @Copyright (c) 2017. Inc. All rights reserved.
+ */
+public interface RemoteService {
+    // 登录接口
+    @Headers({"Content-Type: application/json","Accept: application/json"})
+    @POST("user/login/{version}")
+    Flowable<ResponseBody> login(@Body RequestBody body, @Path("version")String version);
+    //发送短信验证码
+    @POST("user/sendSecurityCode/{version}/{token}/{smsType}")
+    Flowable<ResponseBody> sendCode(@Path("version")String version, @Path("token")String token, @Path("smsType") String smsType);
+    //修改密码
+    @Headers({"Content-Type: application/json","Accept: application/json"})
+    @POST("user/changePassword/{version}/{token}")
+    Flowable<ResponseBody> changePw(@Body RequestBody body, @Path("version") String version, @Path("token") String token);
+    //小贷产品列表
+    @POST("loan/listProduct/{version}")
+    Flowable<ResponseBody> loanList(@Path("version")String version);
+    //我的借款列表 待用户确认或者取消
+    @Headers({"Content-Type: application/json","Accept: application/json"})
+    @POST("mine/loan/userConfirm/{version}/{token}")
+    Flowable<ResponseBody> orderConfirm(@Body RequestBody body, @Path("version") String version, @Path("token") String token);
+    //提交贷款申请
+    @Headers({"Content-Type: application/json","Accept: application/json"})
+    @POST("loan/loanDetail/apply/{version}/{token}")
+    Flowable<ResponseBody> applySubmit(@Body RequestBody body, @Path("version") String version, @Path("token") String token);
+    //试算列表
+    @Headers({"Content-Type: application/json","Accept: application/json"})
+    @POST("loan/loanDetail/trial/{version}")
+    Flowable<ResponseBody> trialList(@Body RequestBody body, @Path("version") String version);
+    //订单列表 全部信息
+    @POST("mine/loan/record/full/{version}/{token}")
+    Flowable<ResponseBody> orderFullList(@Path("version") String version, @Path("token") String token);
+    //订单列表 需要用户确认
+    @POST("mine/loan/record/toUserConfirm/{version}/{token}")
+    Flowable<ResponseBody> orderConfirmList(@Path("version") String version, @Path("token") String token);
+    //账户列表信息
+    @POST("loan/loanDetail/apply/account/query/{version}/{token}")
+    Flowable<ResponseBody> accountList(@Path("version") String version, @Path("token") String token);
+    //添加银行卡信息
+    @POST("loan/loanDetail/apply/account/add/{version}/{token}")
+    Flowable<ResponseBody> addAccount(@Path("version") String version, @Path("token") String token, @Body RequestBody body);
+    //删除银行卡信息
+    @POST("loan/loanDetail/apply/account/remove/{version}/{token}")
+    Flowable<ResponseBody> deleteAccount(@Path("version") String version, @Path("token") String token, @Body RequestBody body);
+    //协议列表
+    @POST("loan/loanDetail/apply/protocol/list/{version}/{token}")
+    Flowable<ResponseBody> protocolList(@Path("version") String version, @Path("token") String token, @Body RequestBody body);
+    //协议内容
+    @POST("loan/loanDetail/apply/protocol/content/{version}/{token}")
+    Flowable<ResponseBody> protocolContent(@Path("version") String version, @Path("token") String token, @Body RequestBody body);
+
+
+}

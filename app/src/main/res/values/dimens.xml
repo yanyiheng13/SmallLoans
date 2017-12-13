@@ -1,0 +1,18 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <!--    <dimen name="title_back_height">25dp</dimen>
+    <dimen name="title_height">48dp</dimen>-->
+
+    <!--MetailEdtitext-->
+
+    <!-- 字体大小 -->
+    <dimen name="font_size_12">12sp</dimen>
+    <dimen name="font_size_13">13sp</dimen>
+    <dimen name="font_size_14">14sp</dimen>
+    <dimen name="font_size_15">15sp</dimen>
+    <dimen name="font_size_16">16sp</dimen>
+    <dimen name="font_size_17">17sp</dimen>
+
+    <!-- 总收益总资产 -->
+
+</resources>

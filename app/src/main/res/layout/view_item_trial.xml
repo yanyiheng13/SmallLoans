@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/trial_count_tv"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"
+        android:background="@color/main_bg"
+        android:gravity="center"
+        android:textColor="@color/color_666666"
+        android:textSize="@dimen/font_size_15" />
+
+    <TextView
+        android:id="@+id/principal_amount_tv"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/color_666666"
+        android:textSize="@dimen/font_size_15" />
+
+    <TextView
+        android:id="@+id/rate_tv"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"
+        android:gravity="center"
+        android:textColor="@color/color_666666"
+        android:textSize="@dimen/font_size_15" />
+
+    <TextView
+        android:id="@+id/interest_amount_tv"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/color_666666"
+        android:textSize="@dimen/font_size_15"
+        />
+
+    <TextView
+        android:id="@+id/repayments_time_tv"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/color_666666"
+        android:textSize="@dimen/font_size_15" />
+</LinearLayout>

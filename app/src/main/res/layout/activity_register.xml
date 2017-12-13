@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white">
+
+    <com.virgo.financeloan.ui.view.CustomTitleView
+        android:id="@+id/title_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        app:default_title="@string/change_pw" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:minEms="4"
+            android:text="原密码"
+            android:textColor="@color/color_545454"
+            android:textSize="@dimen/font_size_16" />
+        <EditText
+            android:id="@+id/login_originpw_edit"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@null"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/color_666666"
+            android:hint="请输入原密码"
+            android:inputType="textPassword"
+            android:textColorHint="@color/color_999999"
+            android:textSize="@dimen/font_size_16" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/line_color" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:minEms="4"
+            android:text="@string/new_pw"
+            android:textColor="@color/color_545454"
+            android:textSize="@dimen/font_size_16" />
+
+        <EditText
+            android:id="@+id/new_pw_edit"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@null"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:hint="@string/input_new_pw"
+            android:inputType="textPassword"
+            android:textColor="@color/color_666666"
+            android:textColorHint="@color/color_999999"
+            android:textSize="@dimen/font_size_16" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/line_color" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:minEms="4"
+            android:text="@string/sure_pw"
+            android:textColor="@color/color_545454"
+            android:textSize="@dimen/font_size_16" />
+
+        <EditText
+            android:id="@+id/sure_pw_edit"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@null"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:hint="@string/sure_new_pw"
+            android:inputType="textPassword"
+            android:textColor="@color/color_666666"
+            android:textColorHint="@color/color_999999"
+            android:textSize="@dimen/font_size_16" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/line_color" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingTop="10dp"
+        android:paddingRight="16dp">
+
+        <TextView
+            android:id="@+id/login_code_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:minEms="4"
+            android:gravity="center_vertical"
+            android:text="@string/code_num"
+            android:textColor="@color/color_545454"
+            android:textSize="@dimen/font_size_16" />
+
+        <TextView
+            android:id="@+id/login_time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:textSize="@dimen/font_size_13"
+            android:text="@string/get_code"
+            android:minEms="7"
+            android:gravity="center"
+            android:textColor="@drawable/color_get_code"
+            android:layout_alignParentRight="true"/>
+        <View
+            android:id="@+id/login_time_line"
+            android:layout_width="1px"
+            android:layout_height="26dp"
+            android:background="@color/line_color"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:layout_toLeftOf="@id/login_time_tv"/>
+
+        <EditText
+            android:id="@+id/login_code_edit"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@null"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:hint="@string/input_code_tip"
+            android:inputType="number"
+            android:textColor="@color/color_666666"
+            android:layout_toLeftOf="@id/login_time_line"
+            android:layout_toRightOf="@id/login_code_tv"
+            android:textColorHint="@color/color_999999"
+            android:textSize="@dimen/font_size_16" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/line_color" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="16dp"
+        android:visibility="gone"
+        android:layout_marginRight="16dp">
+        <CheckBox
+            android:id="@+id/check_agree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:checked="true" />
+        <TextView
+            android:id="@+id/agree_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="@dimen/font_size_12"
+            android:textColor="@color/color_999999"
+            android:text="@string/agree"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/register_tv"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="50dp"
+        android:textSize="@dimen/font_size_17"
+        android:textColor="@color/white"
+        android:text="@string/change_pw"
+        android:gravity="center"
+        android:background="@drawable/round_change_color"/>
+</LinearLayout>

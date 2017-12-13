@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?><!--添加银行卡界面-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.virgo.financeloan.ui.view.CustomTitleView
+        android:id="@+id/title_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/def_height"
+        app:default_title="@string/title_person_info" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!--个人身份证-->
+            <com.virgo.financeloan.ui.view.GroupView
+                android:id="@+id/group_view_individual_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <!--配偶身份证-->
+            <com.virgo.financeloan.ui.view.GroupView
+                android:id="@+id/group_view_consort_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <!--户口本-->
+            <com.virgo.financeloan.ui.view.GroupView
+                android:id="@+id/group_view_household"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <!--结婚证-->
+            <com.virgo.financeloan.ui.view.GroupView
+                android:id="@+id/group_view_marriage_certificate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <!--离婚证-->
+            <com.virgo.financeloan.ui.view.GroupView
+                android:id="@+id/group_view_divorce_certificates"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

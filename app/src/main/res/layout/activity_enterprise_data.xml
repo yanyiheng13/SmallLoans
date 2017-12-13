@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?><!--添加银行卡界面-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.virgo.financeloan.ui.view.CustomTitleView
+        android:id="@+id/title_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/def_height"
+        app:default_title="@string/title_enterprise_data" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!--营业执照-->
+            <com.virgo.financeloan.ui.view.GroupView
+                android:id="@+id/group_view_business_license"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <!--公司章程-->
+            <com.virgo.financeloan.ui.view.GroupView
+                android:id="@+id/group_view_articles_association"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <!--开户许可证-->
+            <com.virgo.financeloan.ui.view.GroupView
+                android:id="@+id/group_view_opening_permit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <!--租赁合同-->
+            <com.virgo.financeloan.ui.view.GroupView
+                android:id="@+id/group_view_lease_contract"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <!--产品购销合同-->
+            <com.virgo.financeloan.ui.view.GroupView
+                android:id="@+id/group_view_purchase_sale_contract"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <!--销售证明-->
+            <com.virgo.financeloan.ui.view.GroupView
+                android:id="@+id/group_view_sales_confirmation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,95 @@
+apply plugin: 'com.android.application'
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    defaultConfig {
+        multiDexEnabled true
+        applicationId "com.virgo.financeloan"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", "api_url", "\"${API_URL}\""
+        buildConfigField "String", "app_secrect", "\"${APP_SECRECT}\""
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath true
+            }
+        }
+    }
+    signingConfigs {
+//        release {
+//            try {
+//                storeFile file(RELEASE_STORE_FILE)
+//                storePassword RELEASE_STORE_PASSWORD
+//                keyAlias RELEASE_KEY_ALIAS
+//                keyPassword RELEASE_KEY_PASSWORD
+//            } catch (ex) {
+//                throw new InvalidUserDataException(ex.toString())
+//            }
+//        }
+//        debug {
+//            storeFile file(RELEASE_STORE_FILE)
+//        }
+
+    }
+    buildTypes {
+        debug {
+//            minifyEnabled true
+//            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+//            debuggable false
+//            minifyEnabled false
+//            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    repositories {
+        flatDir {
+            dirs '../picture_library/libs'
+            dirs 'libs'
+        }
+    }
+    buildToolsVersion '26.0.2'
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.google.code.findbugs'
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testCompile 'junit:junit:4.12'
+    compile deps.glide
+    compile deps.okhttp
+    compile(
+            deps.appcompat_v7,
+            deps.support_design
+    )
+    compile deps.butterknife
+    annotationProcessor deps.butterknifeCompiler
+    compile deps.rxjava
+    compile deps.rxandroid
+    compile deps.ultra_refresh
+    compile deps.recyclerview_adapter
+    compile project(':libframework')
+    compile 'com.squareup.picasso:picasso:2.3.2'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.daimajia.slider:library:1.1.5@aar'
+    //    compile 'com.github.skydoves:powermenu:1.0.2'
+    implementation files('libs/commons-codec-1.11.jar')
+    compile project(path: ':powermenu')
+    compile 'javax.annotation:javax.annotation-api:1.2'
+    compile 'org.projectlombok:lombok:1.16.6'
+    implementation files('libs/sun.misc.BASE64Decoder.jar')
+    compile project(path: ':picture_library')
+}
