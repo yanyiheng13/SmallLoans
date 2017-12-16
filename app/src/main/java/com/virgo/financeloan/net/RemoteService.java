@@ -7,11 +7,10 @@ import io.reactivex.Flowable;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FieldMap;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 
 /**
@@ -39,11 +38,11 @@ public interface RemoteService {
     Flowable<ResponseBody> loanList(@Path("version")String version);
     //我的借款列表 待用户确认或者取消
     @Headers({"Content-Type: application/json","Accept: application/json"})
-    @POST("mine/loan/userConfirm/{version}/{token}")
+    @POST("mine/loan/userConfirm/submit/{version}/{token}")
     Flowable<ResponseBody> orderConfirm(@Body RequestBody body, @Path("version") String version, @Path("token") String token);
     //提交贷款申请
     @Headers({"Content-Type: application/json","Accept: application/json"})
-    @POST("loan/loanDetail/apply/{version}/{token}")
+    @POST("loan/loanDetail/apply/submit/{version}/{token}")
     Flowable<ResponseBody> applySubmit(@Body RequestBody body, @Path("version") String version, @Path("token") String token);
     //试算列表
     @Headers({"Content-Type: application/json","Accept: application/json"})
@@ -58,7 +57,7 @@ public interface RemoteService {
     //账户列表信息
     @POST("loan/loanDetail/apply/account/query/{version}/{token}")
     Flowable<ResponseBody> accountList(@Path("version") String version, @Path("token") String token);
-    //添加银行卡信息
+    //
     @POST("loan/loanDetail/apply/account/add/{version}/{token}")
     Flowable<ResponseBody> addAccount(@Path("version") String version, @Path("token") String token, @Body RequestBody body);
     //删除银行卡信息
@@ -70,6 +69,25 @@ public interface RemoteService {
     //协议内容
     @POST("loan/loanDetail/apply/protocol/content/{version}/{token}")
     Flowable<ResponseBody> protocolContent(@Path("version") String version, @Path("token") String token, @Body RequestBody body);
+    //获取订单号
+    @POST("loan/loanDetail/apply/getLoanOrderNo/{version}/{token}")
+    Flowable<ResponseBody> getOrderNo(@Path("version") String version, @Path("token") String token);
+    //上传图片信息
+    @Multipart
+    @POST("loan/loanDetail/apply/upload/submit/{version}/{token}")
+    Flowable<ResponseBody> uploadPic(@Path("version") String version, @Path("token") String token, @PartMap() Map<String, RequestBody> requestBodyMap);
+    //贷款明细
+    @POST("mine/loan/record/detail/index/{version}/{token}")
+    Flowable<ResponseBody> loadRecordDetail(@Path("version") String version, @Path("token") String token, @Body RequestBody body);
+    //还款计划
+    @POST("mine/loan/record/repaymentPlan/{version}/{token}")
+    Flowable<ResponseBody> repaymentPlan(@Path("version") String version, @Path("token") String token, @Body RequestBody body);
+    //还款记录列表
+    @POST("mine/loan/record/repaymentRecord/{version}/{token}")
+    Flowable<ResponseBody> repaymentRecord(@Path("version") String version, @Path("token") String token, @Body RequestBody body);
+    //我的页面-待用户确认-用户贷款确认试算.
+    @POST("mine/loan/userConfirm/trial/{version}/{token}")
+    Flowable<ResponseBody> repaymentTrial(@Path("version") String version, @Path("token") String token, @Body RequestBody body);
 
 
 }

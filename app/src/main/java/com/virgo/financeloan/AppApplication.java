@@ -12,11 +12,18 @@ import com.virgo.financeloan.util.SharePrefrenceUtil;
 
 import java.util.HashMap;
 
+import lombok.Getter;
+import lombok.Setter;
+
 
 public class AppApplication extends Application {
 
     public static AppApplication mApplication;
     private static UserData mUserData;
+
+    @Setter
+    @Getter
+    private String webContent;
 
     @Override
     public void onCreate() {
@@ -56,7 +63,8 @@ public class AppApplication extends Application {
             if (TextUtils.isEmpty(userData) || userData.length() < 10) {
                 return null;
             }
-            mUserData = new Gson().fromJson(userData, new TypeToken<UserData>(){}.getType());
+            mUserData = new Gson().fromJson(userData, new TypeToken<UserData>() {
+            }.getType());
         }
         return mUserData;
     }

@@ -1,5 +1,6 @@
 package com.virgo.financeloan.ui.fragment;
 
+import android.content.DialogInterface;
 import  android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.virgo.financeloan.R;
+import com.virgo.financeloan.model.responce.LoanUsingVo;
 import com.virgo.financeloan.model.responce.LoanVo;
 import com.virgo.financeloan.model.responce.RepaymentWayAndAgingVo;
 import com.virgo.financeloan.mvp.LoanListPresent;
@@ -66,7 +68,8 @@ public class LoansFragment extends BaseFragment<LoanListPresent> implements Empt
             @Override
             protected void convert(BaseViewHolder helper, final LoanVo item) {
                 List<RepaymentWayAndAgingVo> list = item.getRepaymentWayAndAgingListCollection();
-                RepaymentWayAndAgingVo agingVo = null;
+                final List<LoanUsingVo> listData = item.getLoanPurposeInfoList();
+                 RepaymentWayAndAgingVo agingVo = null;
                 if (list != null && list.size() > 0) {
                     agingVo = list.get(0);
                 }
@@ -77,9 +80,14 @@ public class LoansFragment extends BaseFragment<LoanListPresent> implements Empt
                 helper.setText(R.id.loan_item_rate_tv, item.getRefMonthRate());
                 helper.setText(R.id.loan_item_date_tv, item.getMaxAging() + "月");
                 View rootView = helper.getView(R.id.loan_item_root_ll);
+                final RepaymentWayAndAgingVo finalAgingVo = agingVo;
                 rootView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        if (listData == null || listData.size() == 0 || finalAgingVo == null || finalAgingVo.getAgingInfoList() == null || finalAgingVo.getAgingInfoList().size() <= 0) {
+                            showDialog();
+                            return;
+                        }
                         LoanDetailActivity.newIntent(LoansFragment.this.getContext(), item);
                     }
                 });
@@ -89,6 +97,18 @@ public class LoansFragment extends BaseFragment<LoanListPresent> implements Empt
         mRecyclerView.setAdapter(mAdapter);
         mEmptyView.onStart();
         getPresenter().loanList("v1");
+    }
+
+    private void showDialog() {
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getContext());
+        builder.setTitle("提示");
+        builder.setMessage("此产品为非正常产品,请查看其他产品");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.show();
     }
 
 

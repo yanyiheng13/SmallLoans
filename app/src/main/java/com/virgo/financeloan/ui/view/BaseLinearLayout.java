@@ -50,7 +50,7 @@ public class BaseLinearLayout extends LinearLayout {
                 .maxSelectNum(size)// 最大图片选择数量
                 .minSelectNum(1)// 最小选择数量
                 .imageSpanCount(3)// 每行显示个数
-                .selectionMode(size == 1 ? PictureConfig.SINGLE :PictureConfig.MULTIPLE)// 多选 or 单选
+                .selectionMode(PictureConfig.MULTIPLE)// 多选 or 单选
                 .previewImage(true)// 是否可预览图片
                 .previewVideo(false)// 是否可预览视频
                 .enablePreviewAudio(false) // 是否可播放音频

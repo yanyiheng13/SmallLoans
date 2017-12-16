@@ -61,6 +61,11 @@ public class LoanVo implements Serializable {
     private String maxAging;
 
     /**
+     * 贷款用途列表.
+     */
+    private List<LoanUsingVo> loanPurposeInfoList;
+
+    /**
      * 还款方式和还款期数列表对象列表.
      */
     private List<RepaymentWayAndAgingVo> repaymentWayAndAgingListCollection;

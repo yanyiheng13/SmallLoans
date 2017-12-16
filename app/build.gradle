@@ -90,6 +90,7 @@ dependencies {
     compile project(path: ':powermenu')
     compile 'javax.annotation:javax.annotation-api:1.2'
     compile 'org.projectlombok:lombok:1.16.6'
+    compile 'com.github.canner:android-stepsview:1.1.0'
     implementation files('libs/sun.misc.BASE64Decoder.jar')
     compile project(path: ':picture_library')
 }

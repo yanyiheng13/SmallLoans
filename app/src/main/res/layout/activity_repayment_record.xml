@@ -2,25 +2,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <com.virgo.financeloan.ui.view.CustomTitleView
         android:id="@+id/title_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/def_height"
-        app:default_title="@string/title_loan_detail" />
+        android:layout_height="@dimen/title_height"
+        app:default_title="@string/title_loan_info" />
 
-    <io.canner.stepsview.StepsView
-        android:id="@+id/step_view"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/title_view" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_view"/>
 
     <com.virgo.financeloan.ui.view.EmptyView
         android:id="@+id/empty_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/title_view"
-        android:visibility="gone"/>
+        android:layout_below="@id/title_view" />
 </RelativeLayout>

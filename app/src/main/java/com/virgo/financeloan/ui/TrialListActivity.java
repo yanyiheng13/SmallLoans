@@ -12,7 +12,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.virgo.financeloan.R;
 import com.virgo.financeloan.model.request.TrialReqVo;
-import com.virgo.financeloan.model.responce.IsOkData;
 import com.virgo.financeloan.model.responce.TrialData;
 import com.virgo.financeloan.mvp.TrialPresent;
 import com.virgo.financeloan.mvp.contract.TrialContract;
@@ -20,7 +19,6 @@ import com.virgo.financeloan.ui.view.CustomTitleView;
 import com.virgo.financeloan.ui.view.EmptyView;
 import com.virgo.financeloan.util.CommonUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;

@@ -22,6 +22,10 @@ public class ProtocolVo {
      */
     private String name;
     /**
+     * 协议名称. 贷款记录详情中用得是这个字段
+     */
+    private String contractName;
+    /**
      * 协议保存路径.
      */
     private String path;

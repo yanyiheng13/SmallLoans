@@ -83,6 +83,7 @@ public class LoanRecordListActivity extends BaseActivity<LoanRecordListPresent> 
             @Override
             protected void convert(BaseViewHolder helper, final LoanRecordVo item) {
 //                LinearLayout rootView = helper.getView(R.id.oder_root_ll);//第二层布局 用于隐藏item多加了一层布局
+                LinearLayout rootLl = helper.getView(R.id.root_ll);
                 ImageView imageView = helper.getView(R.id.order_item_icon_img);//前面图标
                 LinearLayout linearNoReturn = helper.getView(R.id.order_no_amount_ll);
                 TextView tvName = helper.getView(R.id.order_item_name_tv);//name
@@ -111,9 +112,21 @@ public class LoanRecordListActivity extends BaseActivity<LoanRecordListPresent> 
                 if (mType == 1) {//全部
                     rlSure.setVisibility(View.GONE);
                     viewLine.setVisibility(View.GONE);
+                    rootLl.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            LoanRecordDetailActivity.newIntent(LoanRecordListActivity.this, item);
+                        }
+                    });
                 } else if (mType == 2) {//待确认
                     rlSure.setVisibility(View.VISIBLE);
                     viewLine.setVisibility(View.VISIBLE);
+                    rootLl.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            RepaymentTrialActivity.newIntent(LoanRecordListActivity.this, item);
+                        }
+                    });
                 }
                 tvName.setText(item.getProductBaseName());
                 tvStatus.setText(item.getLoanStatus());

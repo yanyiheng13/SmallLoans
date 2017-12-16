@@ -28,6 +28,8 @@ import com.virgo.financeloan.model.responce.AgingVo;
 import com.virgo.financeloan.model.responce.BaseBean;
 import com.virgo.financeloan.model.responce.CardData;
 import com.virgo.financeloan.model.responce.CardVo;
+import com.virgo.financeloan.model.responce.LoanOrderNoVo;
+import com.virgo.financeloan.model.responce.LoanUsingVo;
 import com.virgo.financeloan.model.responce.LoanVo;
 import com.virgo.financeloan.model.responce.ProtocolContentVo;
 import com.virgo.financeloan.model.responce.ProtocolVo;
@@ -123,11 +125,9 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
      */
     private PowerMenu mPowerMenuUse;
     /**
-     * 借款用途，暂时前端写死
+     * orderNum
      */
-    private String[] mArray = {"个人消费贷款", "个人住房贷款", "个人房屋装修贷款", "个人旅游贷款",
-            "个人租房贷款", "个人资金周转", "个人经营贷款", "个人汽车消费贷款", "流动资金贷款",
-            "固定资产贷款", "法人透支"};
+    private String mOrderNo;
     /**
      * 银行卡列表
      */
@@ -144,12 +144,37 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
      * 当前点击协议
      */
     private ProtocolVo mProtocolVo;
-
+    /**
+     * 上一界面传递过来的产品对象
+     */
     private LoanVo mLoanVo;
+
+    /**
+     * 用途和借款期限对象
+     */
     public Map<String, AgingVo> mMapLimit = new HashMap<>();
-    private AgingVo mAgingVo;//选中的分期信息
-    private String[] arrayLimit;
-    private RepaymentWayAndAgingVo mRepaymentWayAndAgingVo;//还款方式
+    public Map<String, LoanUsingVo> mMapUsing = new HashMap<>();
+
+    /**
+     * 选中的分期信息
+     */
+    private AgingVo mAgingVo;
+    /**
+     * 选中的用途对象
+     */
+    private LoanUsingVo mSelectUsingVo;
+    /**
+     * 借款期限
+     */
+    private String[] mArrayLimit;
+    /**
+     * 借款用途，后端传过来的
+     */
+    private String[] mArrayUsing = null;
+    /**
+     * 还款方式
+     */
+    private RepaymentWayAndAgingVo mRepaymentWayAndAgingVo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -187,15 +212,25 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
         getPresenter().accountList(UniqueKey.VERSION.V1, userData.getToken());
         ProtocolListReqVo reqVo = new ProtocolListReqVo();
         reqVo.setProductBaseNo(mLoanVo.getProductBaseNo());
+
+        mOrderNo = SharePrefrenceUtil.getString("config", mLoanVo.getProductBaseNo());
+//        if (TextUtils.isEmpty(mOrderNo)) {
+            getPresenter().getOrderNo(UniqueKey.VERSION.V1, userData.token);
+//        }
         getPresenter().protocolList(UniqueKey.VERSION.V1, userData.getToken(), reqVo);
-        if (agingVos == null || agingVos.size() == 0) {
-            return;
-        }
-        arrayLimit = new String[agingVos.size()];
+
+        List<LoanUsingVo> listUsing = mLoanVo.getLoanPurposeInfoList();
+        mArrayLimit = new String[agingVos.size()];
+        mArrayUsing = new String[listUsing.size()];
         for (int i = 0; i < agingVos.size(); i++) {
             AgingVo agingVo = agingVos.get(i);
-            arrayLimit[i] = agingVo.getAging();
+            mArrayLimit[i] = agingVo.getAging();
             mMapLimit.put(agingVo.getAging(), agingVo);
+        }
+        for (int i = 0; i < listUsing.size(); i++) {
+            LoanUsingVo usingVo = listUsing.get(i);
+            mArrayUsing[i] = usingVo.getLoanPurposeDesc();
+            mMapUsing.put(usingVo.getLoanPurposeDesc(), usingVo);
         }
     }
 
@@ -209,7 +244,7 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
                 }
                 String use = mTvUse.getText().toString();//用途
                 String timeLimit = mTvTime.getText().toString();//时间期限
-                String ammount = mEditAmount.getText().toString();//贷款金额
+                String amount = mEditAmount.getText().toString();//贷款金额
                 String bankNum = mLendingView.getMTvBankNum().getText().toString();//银行账号
                 String accountName = mLendingView.getMTvAccountName().getText().toString();//账户名称
                 String nodeBank = mLendingView.getMTvNodeBank().getText().toString();//开户支行
@@ -221,20 +256,12 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
                     Toast.makeText(this, "请选择贷款期限", Toast.LENGTH_SHORT).show();
                     break;
                 }
-                if (TextUtils.isEmpty(ammount)) {
+                if (TextUtils.isEmpty(amount)) {
                     Toast.makeText(this, "请输入贷款金额", Toast.LENGTH_SHORT).show();
                     break;
                 }
-                if (TextUtils.isEmpty(bankNum)) {
-                    Toast.makeText(this, "请输入银行账号", Toast.LENGTH_SHORT).show();
-                    break;
-                }
-                if (TextUtils.isEmpty(accountName)) {
-                    Toast.makeText(this, "请输入账户名", Toast.LENGTH_SHORT).show();
-                    break;
-                }
-                if (TextUtils.isEmpty(nodeBank)) {
-                    Toast.makeText(this, "请输入开户支行", Toast.LENGTH_SHORT).show();
+                if (mCardVo == null) {
+                    Toast.makeText(this, "请添加银行卡信息", Toast.LENGTH_SHORT).show();
                     break;
                 }
                 LoadingDialog.show(this, false);
@@ -246,11 +273,13 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
                 }
                 loanApplyReqVo.setProductBaseNo(mLoanVo.getProductBaseNo());
                 loanApplyReqVo.setProductTypeOne(mLoanVo.getProductClassifyNo());
-                loanApplyReqVo.setLoanAmt(CommonUtil.yuanToCent(ammount.replace(",", "")));
-                loanApplyReqVo.setLoanAccountNo(bankNum);//放款账户号
-                loanApplyReqVo.setLoanAccountName(accountName);//放宽账号名
-                loanApplyReqVo.setLoanOpenAccountBankName(nodeBank);//支行名称
-                loanApplyReqVo.setLoanPurpose(use);//借款用途
+                loanApplyReqVo.setLoanAmt(CommonUtil.yuanToCent(amount.replace(",", "")));
+                loanApplyReqVo.setBindId(mCardVo.getBindId());
+                loanApplyReqVo.setLoanPurposeCode(mSelectUsingVo.getLoanPurposeCode());//借款用途编码
+                loanApplyReqVo.setLoanPurposeDesc(use);//借款用途
+                loanApplyReqVo.setUploadFile("0");
+                loanApplyReqVo.setLoanOrderNo(mOrderNo);
+
                 loanApplyReqVo.setRefMonthRate(mLoanVo.getRefMonthRate());//借款利率
                 loanApplyReqVo.setSourceIp(CommonUtil.getIPAddress(this));
                 UserData userData = AppApplication.getUserData();
@@ -282,16 +311,16 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
                 break;
             case R.id.loan_detail_use_tv:
                 List<PowerMenuItem> list = new ArrayList<>();
-                for (int i = 0; i < mArray.length; i++) {
-                    PowerMenuItem item = new PowerMenuItem(mArray[i], false);
+                for (int i = 0; i < mArrayUsing.length; i++) {
+                    PowerMenuItem item = new PowerMenuItem(mArrayUsing[i], false);
                     list.add(item);
                 }
                 showUsr(list).showAsDropDown(mTvUse);
                 break;
             case R.id.loan_detail_time_tv:
                 List<PowerMenuItem> list1 = new ArrayList<>();
-                for (int i = 0; i < arrayLimit.length; i++) {
-                    PowerMenuItem item = new PowerMenuItem(arrayLimit[i] + "月", false);
+                for (int i = 0; i < mArrayLimit.length; i++) {
+                    PowerMenuItem item = new PowerMenuItem(mArrayLimit[i] + "月", false);
                     list1.add(item);
                 }
                 showMonth(list1).showAsDropDown(mTvTime);
@@ -397,6 +426,9 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
         }
         mCardList = cardData.getCardInfoList();
         mLendingView.setData(mCardList);
+        if (mCardList != null && mCardList.size() > 0) {
+            mCardVo = mCardList.get(0);
+        }
     }
 
 
@@ -406,6 +438,10 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
         LoadingDialog.hide();
     }
 
+    /**
+     * 提交贷款申请
+     * @param baseBean
+     */
     @Override
     public void onSuccessApply(BaseBean baseBean) {
         LoadingDialog.hide();
@@ -418,6 +454,10 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
         checkToken(code);
     }
 
+    /**
+     * 请求协议列表
+     * @param voList
+     */
     @Override
     public void onSuccessProtocol(List<ProtocolVo> voList) {
         mProtocolVoList = voList;
@@ -444,17 +484,56 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
 
     @Override
     public void onFailureProtocol(String code, String msg) {
-
     }
 
+    /**
+     * 请求协议内容
+     * @param contentVo
+     */
     @Override
     public void onSuccessProtocolContent(ProtocolContentVo contentVo) {
         LoadingDialog.hide();
+        if (contentVo != null && !TextUtils.isEmpty(contentVo.getContent())) {
+            AppApplication.mApplication.setWebContent(contentVo.getContent());
+            WebViewActivity.newIntent(this);
+        }
     }
 
     @Override
     public void onFailureProtocolContent(String code, String msg) {
         LoadingDialog.hide();
+
+    }
+
+    /**
+     * 请求订单号
+     * @param loanOrderNoVo
+     */
+    @Override
+    public void onSuccessOrderNo(LoanOrderNoVo loanOrderNoVo) {
+        if (loanOrderNoVo != null && !TextUtils.isEmpty(loanOrderNoVo.getLoanOrderNo())) {
+            mOrderNo = loanOrderNoVo.getLoanOrderNo();
+            SharePrefrenceUtil.setString("config", mLoanVo.getProductBaseNo(), loanOrderNoVo.getLoanOrderNo());
+        }
+    }
+
+    @Override
+    public void onFailureOrderNo(String code, String msg) {
+
+    }
+
+    /**
+     * 上传图片至资源服务器
+     * @param baseBean
+     */
+    @Override
+    public void onSuccessPic(BaseBean baseBean) {
+
+    }
+
+    @Override
+    public void onFailurePic(String code, String msg) {
+
     }
 
     private void showDialog() {
@@ -520,6 +599,7 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
                     .setOnMenuItemClickListener(new OnMenuItemClickListener<PowerMenuItem>() {
                         @Override
                         public void onItemClick(int position, PowerMenuItem item) {
+                            mSelectUsingVo = mMapUsing.get(item.getTitle());
                             mTvUse.setText(item.title);
                             mPowerMenuUse.dismiss();
                         }

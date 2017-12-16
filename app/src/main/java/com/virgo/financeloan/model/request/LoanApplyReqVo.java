@@ -13,6 +13,10 @@ import lombok.Data;
  */
 @Data
 public class LoanApplyReqVo {
+    /**
+     * 借款订单号.
+     */
+    private String loanOrderNo;
 
     /**
      * 还款方式序列号.
@@ -42,30 +46,24 @@ public class LoanApplyReqVo {
     private String loanAmt;
 
     /**
-     * 放款账户号.
-     */
-    private String loanAccountNo;
-    /**
-     * 放款账户名.
-     */
-    private String loanAccountName;
-    /**
-     * 银行开户行，支行名称.
-     */
-    private String loanOpenAccountBankName;
-    /**
-     * 银行名称，例：中国银行(非必传).
-     */
-    private String loanAccountBankName;
-    /**
      * 对公对私.
      */
     private String loanAccountCategory;
 
     /**
-     * 借款用途.
+     * 借款用途编码.
      */
-    private String loanPurpose;
+    private String loanPurposeCode;
+
+    /**
+     * 借款用途描述.
+     */
+    private String loanPurposeDesc;
+
+    /**
+     * 绑卡id
+     */
+    private String bindId;
 
     /**
      * 参考月利率.
@@ -79,5 +77,11 @@ public class LoanApplyReqVo {
      * 设备指纹会话标识，非必传
      */
     private String fingerprintMark;
+
+    /**
+     * 是否上传资料.
+     * 0-否，1-是
+     */
+    private String uploadFile;
 
 }

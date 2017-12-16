@@ -31,42 +31,19 @@
         </attr>
 
     </declare-styleable>
-    <!--<declare-styleable name="CirclePageIndicator">-->
-        <!--&lt;!&ndash; Whether or not the indicators should be centered. &ndash;&gt;-->
-        <!--<attr name="centered" />-->
-        <!--&lt;!&ndash; Color of the filled circle that represents the current page. &ndash;&gt;-->
-        <!--<attr name="fillColor" format="color" />-->
-        <!--&lt;!&ndash; Color of the filled circles that represents pages. &ndash;&gt;-->
-        <!--<attr name="pageColor" format="color" />-->
-        <!--&lt;!&ndash; Orientation of the indicator. &ndash;&gt;-->
-        <!--<attr name="android:orientation" />-->
-        <!--&lt;!&ndash; Radius of the circles. This is also the spacing between circles. &ndash;&gt;-->
-        <!--<attr name="radius" format="dimension" />-->
-        <!--<attr name="snap" format="boolean" />-->
 
-        <!--&lt;!&ndash; Color of the open circles. &ndash;&gt;-->
-        <!--<attr name="strokeColor" format="color" />-->
-        <!--&lt;!&ndash; Width of the stroke used to draw the circles. &ndash;&gt;-->
-        <!--<attr name="strokeWidth" />-->
-        <!--&lt;!&ndash; View background &ndash;&gt;-->
-        <!--<attr name="android:background" />-->
-
-        <!--&lt;!&ndash; Radius of the selected circles.&ndash;&gt;-->
-        <!--<attr name="selectedRadius" format="dimension" />-->
-    <!--</declare-styleable>-->
-
-    <!--<declare-styleable name="ViewPagerIndicator">-->
-        <!--&lt;!&ndash; Style of the circle indicator. &ndash;&gt;-->
-        <!--<attr name="vpiCirclePageIndicatorStyle" format="reference" />-->
-        <!--&lt;!&ndash; Style of the icon indicator's views. &ndash;&gt;-->
-        <!--<attr name="vpiIconPageIndicatorStyle" format="reference" />-->
-        <!--&lt;!&ndash; Style of the line indicator. &ndash;&gt;-->
-        <!--<attr name="vpiLinePageIndicatorStyle" format="reference" />-->
-        <!--&lt;!&ndash; Style of the title indicator. &ndash;&gt;-->
-        <!--<attr name="vpiTitlePageIndicatorStyle" format="reference" />-->
-        <!--&lt;!&ndash; Style of the tab indicator's tabs. &ndash;&gt;-->
-        <!--<attr name="vpiTabPageIndicatorStyle" format="reference" />-->
-        <!--&lt;!&ndash; Style of the underline indicator. &ndash;&gt;-->
-        <!--<attr name="vpiUnderlinePageIndicatorStyle" format="reference" />-->
-    <!--</declare-styleable>-->
+    <declare-styleable name="StepsView">
+        <attr name="numOfSteps" format="integer" />
+        <attr name="completePosition" format="integer" />
+        <attr name="labels" format="reference" />
+        <attr name="barColor" format="reference" />
+        <attr name="progressColor" format="reference" />
+        <attr name="labelColor" format="reference" />
+        <attr name="progressTextColor" format="reference" />
+        <attr name="hideProgressText" format="boolean" />
+        <attr name="labelSize" format="float" />
+        <attr name="progressMargin" format="float" />
+        <attr name="circleRadius" format="float" />
+        <attr name="progressStrokeWidth" format="float" />
+    </declare-styleable>
 </resources>

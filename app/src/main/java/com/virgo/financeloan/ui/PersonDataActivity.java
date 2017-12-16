@@ -101,8 +101,7 @@ public class PersonDataActivity extends BaseActivity implements GroupView.OnUpVi
         mConsortIdView.setGroupName(R.string.consort_id).isRequireDot(false).setCustomView(mConsortIdCardView, false).setOnUpViewGroupListener(this);
         mHouseholdView.setGroupName(R.string.household).isRequireDot(true).setCustomView(mHouseholdContentView, false).setOnUpViewGroupListener(this);
         mMarriageView.setGroupName(R.string.marriage_cer).isRequireDot(false).setCustomView(mMarriageContentView, false).setOnUpViewGroupListener(this);
-        mMarriageView.setGroupName(R.string.marriage_cer).isRequireDot(false).setCustomView(mDivorceContentView, false).setOnUpViewGroupListener(this);
-        mDivorceView.setGroupName(R.string.divorce_cer).isRequireDot(false);
+        mDivorceView.setGroupName(R.string.divorce_cer).isRequireDot(false).setCustomView(mDivorceContentView, false).setOnUpViewGroupListener(this);
 
     }
 

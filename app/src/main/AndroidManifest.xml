@@ -90,6 +90,15 @@
             android:name="com.virgo.financeloan.ui.CardListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name="com.virgo.financeloan.ui.RepaymentTrialActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.virgo.financeloan.ui.RepaymentRecordActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.virgo.financeloan.ui.WebViewActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name="com.virgo.financeloan.ui.LoanDetailActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden"/>

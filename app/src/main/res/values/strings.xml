@@ -53,6 +53,9 @@
     <string name="title_enterprise_data">企业资料</string>
     <string name="title_family_property">家庭财产信息</string>
     <string name="title_bank_flow">银行流水</string>
+    <string name="title_agreement_detail">银行流水</string>
+    <string name="title_loan_detail">贷款明细</string>
+    <string name="title_loan_info">贷款信息</string>
 
     <!--sub title-->
     <string name="require_data">需要的资料</string>

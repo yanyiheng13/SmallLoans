@@ -1,5 +1,7 @@
 package com.virgo.financeloan.model.responce;
 
+import java.io.Serializable;
+
 import lombok.Data;
 
 /**
@@ -14,7 +16,7 @@ import lombok.Data;
  * @since java 1.7.0
  */
 @Data
-public class LoanRecordVo {
+public class LoanRecordVo implements Serializable {
 
     /**
      * 产品基类编号.
@@ -29,6 +31,22 @@ public class LoanRecordVo {
      * 产品基类描述.
      */
     private String productBaseDescribe;
+
+    /**
+     * 产品小类编号.
+     */
+    private String productNo;
+
+    /**
+     * 还款日.
+     */
+    private String repayDay;
+
+    /**
+     * 期数.
+     */
+    private String period;
+
     /**
      * 借款申请编号
      */

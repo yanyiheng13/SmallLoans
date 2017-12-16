@@ -3,6 +3,7 @@ package com.virgo.financeloan.model.responce;
 import java.io.Serializable;
 
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 功能说明：
