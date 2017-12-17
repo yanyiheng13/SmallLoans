@@ -1,15 +1,19 @@
 package com.virgo.financeloan.net;
 
 
+import com.jakewharton.retrofit2.adapter.rxjava2.Result;
+
 import java.util.Map;
 
 import io.reactivex.Flowable;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 
@@ -88,6 +92,15 @@ public interface RemoteService {
     //我的页面-待用户确认-用户贷款确认试算.
     @POST("mine/loan/userConfirm/trial/{version}/{token}")
     Flowable<ResponseBody> repaymentTrial(@Path("version") String version, @Path("token") String token, @Body RequestBody body);
+
+    /**
+     * 上传图片
+     * @param file
+     * @return
+     */
+    @Multipart
+    @POST("loan/loanDetail/apply/upload/submit/{version}/{token}")
+    Call<String> uploadFile(@Part RequestBody file);
 
 
 }

@@ -1,5 +1,7 @@
 package com.virgo.financeloan.model.responce;
 
+import lombok.Data;
+
 /**
  * 功能说明：还款科目信息
  *
@@ -9,7 +11,7 @@ package com.virgo.financeloan.model.responce;
  * @date： 2017/12/14 18:45
  * @Copyright (c) 2017. yanyiheng Inc. All rights reserved.
  */
-
+@Data
 public class RepayRecordVo {
     /**
      * 科目描述.

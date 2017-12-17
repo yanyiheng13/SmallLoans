@@ -7,6 +7,7 @@ import com.virgo.financeloan.model.request.RecordReqVo;
 import com.virgo.financeloan.model.request.TrialByProductNoReqVo;
 import com.virgo.financeloan.model.responce.BaseBean;
 import com.virgo.financeloan.model.responce.RepayPlanData;
+import com.virgo.financeloan.model.responce.RepayRecordData;
 import com.virgo.financeloan.model.responce.TrialMainPlanData;
 import com.virgo.financeloan.mvp.contract.RepaymentPlanContract;
 import com.virgo.financeloan.net.Repository;
@@ -40,6 +41,25 @@ public class RepaymentPlanPresenter extends BasePresenter<Repository, RepaymentP
             public void onFailure(String code, String error) {
                 super.onFailure(code, error);
                 getRootView().onFailureRepaymentPlan(code, error);
+            }
+        }).application(AppApplication.mApplication).start();
+    }
+
+    /**
+     *  还款记录
+     */
+    public void repaymentRecord(String version, String token, RecordReqVo recordReqVo) {
+        new RxHelper().view(getRootView()).load(getModel().getRemote().repaymentRecord(version, token, getRequestBody(recordReqVo))).callBack(new RxHelper
+                .CallBackAdapter<BaseBean<List<RepayRecordData>>>() {
+            @Override
+            public void onSuccess(String response, BaseBean<List<RepayRecordData>> result) {
+                getRootView().onSuccessRepaymentRecord(result.data);
+            }
+
+            @Override
+            public void onFailure(String code, String error) {
+                super.onFailure(code, error);
+                getRootView().onFailureRepaymentRecord(code, error);
             }
         }).application(AppApplication.mApplication).start();
     }

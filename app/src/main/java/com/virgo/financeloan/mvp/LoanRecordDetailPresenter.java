@@ -56,4 +56,26 @@ public class LoanRecordDetailPresenter extends BasePresenter<Repository, LoanRec
         }).start();
     }
 
+    /**
+     * 协议内容
+     * @param version
+     * @param token
+     * @param contentReqVo
+     */
+    public void protocolContent(String version, String token, ProtocolContentReqVo contentReqVo) {
+        new RxHelper().view(getRootView()).load(getModel().getRemote().protocolContent(version, token, getRequestBody(contentReqVo))).callBack(new RxHelper
+                .CallBackAdapter<BaseBean<ProtocolContentVo>>() {
+            @Override
+            public void onSuccess(String response, BaseBean<ProtocolContentVo> result) {
+                getRootView().onSuccessProtocolContent(result.data);
+            }
+
+            @Override
+            public void onFailure(String code, String error) {
+                super.onFailure(code, error);
+                getRootView().onFailureProtocolContent(code, error);
+            }
+        }).application(AppApplication.mApplication).start();
+    }
+
 }

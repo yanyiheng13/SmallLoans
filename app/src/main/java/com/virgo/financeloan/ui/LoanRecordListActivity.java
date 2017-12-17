@@ -115,7 +115,9 @@ public class LoanRecordListActivity extends BaseActivity<LoanRecordListPresent> 
                     rootLl.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            LoanRecordDetailActivity.newIntent(LoanRecordListActivity.this, item);
+                            if (!TextUtils.isEmpty(item.getBookedBillId())) {
+                                LoanRecordDetailActivity.newIntent(LoanRecordListActivity.this, item);
+                            }
                         }
                     });
                 } else if (mType == 2) {//待确认

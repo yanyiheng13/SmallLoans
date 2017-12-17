@@ -3,6 +3,7 @@ package com.virgo.financeloan.mvp.contract;
 
 import com.sai.framework.mvp.MvpView;
 import com.virgo.financeloan.model.responce.RepayPlanData;
+import com.virgo.financeloan.model.responce.RepayRecordData;
 import com.virgo.financeloan.model.responce.TrialMainPlanData;
 
 import java.util.List;
@@ -19,6 +20,9 @@ import java.util.List;
 public class RepaymentPlanContract {
 
     public interface View extends MvpView {
+        void onSuccessRepaymentRecord(List<RepayRecordData> repayRecordData);
+        void onFailureRepaymentRecord(String code, String msg);
+
         void onSuccessRepaymentPlan(List<RepayPlanData> repayPlanData);
         void onFailureRepaymentPlan(String code, String msg);
 

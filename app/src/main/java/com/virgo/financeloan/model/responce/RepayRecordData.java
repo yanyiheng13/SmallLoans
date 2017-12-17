@@ -18,7 +18,7 @@ public class RepayRecordData {
     /**
      * 还款时间.
      */
-    private String repayDate;
+//    private String repayDate;
 
     /**
      * 还款金额，单位分.

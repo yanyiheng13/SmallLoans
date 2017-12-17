@@ -41,8 +41,6 @@
             android:name="com.virgo.financeloan.ui.SplashActivity"
             android:configChanges="orientation|keyboardHidden"
             android:theme="@style/splash_style">
-            <!--android:windowSoftInputMode="stateHidden"-->
-            <!--android:windowSoftInputMode="adjustUnspecified|stateHidden"-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -54,8 +52,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.virgo.financeloan.ui.HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.virgo.financeloan.ui.ChangePwActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -93,7 +91,10 @@
             android:name="com.virgo.financeloan.ui.RepaymentTrialActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.virgo.financeloan.ui.RepaymentRecordActivity"
+            android:name="com.virgo.financeloan.ui.RepaymentRecordListActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.virgo.financeloan.ui.RepaymentPlanListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.virgo.financeloan.ui.WebViewActivity"
@@ -101,7 +102,7 @@
         <activity
             android:name="com.virgo.financeloan.ui.LoanDetailActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan|stateHidden"/>
+            android:windowSoftInputMode="adjustPan|stateHidden" />
     </application>
 
 </manifest>

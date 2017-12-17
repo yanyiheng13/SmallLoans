@@ -4,13 +4,26 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.Result;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.compress.Luban;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.virgo.financeloan.R;
+import com.virgo.financeloan.net.FileRequestBody;
+import com.virgo.financeloan.net.Repository;
+import com.virgo.financeloan.net.RetrofitCallback;
+
+import java.io.File;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Response;
 
 import static com.luck.picture.lib.config.PictureConfig.LUBAN_COMPRESS_MODE;
 
@@ -44,7 +57,7 @@ public class BaseLinearLayout extends LinearLayout {
 
     public void intoPics(int size) {
         // 进入相册 以下是例子：不需要的api可以不写
-        PictureSelector.create((Activity)getContext())
+        PictureSelector.create((Activity) getContext())
                 .openGallery(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
                 .theme(R.style.picture_default_style)// 主题样式设置 具体参考 values/styles   用法：R.style.picture.white.style
                 .maxSelectNum(size)// 最大图片选择数量
@@ -85,5 +98,49 @@ public class BaseLinearLayout extends LinearLayout {
                 //.videoSecond()//显示多少秒以内的视频or音频也可适用
                 //.recordVideoSecond()//录制视频秒数 默认60s
                 .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
+    }
+
+    RetrofitCallback<String> callback = new RetrofitCallback<String>() {
+        @Override
+        public void onSuccess(Call<String> call, final Response<String> response) {
+//                ((Activity) getContext()).runOnUIThread(getContext(), response.body().toString());
+//                //进度更新结束
+            BaseLinearLayout.this.post(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d("tag_tag", response+ "==");
+                }
+            });
+        }
+
+        @Override
+        public void onFailure(Call<String> call, Throwable t) {
+//                runOnUIThread(getContext(), t.getMessage());
+//                //进度更新结束
+        }
+
+        @Override
+        public void onLoading(long total, final long progress) {
+//            super.onLoading(total, progress);
+            //此处进行进度更新
+            BaseLinearLayout.this.post(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d("tag_tag", "progress == " + progress);
+                }
+            });
+        }
+    };
+
+    public void upPic(String filePath) {
+        File file = new File(filePath);
+
+
+        RequestBody resquestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+//通过该行代码将RequestBody转换成特定的FileRequestBody
+        FileRequestBody body = new FileRequestBody(resquestBody, callback);
+        Call<String> call = Repository.get().getRemote().uploadFile(body);
+        call.enqueue(callback);
+
     }
 }

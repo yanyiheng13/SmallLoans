@@ -19,6 +19,7 @@ import com.virgo.financeloan.model.request.RecordReqVo;
 import com.virgo.financeloan.model.request.TrialByProductNoReqVo;
 import com.virgo.financeloan.model.responce.LoanRecordVo;
 import com.virgo.financeloan.model.responce.RepayPlanData;
+import com.virgo.financeloan.model.responce.RepayRecordData;
 import com.virgo.financeloan.model.responce.TrialData;
 import com.virgo.financeloan.model.responce.TrialMainPlanData;
 import com.virgo.financeloan.model.responce.UserData;
@@ -178,5 +179,15 @@ public class RepaymentTrialActivity extends BaseActivity<RepaymentPlanPresenter>
         reqVo.setLoanApplyNo(mLoanRecordVo.getLoanApplyNo());
         reqVo.setBookedBillId(mLoanRecordVo.getBookedBillId());
         getPresenter().repaymentPlan(UniqueKey.VERSION.V1, userData.getToken(), reqVo);
+    }
+
+    @Override
+    public void onSuccessRepaymentRecord(List<RepayRecordData> repayRecordData) {
+
+    }
+
+    @Override
+    public void onFailureRepaymentRecord(String code, String msg) {
+
     }
 }

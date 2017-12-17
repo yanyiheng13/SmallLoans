@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
+        android:paddingLeft="22dp"
+        android:paddingRight="22dp"
         android:paddingTop="20dp">
 
         <TextView
@@ -38,13 +38,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:paddingBottom="20dp"
-        android:paddingLeft="16dp"
+        android:paddingLeft="22dp"
         android:textColor="@color/color_666666"
         android:textSize="@dimen/font_size_16"
         tools:text="中关村支行" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1px"
+        android:layout_height="10dp"
         android:background="@color/line_color" />
 </LinearLayout>
