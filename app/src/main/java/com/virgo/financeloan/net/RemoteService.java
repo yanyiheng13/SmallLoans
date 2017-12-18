@@ -6,6 +6,7 @@ import com.jakewharton.retrofit2.adapter.rxjava2.Result;
 import java.util.Map;
 
 import io.reactivex.Flowable;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -92,15 +93,17 @@ public interface RemoteService {
     //我的页面-待用户确认-用户贷款确认试算.
     @POST("mine/loan/userConfirm/trial/{version}/{token}")
     Flowable<ResponseBody> repaymentTrial(@Path("version") String version, @Path("token") String token, @Body RequestBody body);
+    //上传资料列表
+    @POST("loan/loanDetail/apply/upload/list/{version}/{token}")
+    Flowable<ResponseBody> upDataList(@Path("version") String version, @Path("token") String token, @Body RequestBody body);
 
     /**
      * 上传图片
-     * @param file
      * @return
      */
     @Multipart
-    @POST("loan/loanDetail/apply/upload/submit/{version}/{token}")
-    Call<String> uploadFile(@Part RequestBody file);
+    @POST("http://39.106.24.18:8067/loan/loanDetail/apply/upload/submit/{version}/{token}")
+    Call<String> uploadFile(@Path("version") String version, @Path("token") String token, @PartMap() Map<String, RequestBody> requestBodyMap, @Part() MultipartBody.Part file);
 
 
 }

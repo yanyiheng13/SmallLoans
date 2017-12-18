@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.webkit.WebView;
 
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -85,10 +86,16 @@ public class PersonDataActivity extends BaseActivity implements GroupView.OnUpVi
     private View mCurrentView;
 
     private int mCurrentTab = 0;// 0 正面 1反面
+    private String orderNum;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) {
+            orderNum = getIntent().getStringExtra("orderNum");
+        } else {
+            orderNum = savedInstanceState.getString("orderNum");
+        }
         setContentView(R.layout.activity_person_data);
         ButterKnife.bind(this);
         mIdCardView = new IdCardView(this).setOnAddPicClickListener(this);//个人身份证上传图片子View
@@ -96,6 +103,8 @@ public class PersonDataActivity extends BaseActivity implements GroupView.OnUpVi
         mHouseholdContentView = new HouseholdView(this).setOnAddPicClickListener(this);//户口本上传页面
         mMarriageContentView = new UpImgCommonView(this).setOnAddPicClickListener(this);//结婚证View
         mDivorceContentView = new UpImgCommonView(this).setOnAddPicClickListener(this);//结婚证View
+        mMarriageContentView.setOrderNum(orderNum);
+        mDivorceContentView.setOrderNum(orderNum);
         //本人身份证
         mIndividualIdView.setGroupName(R.string.individual_id).isRequireDot(true).setCustomView(mIdCardView, true).setOnUpViewGroupListener(this);
         mConsortIdView.setGroupName(R.string.consort_id).isRequireDot(false).setCustomView(mConsortIdCardView, false).setOnUpViewGroupListener(this);
@@ -125,9 +134,16 @@ public class PersonDataActivity extends BaseActivity implements GroupView.OnUpVi
 
     }
 
-    public static void newIntent(Context context) {
+    public static void newIntent(Context context, String orderNum) {
         Intent intent = new Intent(context, PersonDataActivity.class);
+        intent.putExtra("orderNum", orderNum);
         context.startActivity(intent);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("orderNum", orderNum);
     }
 
     @Override

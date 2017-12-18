@@ -81,7 +81,7 @@ public class UploadPicHelperView extends View {
         }
         mPaint.setColor(0xFFFFFFFF);
         mPaint.getTextBounds(text, 0, text.length(), rect);//确定文字的宽度
-        canvas.drawText(text, getWidth() / 2 - rect.width() / 2, getHeight() / 2, mPaint);
+//        canvas.drawText(text, getWidth() / 2 - rect.width() / 2, getHeight() / 2, mPaint);
 
     }
 

@@ -14,6 +14,8 @@ import com.virgo.financeloan.ui.PersonDataActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 功能说明：需要提交的资料
@@ -26,6 +28,9 @@ import butterknife.OnClick;
  */
 
 public class RequireDataListView extends LinearLayout {
+    @Setter
+    @Getter
+    private String orderNum;
 
     public RequireDataListView(Context context) {
         this(context, null);
@@ -46,7 +51,7 @@ public class RequireDataListView extends LinearLayout {
         switch (view.getId()) {
             //个人资料去提交
             case R.id.data_person_submit_tv:
-                PersonDataActivity.newIntent(getContext());
+                PersonDataActivity.newIntent(getContext(), orderNum);
                 break;
             //企业资料
             case R.id.data_enterprise_submit_tv:

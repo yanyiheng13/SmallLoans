@@ -283,6 +283,7 @@
                 android:background="@color/line_color" />
 
             <com.virgo.financeloan.ui.view.RequireDataListView
+                android:id="@+id/require_data_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

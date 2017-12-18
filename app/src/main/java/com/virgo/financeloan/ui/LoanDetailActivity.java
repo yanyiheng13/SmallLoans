@@ -41,6 +41,7 @@ import com.virgo.financeloan.ui.view.ClickMoreTextView;
 import com.virgo.financeloan.ui.view.EmptyView;
 import com.virgo.financeloan.ui.view.LendingAccountView;
 import com.virgo.financeloan.ui.view.LoadingDialog;
+import com.virgo.financeloan.ui.view.RequireDataListView;
 import com.virgo.financeloan.util.CommonUtil;
 import com.virgo.financeloan.util.SharePrefrenceUtil;
 import com.virgo.financeloan.util.UniqueKey;
@@ -110,6 +111,12 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
      */
     @BindView(R.id.loan_detail_time_tv)
     TextView mTvTime;
+
+    /**
+     *  需求信息
+     */
+    @BindView(R.id.require_data_list)
+    RequireDataListView  mRequireListView;
     /**
      * 更多协议
      */
@@ -175,6 +182,7 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
      * 还款方式
      */
     private RepaymentWayAndAgingVo mRepaymentWayAndAgingVo;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -514,6 +522,7 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
         if (loanOrderNoVo != null && !TextUtils.isEmpty(loanOrderNoVo.getLoanOrderNo())) {
             mOrderNo = loanOrderNoVo.getLoanOrderNo();
             SharePrefrenceUtil.setString("config", mLoanVo.getProductBaseNo(), loanOrderNoVo.getLoanOrderNo());
+            mRequireListView.setOrderNum(mOrderNo);
         }
     }
 

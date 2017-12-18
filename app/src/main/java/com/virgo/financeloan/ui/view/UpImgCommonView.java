@@ -5,8 +5,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -16,6 +15,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.virgo.financeloan.R;
 import com.virgo.financeloan.ui.behavior.OnAddPicClickListener;
+import com.virgo.financeloan.util.UIUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +37,15 @@ import lombok.Setter;
 
 public class UpImgCommonView extends BaseLinearLayout {
 
-    @BindView(R.id.custom_grid_view)
-    CustomGridView mCustomGridView;
+    @BindView(R.id.img_content1)
+    LinearLayout mContentImg1;
+    @BindView(R.id.img_content2)
+    LinearLayout mContentImg2;
+    @BindView(R.id.img_content3)
+    LinearLayout mContentImg3;
+    private UploadPicView[] mImageArray = new UploadPicView[9];
+    private ImageView[] mImageClearArray = new ImageView[9];
+    private View[] viewArray = new View[9];
     /**
      * 图片信息
      */
@@ -51,6 +58,36 @@ public class UpImgCommonView extends BaseLinearLayout {
     @Setter
     @Getter
     private List<LocalMedia> mSelectPic = new ArrayList<>();
+    /**
+     *
+     */
+    @Setter
+    @Getter
+    private String orderNum;
+    /**
+     * 文件类型  身份证 房产等等
+     */
+    @Setter
+    @Getter
+    private String fileType;
+    /**
+     * 操作类型 ADD(Integer.valueOf(0), "新增"),
+     * MODIFY(Integer.valueOf(1), "修改"),
+     * REMOVE(Integer.valueOf(2), "删除");
+     */
+    @Setter
+    @Getter
+    private String operateType;
+
+    /**
+     * 上传多张的时候  需要传递顺序
+     */
+    @Setter
+    @Getter
+    private String order;
+
+    private boolean isUp;
+    private int width;
 
     public UpImgCommonView(Context context) {
         this(context, null);
@@ -65,48 +102,59 @@ public class UpImgCommonView extends BaseLinearLayout {
         setOrientation(LinearLayout.VERTICAL);
         inflate(context, R.layout.view_up_common, this);
         ButterKnife.bind(this, this);
-        mCustomGridView.setAdapter(myAdapter);
         LocalMedia media = new LocalMedia();
         media.isAddPic = true;
         mListPic.add(media);
-        myAdapter.notifyDataSetChanged();
+        WindowManager wm = (WindowManager) getContext()
+                .getSystemService(Context.WINDOW_SERVICE);
+        width = wm.getDefaultDisplay().getWidth();
+        for (int i = 0; i < 9; i++) {
+            viewArray[i] = LayoutInflater.from(getContext()).inflate(R.layout.up_pic_item, null);
+            mImageArray[i] = (UploadPicView) viewArray[i].findViewById(R.id.maintain_pic_img);
+            mImageClearArray[i] = (ImageView) viewArray[i].findViewById(R.id.maintain_pic_clear_img);
+        }
+        notifyDataSetChanged();
     }
 
     public void notifyDataSetChanged() {
-        myAdapter.notifyDataSetChanged();
+        update();
     }
 
-    BaseAdapter myAdapter = new BaseAdapter() {
-        @Override
-        public int getCount() {
-            return mListPic == null ? 0 : mListPic.size();
+    private void update() {
+        mContentImg1.removeAllViews();
+        mContentImg2.removeAllViews();
+        mContentImg3.removeAllViews();
+        if (mListPic == null) {
+            return;
         }
-
-        @Override
-        public Object getItem(int position) {
-            return mListPic.get(position);
+        int size = mListPic.size();
+        if (size <= 3) {
+            mContentImg1.setVisibility(View.VISIBLE);
+            mContentImg2.setVisibility(View.GONE);
+            mContentImg3.setVisibility(View.GONE);
+        } else if (size <= 6) {
+            mContentImg1.setVisibility(View.VISIBLE);
+            mContentImg2.setVisibility(View.VISIBLE);
+            mContentImg3.setVisibility(View.GONE);
+        } else if (size <= 9) {
+            mContentImg1.setVisibility(View.VISIBLE);
+            mContentImg2.setVisibility(View.VISIBLE);
+            mContentImg3.setVisibility(View.VISIBLE);
         }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-//            ViewHolder vh = null;
-//            if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.up_pic_item, null);
-//                vh = new ViewHolder();
-            ImageView clearImage = (ImageView) convertView.findViewById(R.id.maintain_pic_clear_img);
-            UploadPicView images = (UploadPicView) convertView.findViewById(R.id.maintain_pic_img);
-//                convertView.setTag(vh);
-//            } else {
-//                vh = (ViewHolder) convertView.getTag();
-//            }
-            final LocalMedia item = mListPic.get(position);
+        int widths = (int)((width - UIUtil.dip2px(getContext(), 46)) / 3);
+        for (int i = 0; i < size; i++) {
+            if (i < 3) {
+                mContentImg1.addView(viewArray[i]);
+            } else if (i < 6) {
+                mContentImg2.addView(viewArray[i]);
+            } else if (i < 9) {
+                mContentImg3.addView(viewArray[i]);
+            }
+            final LocalMedia item = mListPic.get(i);
+            viewArray[i].getLayoutParams().width = widths;
+            viewArray[i].getLayoutParams().height = widths;
             //图片显示区域
-            images.setOnClickListener(new View.OnClickListener() {
+            mImageArray[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (item.isAddPic) {
@@ -120,25 +168,27 @@ public class UpImgCommonView extends BaseLinearLayout {
                 }
             });
             //清除按钮
-            clearImage.setOnClickListener(new View.OnClickListener() {
+            final int finalI = i;
+            mImageClearArray[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mListPic.remove(item);
                     mSelectPic.remove(item);
-                    myAdapter.notifyDataSetChanged();
+                    mImageArray[finalI].setUping(false);
+                    update();
                 }
             });
             String path = "";
             if (item.isAddPic) {
-                clearImage.setVisibility(View.GONE);
-                images.setIsShow(false);
+                mImageClearArray[i].setVisibility(View.GONE);
+                mImageArray[i].setIsShow(false);
                 if (mListPic.size() == 10) {
-                    images.setVisibility(View.GONE);
+                    mImageArray[i].setVisibility(View.GONE);
                 } else {
-                    images.setImageResource(R.mipmap.icon_add_pic);
-                    images.setVisibility(View.VISIBLE);
+                    mImageArray[i].setImageResource(R.mipmap.icon_add_pic);
+                    mImageArray[i].setVisibility(View.VISIBLE);
                 }
-                return convertView;
+                return;
             } else {
                 if (item.isCut() && !item.isCompressed()) {
                     // 裁剪过
@@ -150,10 +200,13 @@ public class UpImgCommonView extends BaseLinearLayout {
                     // 原图
                     path = item.getPath();
                 }
-                images.setIsShow(true);
-                images.setVisibility(View.VISIBLE);
-                clearImage.setVisibility(View.VISIBLE);
-                upPic(path);
+                mImageArray[i].setIsShow(true);
+                mImageArray[i].setVisibility(View.VISIBLE);
+                mImageClearArray[i].setVisibility(View.VISIBLE);
+                if (!mImageArray[i].getUping()) {
+                    mImageArray[i].upPic(path, orderNum);
+                    mImageArray[i].setUping(true);
+                }
             }
             // 例如 LocalMedia 里面返回三种path
             // 1.media.getPath(); 为原图path
@@ -161,8 +214,6 @@ public class UpImgCommonView extends BaseLinearLayout {
             // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true
             // 如果裁剪并压缩了，已取压缩路径为准，因为是先裁剪后压缩的
 //                int mimeType = media.getMimeType();
-
-
             RequestOptions options = new RequestOptions()
                     .centerCrop()
                     .placeholder(R.color.main_bg)
@@ -170,16 +221,10 @@ public class UpImgCommonView extends BaseLinearLayout {
             Glide.with(getContext())
                     .load(path)
                     .apply(options)
-                    .into(images.imgView());
-
-            return convertView;
+                    .into(mImageArray[i].imgView());
         }
 
-        class ViewHolder {
-            ImageView clearImage;
-            UploadPicView images;
-        }
-    };
+    }
 
     public OnAddPicClickListener listener;
 
