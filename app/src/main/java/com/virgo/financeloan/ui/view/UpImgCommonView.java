@@ -70,6 +70,7 @@ public class UpImgCommonView extends BaseLinearLayout {
     @Setter
     @Getter
     private String fileType;
+
     /**
      * 操作类型 ADD(Integer.valueOf(0), "新增"),
      * MODIFY(Integer.valueOf(1), "修改"),
