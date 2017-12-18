@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -18,11 +19,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <com.virgo.financeloan.ui.view.UploadPicView
                 android:id="@+id/id_front_img"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:background="@mipmap/icon_add_pic" />
+                android:scaleType="centerCrop"
+                tools:src="@mipmap/icon_add_pic" />
 
             <ImageView
                 android:id="@+id/id_front_img_clear"
@@ -58,11 +60,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <com.virgo.financeloan.ui.view.UploadPicView
                 android:id="@+id/id_side_img"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:background="@mipmap/icon_add_pic" />
+                android:scaleType="centerCrop"
+                tools:src="@mipmap/icon_add_pic" />
 
             <ImageView
                 android:id="@+id/id_side_img_clear"

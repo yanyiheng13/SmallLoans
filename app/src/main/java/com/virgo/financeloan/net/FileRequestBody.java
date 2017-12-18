@@ -70,14 +70,14 @@ public final class FileRequestBody<T> extends RequestBody {
             @Override
             public void write(Buffer source, long byteCount) throws IOException {
                 super.write(source, byteCount);
-//                if (contentLength == 0) {
+                if (contentLength == 0) {
                     //获得contentLength的值，后续不再调用
                     contentLength = contentLength();
-//                }
+                }
                 //增加当前写入的字节数
                 bytesWritten += byteCount;
                 //回调
-                callback.onLoading(contentLength, bytesWritten);
+//                callback.onLoading(contentLength, bytesWritten);
             }
         };
     }

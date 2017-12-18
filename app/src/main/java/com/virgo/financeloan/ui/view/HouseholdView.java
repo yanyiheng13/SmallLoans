@@ -20,6 +20,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 功能说明：户口本上传界面
@@ -36,12 +38,12 @@ public class HouseholdView extends BaseLinearLayout {
      * 户主页面
      */
     @BindView(R.id.id_front_img)
-    ImageView mImgFront;
+    UploadPicView mImgFront;
     /**
      * 个人页面
      */
     @BindView(R.id.id_side_img)
-    ImageView mImgSide;
+    UploadPicView mImgSide;
 
     /**
      * 已选择的图片
@@ -63,6 +65,37 @@ public class HouseholdView extends BaseLinearLayout {
      */
     @BindView(R.id.id_side_img_clear)
     ImageView mSideImgClear;
+
+    @Setter
+    @Getter
+    private String orderNum;
+    /**
+     * 文件类型  身份证 房产等等
+     */
+    @Setter
+    @Getter
+    private String fileType1;
+    /**
+     * 文件类型  身份证 房产等等
+     */
+    @Setter
+    @Getter
+    private String fileType2;
+    /**
+     * 操作类型 ADD(Integer.valueOf(0), "新增"),
+     * MODIFY(Integer.valueOf(1), "修改"),
+     * REMOVE(Integer.valueOf(2), "删除");
+     */
+    @Setter
+    @Getter
+    private String operateType;
+
+    /**
+     * 上传多张的时候  需要传递顺序
+     */
+    @Setter
+    @Getter
+    private String order;
 
     public HouseholdView(Context context) {
         this(context, null);
@@ -117,12 +150,12 @@ public class HouseholdView extends BaseLinearLayout {
      * @param listLocalMedia
      * @param imgView
      */
-    private void imgShowOrDelete(final ImageView clearImage, final List<LocalMedia> listLocalMedia, final ImageView imgView) {
+    private void imgShowOrDelete(final ImageView clearImage, final List<LocalMedia> listLocalMedia, final UploadPicView imgView) {
         clearImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listLocalMedia.clear();
-                imgView.setImageDrawable(null);
+//                imgView.setImageDrawable(null);
                 clearImage.setVisibility(View.GONE);
             }
         });
@@ -149,10 +182,10 @@ public class HouseholdView extends BaseLinearLayout {
                 .centerCrop()
                 .placeholder(R.color.main_bg)
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
-        Glide.with(getContext())
-                .load(path)
-                .apply(options)
-                .into(imgView);
+//        Glide.with(getContext())
+//                .load(path)
+//                .apply(options)
+//                .into(imgView);
 
     }
 

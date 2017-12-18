@@ -98,13 +98,30 @@ public class PersonDataActivity extends BaseActivity implements GroupView.OnUpVi
         }
         setContentView(R.layout.activity_person_data);
         ButterKnife.bind(this);
+
         mIdCardView = new IdCardView(this).setOnAddPicClickListener(this);//个人身份证上传图片子View
         mConsortIdCardView = new IdCardView(this).setOnAddPicClickListener(this);//配偶身份证上传图片子View
         mHouseholdContentView = new HouseholdView(this).setOnAddPicClickListener(this);//户口本上传页面
         mMarriageContentView = new UpImgCommonView(this).setOnAddPicClickListener(this);//结婚证View
         mDivorceContentView = new UpImgCommonView(this).setOnAddPicClickListener(this);//结婚证View
+        //结婚证
         mMarriageContentView.setOrderNum(orderNum);
+        mMarriageContentView.setFileType(String.valueOf(FileEnums.FileTypeEnum.MARRIAGE_CERTIFICATE.code));
+        //离婚证
         mDivorceContentView.setOrderNum(orderNum);
+        mDivorceContentView.setFileType(String.valueOf(FileEnums.FileTypeEnum.DIVORCE_CERTIFICATE.code));
+        //身份证
+        mIdCardView.setOrderNum(orderNum);
+        mIdCardView.setFileType1(String.valueOf(FileEnums.FileTypeEnum.SELF_ID_CARD_FRONT.code));
+        mIdCardView.setFileType2(String.valueOf(FileEnums.FileTypeEnum.SELF_ID_CARD_REVERSE.code));
+        //配偶身份证
+        mConsortIdCardView.setOrderNum(orderNum);
+        mConsortIdCardView.setFileType1(String.valueOf(FileEnums.FileTypeEnum.HOME_ID_CARD_FRONT.code));
+        mConsortIdCardView.setFileType2(String.valueOf(FileEnums.FileTypeEnum.HOME_ID_CARD_REVERSE.code));
+        //户口本
+        mHouseholdContentView.setOrderNum(orderNum);
+        mHouseholdContentView.setFileType1(String.valueOf(FileEnums.FileTypeEnum.BOOKLET_FRONT_PAGE.code));
+        mHouseholdContentView.setFileType2(String.valueOf(FileEnums.FileTypeEnum.BOOKLET.code));
         //本人身份证
         mIndividualIdView.setGroupName(R.string.individual_id).isRequireDot(true).setCustomView(mIdCardView, true).setOnUpViewGroupListener(this);
         mConsortIdView.setGroupName(R.string.consort_id).isRequireDot(false).setCustomView(mConsortIdCardView, false).setOnUpViewGroupListener(this);
@@ -164,8 +181,9 @@ public class PersonDataActivity extends BaseActivity implements GroupView.OnUpVi
                     } else if (mCurrentView == mDivorceContentView) {//离婚证
                         UpImgCommonView divorce = ((UpImgCommonView) mCurrentView);
                         List<LocalMedia> listDivorce = PictureSelector.obtainMultipleResult(data);
-                        divorce.setMSelectPic(listDivorce);
                         divorce.getMListPic().clear();
+                        divorce.getMListPic().addAll(divorce.getMSelectPic());
+                        divorce.setMSelectPic(listDivorce);
                         divorce.getMListPic().addAll(listDivorce);
                         LocalMedia mediaDivorce = new LocalMedia();
                         mediaDivorce.isAddPic = true;
@@ -174,8 +192,9 @@ public class PersonDataActivity extends BaseActivity implements GroupView.OnUpVi
                     } else if (mCurrentView == mMarriageContentView) {//结婚证
                         UpImgCommonView marriage = ((UpImgCommonView) mCurrentView);
                         List<LocalMedia> listMarriage = PictureSelector.obtainMultipleResult(data);
-                        marriage.setMSelectPic(listMarriage);
                         marriage.getMListPic().clear();
+                        marriage.getMListPic().addAll(marriage.getMSelectPic());
+                        marriage.setMSelectPic(listMarriage);
                         marriage.getMListPic().addAll(listMarriage);
                         LocalMedia mediaDivorce = new LocalMedia();
                         mediaDivorce.isAddPic = true;

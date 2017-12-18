@@ -2,14 +2,13 @@ package com.virgo.financeloan.ui.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.google.gson.Gson;
 import com.virgo.financeloan.AppApplication;
 import com.virgo.financeloan.R;
-import com.virgo.financeloan.net.FileRequestBody;
+import com.virgo.financeloan.model.responce.UpDataBean;
+import com.virgo.financeloan.net.RemoteService;
 import com.virgo.financeloan.net.Repository;
 import com.virgo.financeloan.net.RetrofitCallback;
 import com.virgo.financeloan.util.UniqueKey;
@@ -27,6 +26,8 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * 功能说明：上传图片自定义view
@@ -44,6 +45,13 @@ public class UploadPicView extends RelativeLayout {
 
     @BindView(R.id.image_pic)
     ImageView mUpImgView;
+
+    /**
+     * 图片Id
+     */
+    @Getter
+    @Setter
+    private String picId;
 
     private boolean isUping;
 
@@ -79,10 +87,10 @@ public class UploadPicView extends RelativeLayout {
         return this;
     }
 
-    public UploadPicView setProgress(int progress){
+    public UploadPicView setProgress(int progress) {
         mUploadPicView.setProgress(progress);
         return this;
-    };
+    }
 
     public UploadPicView setError() {
         mUploadPicView.setError();
@@ -98,72 +106,106 @@ public class UploadPicView extends RelativeLayout {
         return mUpImgView;
     }
 
-    RetrofitCallback<String> callback = new RetrofitCallback<String>() {
+    public static final String BASE_URL = "http://39.106.24.18:8067/";
+    Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
+    /**
+     * 添加图片
+     */
+    public void addPic(String filePath, String orderNo, String fileType, String position) {
+        File file = new File(filePath);
+        Map<String, RequestBody> hashMap = new HashMap<>();
+        hashMap.put("fileType", toRequestBody(fileType));
+        hashMap.put("loanOrderNo", toRequestBody(orderNo));
+        hashMap.put("operateType", toRequestBody("0"));
+        hashMap.put("order", toRequestBody(position));
+        RequestBody body1 = RequestBody.create(MediaType.parse("image/*"), file);
+        //通过该行代码将RequestBody转换成特定的FileRequestBody
+        MultipartBody.Part part = MultipartBody.Part.createFormData("file", file.getName(), body1);
+        //获取接口实例
+        RemoteService movieService = retrofit.create(RemoteService.class);
+        Call<UpDataBean> call = movieService.uploadFile(UniqueKey.VERSION.V1, AppApplication.getUserData().getToken(), hashMap, part);
+        call.enqueue(callback);
+    }
+
+    /**
+     * 删除图片
+     */
+    public void deletePic(String orderNo, String fileType, String position) {
+        Map<String, RequestBody> hashMap = new HashMap<>();
+        hashMap.put("fileType", toRequestBody(fileType));
+        hashMap.put("loanOrderNo", toRequestBody(orderNo));
+        hashMap.put("operateType", toRequestBody("2"));
+        hashMap.put("order", toRequestBody(position));
+
+        //获取接口实例
+        RemoteService movieService = retrofit.create(RemoteService.class);
+        Call<UpDataBean> call = Repository.get().getRemote().uploadFile(UniqueKey.VERSION.V1, AppApplication.getUserData().getToken(), hashMap, null);
+        call.enqueue(callbackDelete);
+    }
+
+    /**
+     * 删除图片的回调
+     */
+    RetrofitCallback<UpDataBean> callbackDelete = new RetrofitCallback<UpDataBean>() {
         @Override
-        public void onSuccess(Call<String> call, final Response<String> response) {
-//                ((Activity) getContext()).runOnUIThread(getContext(), response.body().toString());
-//                //进度更新结束
+        public void onSuccess(Call<UpDataBean> call, final Response<UpDataBean> response) {
             UploadPicView.this.post(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("tag_tag", response + "==");
+                    UpDataBean dataBean = response.body();
+                    if (dataBean != null && dataBean.isSuccess()) {
+                    } else {
+                        setError();
+                    }
                 }
             });
         }
 
         @Override
-        public void onFailure(final Call<String> call, Throwable t) {
+        public void onFailure(final Call<UpDataBean> call, final Throwable t) {
             UploadPicView.this.post(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("tag_tag", call + "==");
-                }
-            });
-//                runOnUIThread(getContext(), t.getMessage());
-//                //进度更新结束
-        }
-
-        @Override
-        public void onLoading(final long total, final long progress) {
-//            super.onLoading(total, progress);
-            //此处进行进度更新
-            UploadPicView.this.post(new Runnable() {
-                @Override
-                public void run() {
-                    Log.d("tag_tag", "progress == " + progress);
-                    mUploadPicView.setProgress((int)(progress/(total * 1.00) * 100));
+                    setError();
                 }
             });
         }
     };
 
-    protected void onLoad(String progress) {
+    /**
+     * 添加图片的回调
+     */
+    RetrofitCallback<UpDataBean> callback = new RetrofitCallback<UpDataBean>() {
+        @Override
+        public void onSuccess(Call<UpDataBean> call, final Response<UpDataBean> response) {
+            UploadPicView.this.post(new Runnable() {
+                @Override
+                public void run() {
+                    UpDataBean dataBean = response.body();
+                    if (dataBean != null && dataBean.isSuccess()) {
+                        setProgress(100);
+                        picId = dataBean.getData();
+                        isUping = false;
+                    } else {
+                        setError();
+                    }
+                }
+            });
+        }
 
-    }
-
-    public void upPic(String filePath, String orderNo) {
-        File file = new File(filePath);
-
-        Map<String, RequestBody> hashMap = new HashMap<>();
-        hashMap.put("fileType", toRequestBody("100302"));
-        hashMap.put("loanOrderNo", toRequestBody(orderNo));
-        hashMap.put("operateType", toRequestBody("0"));
-        hashMap.put("order", toRequestBody("6"));
-
-        RequestBody body1 = RequestBody.create(MediaType.parse("image/*"), file);
-
-        //通过该行代码将RequestBody转换成特定的FileRequestBody
-        FileRequestBody body = new FileRequestBody(body1, callback);
-
-        MultipartBody.Part part = MultipartBody.Part.createFormData("file", file.getName(), body1);
-
-        Call<String> call = Repository.get().getRemote().uploadFile(UniqueKey.VERSION.V1, AppApplication.getUserData().getToken(), hashMap, part);
-        call.enqueue(callback);
-    }
-
-    protected RequestBody getRequestBody(Object obj) {
-        return RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), new Gson().toJson(obj));
-    }
+        @Override
+        public void onFailure(final Call<UpDataBean> call, final Throwable t) {
+            UploadPicView.this.post(new Runnable() {
+                @Override
+                public void run() {
+                    setError();
+                }
+            });
+        }
+    };
 
     public RequestBody toRequestBody(String value) {
         RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), value);

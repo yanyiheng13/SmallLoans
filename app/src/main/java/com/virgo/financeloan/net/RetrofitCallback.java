@@ -24,6 +24,6 @@ public abstract class RetrofitCallback <T> implements Callback<T> {
     }
     public abstract void onSuccess(Call<T> call, Response<T> response);
     //用于进度的回调
-    public abstract void onLoading(long total, long progress) ;
+//    public abstract void onLoading(long total, long progress) ;
 
 }

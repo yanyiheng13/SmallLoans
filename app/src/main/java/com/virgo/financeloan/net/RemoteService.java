@@ -2,6 +2,8 @@ package com.virgo.financeloan.net;
 
 
 import com.jakewharton.retrofit2.adapter.rxjava2.Result;
+import com.virgo.financeloan.model.responce.BaseBean;
+import com.virgo.financeloan.model.responce.UpDataBean;
 
 import java.util.Map;
 
@@ -102,8 +104,8 @@ public interface RemoteService {
      * @return
      */
     @Multipart
-    @POST("http://39.106.24.18:8067/loan/loanDetail/apply/upload/submit/{version}/{token}")
-    Call<String> uploadFile(@Path("version") String version, @Path("token") String token, @PartMap() Map<String, RequestBody> requestBodyMap, @Part() MultipartBody.Part file);
+    @POST("loan/loanDetail/apply/upload/submit/{version}/{token}")
+    Call<UpDataBean> uploadFile(@Path("version") String version, @Path("token") String token, @PartMap() Map<String, RequestBody> requestBodyMap, @Part() MultipartBody.Part file);
 
 
 }

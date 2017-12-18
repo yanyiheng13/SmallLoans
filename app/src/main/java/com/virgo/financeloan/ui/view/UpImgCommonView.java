@@ -2,12 +2,14 @@ package com.virgo.financeloan.ui.view;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -58,9 +60,6 @@ public class UpImgCommonView extends BaseLinearLayout {
     @Setter
     @Getter
     private List<LocalMedia> mSelectPic = new ArrayList<>();
-    /**
-     *
-     */
     @Setter
     @Getter
     private String orderNum;
@@ -87,7 +86,9 @@ public class UpImgCommonView extends BaseLinearLayout {
     @Getter
     private String order;
 
-    private boolean isUp;
+    /**
+     * 屏幕宽度
+     */
     private int width;
 
     public UpImgCommonView(Context context) {
@@ -162,7 +163,7 @@ public class UpImgCommonView extends BaseLinearLayout {
                         if (listener != null) {
                             listener.onAddPicClick(UpImgCommonView.this);
                         }
-                        intoPics();
+                        intoPics(9 - mListPic.size() + 1);
                     } else {
 //                        intoPre();
                     }
@@ -173,10 +174,21 @@ public class UpImgCommonView extends BaseLinearLayout {
             mImageClearArray[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mListPic.remove(item);
-                    mSelectPic.remove(item);
-                    mImageArray[finalI].setUping(false);
-                    update();
+                    if (mImageArray[finalI].getUping()) {
+                        Toast.makeText(getContext(), "上传中，无法进行删除操作", Toast.LENGTH_SHORT).show();
+                    } else if (!TextUtils.isEmpty(mImageArray[finalI].getPicId())) {
+                        //已经上传成功,需要从服务器删除
+                        mListPic.remove(item);
+                        mSelectPic.remove(item);
+                        mImageArray[finalI].deletePic(orderNum, getFileType(), mImageArray[finalI].getPicId());
+                        update();
+                    } else {
+                        //没有上传成功,本地删除就行
+                        mListPic.remove(item);
+                        mSelectPic.remove(item);
+                        mImageArray[finalI].setUping(false);
+                        update();
+                    }
                 }
             });
             String path = "";
@@ -204,8 +216,9 @@ public class UpImgCommonView extends BaseLinearLayout {
                 mImageArray[i].setIsShow(true);
                 mImageArray[i].setVisibility(View.VISIBLE);
                 mImageClearArray[i].setVisibility(View.VISIBLE);
-                if (!mImageArray[i].getUping()) {
-                    mImageArray[i].upPic(path, orderNum);
+                if (!mImageArray[i].getUping() && TextUtils.isEmpty(mImageArray[i].getPicId())) {
+                    //添加
+                    mImageArray[i].addPic(path, orderNum, fileType, "45");
                     mImageArray[i].setUping(true);
                 }
             }
