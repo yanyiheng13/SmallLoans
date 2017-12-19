@@ -2,6 +2,7 @@ package com.virgo.financeloan.mvp.contract;
 
 
 import com.sai.framework.mvp.MvpView;
+import com.virgo.financeloan.model.responce.BaseBean;
 import com.virgo.financeloan.model.responce.RepayPlanData;
 import com.virgo.financeloan.model.responce.RepayRecordData;
 import com.virgo.financeloan.model.responce.TrialMainPlanData;
@@ -28,5 +29,8 @@ public class RepaymentPlanContract {
 
         void onSuccessRepaymentTrial(TrialMainPlanData trialMainPlanData);
         void onFailureRepaymentTrial(String code, String msg);
+
+        void onSuccessConfirm(BaseBean baseBean);
+        void onFailureConfirm(String code, String msg);
     }
 }

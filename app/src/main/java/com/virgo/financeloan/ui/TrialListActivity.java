@@ -3,20 +3,25 @@ package com.virgo.financeloan.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.virgo.financeloan.R;
 import com.virgo.financeloan.model.request.TrialReqVo;
+import com.virgo.financeloan.model.responce.LoanVo;
 import com.virgo.financeloan.model.responce.TrialData;
 import com.virgo.financeloan.mvp.TrialPresent;
 import com.virgo.financeloan.mvp.contract.TrialContract;
 import com.virgo.financeloan.ui.view.CustomTitleView;
 import com.virgo.financeloan.ui.view.EmptyView;
+import com.virgo.financeloan.ui.view.PlanHeadView;
 import com.virgo.financeloan.util.CommonUtil;
 
 import java.util.List;
@@ -40,6 +45,11 @@ public class TrialListActivity extends BaseActivity<TrialPresent> implements Tri
     @BindView(R.id.empty_view)
     EmptyView mEmptyView;
     private TrialReqVo mTrialReqVo;
+    private LoanVo mLoanVo;
+    /**
+     * 头部View
+     */
+    private PlanHeadView mPlanView;
 
     private BaseQuickAdapter<TrialData.InstallmentPlanInfo, BaseViewHolder> mAdapter;
 
@@ -48,8 +58,10 @@ public class TrialListActivity extends BaseActivity<TrialPresent> implements Tri
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
             mTrialReqVo = (TrialReqVo) getIntent().getSerializableExtra("trialReqVo");
+            mLoanVo = (LoanVo) getIntent().getSerializableExtra("mLoanVo");
         } else {
             mTrialReqVo = (TrialReqVo) savedInstanceState.getSerializable("trialReqVo");
+            mLoanVo = (LoanVo) savedInstanceState.getSerializable("mLoanVo");
         }
         setContentView(R.layout.activity_trial_list);
         ButterKnife.bind(this);
@@ -65,7 +77,7 @@ public class TrialListActivity extends BaseActivity<TrialPresent> implements Tri
                 TextView tvRepayments = helper.getView(R.id.repayments_time_tv);//还款时间
 
                 tvCount.setText(item.getPeriod());
-//                tvPrincipal.setText(CommonUtil.formatAmountByInteger(item.getCurrentTotalAmount()));
+                tvRate.setText(CommonUtil.formatAmountByInteger(item.getCurrentTotalAmount()));
                 tvRepayments.setText(item.getRepaymentDate());
 
                 List<TrialData.RepaymentPlanInfo> repaymentPlanInfos = item.getRepaymentPlanInfoList();
@@ -89,21 +101,36 @@ public class TrialListActivity extends BaseActivity<TrialPresent> implements Tri
                 }
             }
         };
+        mPlanView = new PlanHeadView(this);
+        mAdapter.addHeaderView(mPlanView);
+
+        View viewHead = LayoutInflater.from(this).inflate(R.layout.view_trial_head, null);
+        mAdapter.addHeaderView(viewHead);
+
         mRecyclerView.setAdapter(mAdapter);
         mEmptyView.onStart();
         getPresenter().trialList(mTrialReqVo, "v1");
     }
 
-    public static void newIntent(Context context, TrialReqVo trialReqVo) {
+    public static void newIntent(Context context, TrialReqVo trialReqVo, LoanVo mLoanVo) {
         Intent intent = new Intent(context, TrialListActivity.class);
         intent.putExtra("trialReqVo", trialReqVo);
+        intent.putExtra("mLoanVo", mLoanVo);
         context.startActivity(intent);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("mLoanVo", mLoanVo);
+        outState.putSerializable("trialReqVo", mTrialReqVo);
     }
 
     @Override
     public void onSuccessTrail(TrialData trialData) {
         mEmptyView.onSuccess();
         mAdapter.setNewData(trialData.getInstallmentPlanInfoList());
+        mPlanView.upData(trialData, mLoanVo);
     }
 
     @Override

@@ -34,6 +34,7 @@ public class LocalMedia implements Serializable {
 
     public String picPath;
     public String fileId;
+    public String order;
 
     public LocalMedia() {
 

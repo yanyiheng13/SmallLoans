@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.virgo.financeloan.AppApplication;
 import com.virgo.financeloan.R;
 import com.virgo.financeloan.model.request.GetFileBytesReqVo;
@@ -58,7 +61,13 @@ public class PicPreActivity extends BaseActivity<PicturePrePresenter> implements
             reqVo.setPath(mPath);
             getPresenter().dataDetail(UniqueKey.VERSION.V1, AppApplication.getUserData().getToken(), reqVo);
         } else {
-
+            RequestOptions options = new RequestOptions()
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL);
+            Glide.with(getContext())
+                    .load(mPath)
+                    .apply(options)
+                    .into(mPhotoView);
         }
     }
 

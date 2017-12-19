@@ -1,6 +1,7 @@
 package com.virgo.financeloan.ui.view;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -84,6 +85,8 @@ public class LendingAccountView extends LinearLayout {
         inflate(context, R.layout.view_layout_lending, this);
         ButterKnife.bind(this, this);
         setData(null);//初始化隐藏银行卡状态  如果有银行卡信息再显示
+        setLine(mTvAddAccount);
+        setLine(mTvChangeAccount);
     }
 
     /**
@@ -116,5 +119,10 @@ public class LendingAccountView extends LinearLayout {
             default:
                 break;
         }
+    }
+
+    private void setLine(TextView textView) {
+        textView.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
+        textView.getPaint().setAntiAlias(true);//抗锯齿
     }
 }

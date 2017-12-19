@@ -307,7 +307,7 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
             reqVos.setLoanOrderNo(mOrderNo);
             getPresenter().upDataList(reqVos, UniqueKey.VERSION.V1, AppApplication.getUserData().getToken());
         }
-        getPresenter().protocolList(UniqueKey.VERSION.V1, userData.getToken(), reqVo);
+//        getPresenter().protocolList(UniqueKey.VERSION.V1, userData.getToken(), reqVo);
 
         List<LoanUsingVo> listUsing = mLoanVo.getLoanPurposeInfoList();
         mArrayLimit = new String[agingVos.size()];
@@ -321,6 +321,18 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
             LoanUsingVo usingVo = listUsing.get(i);
             mArrayUsing[i] = usingVo.getLoanPurposeDesc();
             mMapUsing.put(usingVo.getLoanPurposeDesc(), usingVo);
+        }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (TextUtils.isEmpty(mOrderNo)) {
+            getPresenter().getOrderNo(UniqueKey.VERSION.V1, AppApplication.getUserData().getToken());
+        } else {
+            QueryUploadFileReqVo reqVos = new QueryUploadFileReqVo();
+            reqVos.setLoanOrderNo(mOrderNo);
+            getPresenter().upDataList(reqVos, UniqueKey.VERSION.V1, AppApplication.getUserData().getToken());
         }
     }
 
@@ -393,7 +405,7 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
                 trialReqVo.setLoanAmt(CommonUtil.yuanToCent(ammounts.replace(",", "")));
                 trialReqVo.setProductBaseNo(mLoanVo.getProductBaseNo());
                 trialReqVo.setRepaymentWaySerialNumber(mRepaymentWayAndAgingVo.getRepaymentWaySerialNumber());
-                TrialListActivity.newIntent(this, trialReqVo);
+                TrialListActivity.newIntent(this, trialReqVo, mLoanVo);
                 break;
             case R.id.loan_detail_use_tv:
                 List<PowerMenuItem> list = new ArrayList<>();
@@ -460,25 +472,25 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
         }
     }
 
-    public void checkToken(String code) {
-        if (!"2002".equals(code)) {
-            return;
-        }
-        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
-        builder.setTitle("重新登录");
-        builder.setMessage("您得登录状态已过期，为了您的账号安全，请重新登录");
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                SharePrefrenceUtil.setString("user", "logindata", "");
-                AppApplication.setUserData(null);
-                LoginActivity.newIntent(LoanDetailActivity.this);
-                finish();
-            }
-        });
-        builder.setNegativeButton("取消", null);
-        builder.show();
-    }
+//    public void checkToken(String code) {
+//        if (!"2002".equals(code)) {
+//            return;
+//        }
+//        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+//        builder.setTitle("重新登录");
+//        builder.setMessage("您得登录状态已过期，为了您的账号安全，请重新登录");
+//        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                SharePrefrenceUtil.setString("user", "logindata", "");
+//                AppApplication.setUserData(null);
+//                LoginActivity.newIntent(LoanDetailActivity.this);
+//                finish();
+//            }
+//        });
+//        builder.setNegativeButton("取消", null);
+//        builder.show();
+//    }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
@@ -519,6 +531,7 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
 
     @Override
     public void onFailureCardList(String code, String msg) {
+        checkToken(code);
         LoadingDialog.hide();
     }
 
@@ -638,6 +651,29 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
     @Override
     public void onSuccessPicList(List<UploadFileVo> uploadFileVos) {
         mEmptyView.onSuccess();
+        //个人信息
+        mListId.clear();
+        mConsortListId.clear();
+        mHouseholdList.clear();
+        mMarriageList.clear();
+        mDivorceList.clear();
+
+        //企业资料
+        mBusinessList.clear();
+        mArticlesAssociationList.clear();
+        mOpeningPermitList.clear();
+        mLeaseContractList.clear();
+        mPurchaseSaleContractList.clear();
+        mSalesConfirmationList.clear();
+
+        //家庭财产信息
+        mHouseList.clear();
+        mCarList.clear();
+        mOtherPropertyList.clear();
+
+        //银行流水
+        mEnterpriseBankList.clear();
+        mPersonBankList.clear();
         if (uploadFileVos != null && uploadFileVos.size() > 0) {
             //对历史上传图片进行分组处理
             makeData(uploadFileVos);
@@ -781,6 +817,7 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
 
     /**
      * 跳转资料上传页
+     *
      * @param tab
      */
     @Override

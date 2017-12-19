@@ -1,6 +1,7 @@
 package com.virgo.financeloan.ui;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,8 +16,10 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.virgo.financeloan.AppApplication;
 import com.virgo.financeloan.R;
+import com.virgo.financeloan.model.request.LoanUserConfirmReqVo;
 import com.virgo.financeloan.model.request.RecordReqVo;
 import com.virgo.financeloan.model.request.TrialByProductNoReqVo;
+import com.virgo.financeloan.model.responce.BaseBean;
 import com.virgo.financeloan.model.responce.LoanRecordVo;
 import com.virgo.financeloan.model.responce.RepayPlanData;
 import com.virgo.financeloan.model.responce.RepayRecordData;
@@ -26,6 +29,8 @@ import com.virgo.financeloan.model.responce.UserData;
 import com.virgo.financeloan.mvp.RepaymentPlanPresenter;
 import com.virgo.financeloan.mvp.contract.RepaymentPlanContract;
 import com.virgo.financeloan.ui.view.EmptyView;
+import com.virgo.financeloan.ui.view.LoadingDialog;
+import com.virgo.financeloan.ui.view.PlanHeadView;
 import com.virgo.financeloan.util.CommonUtil;
 import com.virgo.financeloan.util.UniqueKey;
 
@@ -33,6 +38,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 功能说明：我的页面-待用户确认-用户贷款确认试算.
@@ -65,6 +71,12 @@ public class RepaymentTrialActivity extends BaseActivity<RepaymentPlanPresenter>
      * 试算信息 是根据产品小号确定的
      */
     private BaseQuickAdapter<TrialData.InstallmentPlanInfo, BaseViewHolder> mAdapter;
+    /**
+     * 头部View
+     */
+    private PlanHeadView mPlanView;
+
+    private boolean isConfirm;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,14 +96,14 @@ public class RepaymentTrialActivity extends BaseActivity<RepaymentPlanPresenter>
             protected void convert(BaseViewHolder helper, TrialData.InstallmentPlanInfo item) {
                 TextView tvCount = helper.getView(R.id.trial_count_tv);//期数
                 TextView tvPrincipal = helper.getView(R.id.principal_amount_tv);//本金
-                TextView tvRate = helper.getView(R.id.rate_tv);//利率
+                TextView tvAmount = helper.getView(R.id.rate_tv);//还款额
                 TextView tvInterest = helper.getView(R.id.interest_amount_tv);//利息
                 TextView tvRepayments = helper.getView(R.id.repayments_time_tv);//还款时间
 
                 tvCount.setText(item.getPeriod());
 //                tvPrincipal.setText(CommonUtil.formatAmountByInteger(item.getCurrentTotalAmount()));
                 tvRepayments.setText(item.getRepaymentDate());
-                tvRate.setText(mLoanRecordVo.getMonthRate());
+                tvAmount.setText(CommonUtil.formatAmountByKeepTwo(item.getCurrentTotalAmount()));
 
                 List<TrialData.RepaymentPlanInfo> repaymentPlanInfos = item.getRepaymentPlanInfoList();
                 if (repaymentPlanInfos != null && repaymentPlanInfos.size() >= 2) {
@@ -114,11 +126,15 @@ public class RepaymentTrialActivity extends BaseActivity<RepaymentPlanPresenter>
                 }
             }
         };
-        View viewHeadInfo = LayoutInflater.from(this).inflate(R.layout.view_info_head, null);
-        TextView tvName = (TextView) viewHeadInfo.findViewById(R.id.trial_name_tv);//产品名称
+        mPlanView = new PlanHeadView(this);
+        mAdapter.addHeaderView(mPlanView);
 
         View viewHead = LayoutInflater.from(this).inflate(R.layout.view_trial_head, null);
         mAdapter.addHeaderView(viewHead);
+
+        View viewFooter = LayoutInflater.from(this).inflate(R.layout.layout_footer, null);
+        mAdapter.addFooterView(viewFooter);
+
         mRecyclerView.setAdapter(mAdapter);
         UserData userData = AppApplication.getUserData();
         TrialByProductNoReqVo noReqVo = new TrialByProductNoReqVo();
@@ -129,6 +145,39 @@ public class RepaymentTrialActivity extends BaseActivity<RepaymentPlanPresenter>
         noReqVo.setRepaymentDay(mLoanRecordVo.getRepayDay());//还款日
         getPresenter().repaymentTrial(UniqueKey.VERSION.V1, userData.getToken(), noReqVo);
 
+    }
+
+    @OnClick({R.id.tv_sure, R.id.tv_cancel})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_sure:
+                showDialog("确认本笔贷款", "您将确认本笔贷款，确认后将进入放宽阶段", true);
+                break;
+            case R.id.tv_cancel:
+                showDialog("取消本笔贷款", "您将取消本笔贷款，是否再考虑一下呢", false);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void showDialog(String title, String content, final boolean isConfirm) {
+        final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(content);
+        builder.setNegativeButton("取消", null);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                RepaymentTrialActivity.this.isConfirm = isConfirm;
+                LoadingDialog.show(RepaymentTrialActivity.this, false);
+                LoanUserConfirmReqVo userConfirmReqVo = new LoanUserConfirmReqVo();
+                userConfirmReqVo.setConfirm(isConfirm);
+                userConfirmReqVo.setLoanApplyNo(mLoanRecordVo.getLoanApplyNo());
+                getPresenter().loanRecordConfirm(userConfirmReqVo, "v1", AppApplication.getUserData().getToken());
+            }
+        });
+        builder.show();
     }
 
     /**
@@ -153,11 +202,23 @@ public class RepaymentTrialActivity extends BaseActivity<RepaymentPlanPresenter>
             mEmptyView.onSuccess();
             mAdapter.setNewData(trialMainPlanData.getInstallmentPlanInfoList());
         }
+        mPlanView.upData(trialMainPlanData, mLoanRecordVo);
     }
 
     @Override
     public void onFailureRepaymentTrial(String code, String msg) {
         mEmptyView.onError();
+    }
+
+    @Override
+    public void onSuccessConfirm(BaseBean baseBean) {
+        LoadingDialog.hide();
+        finish();
+    }
+
+    @Override
+    public void onFailureConfirm(String code, String msg) {
+        LoadingDialog.hide();
     }
 
     public static void newIntent(Context context, LoanRecordVo loanRecordVo) {

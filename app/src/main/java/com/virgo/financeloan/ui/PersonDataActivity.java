@@ -73,7 +73,7 @@ public class PersonDataActivity extends BaseActivity implements GroupView.OnUpVi
     /**
      * 户口本上传页面
      */
-    private HouseholdView mHouseholdContentView;
+    private IdCardView mHouseholdContentView;
 
     /**
      * 离婚证页面
@@ -119,7 +119,7 @@ public class PersonDataActivity extends BaseActivity implements GroupView.OnUpVi
 
         mIdCardView = new IdCardView(this).setOnAddPicClickListener(this);//个人身份证上传图片子View
         mConsortIdCardView = new IdCardView(this).setOnAddPicClickListener(this);//配偶身份证上传图片子View
-        mHouseholdContentView = new HouseholdView(this).setOnAddPicClickListener(this);//户口本上传页面
+        mHouseholdContentView = new IdCardView(this).setOnAddPicClickListener(this).setIsHouse(true);//户口本上传页面
         mMarriageContentView = new UpImgCommonView(this).setOnAddPicClickListener(this);//结婚证View
         mDivorceContentView = new UpImgCommonView(this).setOnAddPicClickListener(this);//结婚证View
         //结婚证
@@ -134,14 +134,55 @@ public class PersonDataActivity extends BaseActivity implements GroupView.OnUpVi
         mIdCardView.setOrderNum(orderNum);
         mIdCardView.setFileType1(String.valueOf(FileEnums.FileTypeEnum.SELF_ID_CARD_FRONT.code));
         mIdCardView.setFileType2(String.valueOf(FileEnums.FileTypeEnum.SELF_ID_CARD_REVERSE.code));
+        UploadFileVo uploadFileVoFont = null;
+        UploadFileVo uploadFileVoSide = null;
+        if (mListId != null && mListId.size() > 0) {
+            for (int i = 0; i < mListId.size(); i++) {
+                UploadFileVo uploadFileVo = mListId.get(i);
+                if (uploadFileVo != null && String.valueOf(FileEnums.FileTypeEnum.SELF_ID_CARD_FRONT.code).equals(uploadFileVo.getFileType())) {
+                    uploadFileVoFont = uploadFileVo;
+                } else if (uploadFileVo != null && String.valueOf(FileEnums.FileTypeEnum.SELF_ID_CARD_REVERSE.code).equals(uploadFileVo.getFileType())) {
+                    uploadFileVoSide = uploadFileVo;
+                }
+            }
+        }
+        mIdCardView.setAlreadyUpPic(uploadFileVoFont, uploadFileVoSide);
+
         //配偶身份证
         mConsortIdCardView.setOrderNum(orderNum);
         mConsortIdCardView.setFileType1(String.valueOf(FileEnums.FileTypeEnum.HOME_ID_CARD_FRONT.code));
         mConsortIdCardView.setFileType2(String.valueOf(FileEnums.FileTypeEnum.HOME_ID_CARD_REVERSE.code));
+        UploadFileVo uploadFileVoFont1 = null;
+        UploadFileVo uploadFileVoSide1 = null;
+        if (mConsortListId != null && mConsortListId.size() > 0) {
+            for (int i = 0; i < mConsortListId.size(); i++) {
+                UploadFileVo uploadFileVo = mConsortListId.get(i);
+                if (uploadFileVo != null && String.valueOf(FileEnums.FileTypeEnum.HOME_ID_CARD_FRONT.code).equals(uploadFileVo.getFileType())) {
+                    uploadFileVoFont1 = uploadFileVo;
+                } else if (uploadFileVo != null && String.valueOf(FileEnums.FileTypeEnum.HOME_ID_CARD_REVERSE.code).equals(uploadFileVo.getFileType())) {
+                    uploadFileVoSide1 = uploadFileVo;
+                }
+            }
+        }
+        mConsortIdCardView.setAlreadyUpPic(uploadFileVoFont1, uploadFileVoSide1);
+
         //户口本
         mHouseholdContentView.setOrderNum(orderNum);
         mHouseholdContentView.setFileType1(String.valueOf(FileEnums.FileTypeEnum.BOOKLET_FRONT_PAGE.code));
         mHouseholdContentView.setFileType2(String.valueOf(FileEnums.FileTypeEnum.BOOKLET.code));
+        UploadFileVo uploadFileVoFont2 = null;
+        UploadFileVo uploadFileVoSide2 = null;
+        if (mHouseholdList != null && mHouseholdList.size() > 0) {
+            for (int i = 0; i < mHouseholdList.size(); i++) {
+                UploadFileVo uploadFileVo = mHouseholdList.get(i);
+                if (uploadFileVo != null && String.valueOf(FileEnums.FileTypeEnum.BOOKLET_FRONT_PAGE.code).equals(uploadFileVo.getFileType())) {
+                    uploadFileVoFont2 = uploadFileVo;
+                } else if (uploadFileVo != null && String.valueOf(FileEnums.FileTypeEnum.BOOKLET.code).equals(uploadFileVo.getFileType())) {
+                    uploadFileVoSide2 = uploadFileVo;
+                }
+            }
+        }
+        mHouseholdContentView.setAlreadyUpPic(uploadFileVoFont2, uploadFileVoSide2);
 
         mIndividualIdView.setGroupName(R.string.individual_id).isRequireDot(true).setCustomView(mIdCardView, true).setOnUpViewGroupListener(this);
         mConsortIdView.setGroupName(R.string.consort_id).isRequireDot(false).setCustomView(mConsortIdCardView, false).setOnUpViewGroupListener(this);

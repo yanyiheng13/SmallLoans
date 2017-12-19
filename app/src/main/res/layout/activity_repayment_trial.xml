@@ -10,15 +10,46 @@
         android:layout_height="@dimen/title_height"
         app:default_title="@string/title_loan_info" />
 
+    <LinearLayout
+        android:id="@+id/bottom_ll"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+        <TextView
+            android:id="@+id/tv_sure"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="@dimen/font_size_15"
+            android:textColor="@color/white"
+            android:text="确认"
+            android:gravity="center"
+            android:background="@color/blue_main"/>
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="@dimen/font_size_15"
+            android:textColor="@color/white"
+            android:text="取消"
+            android:gravity="center"
+            android:background="#b5c3ce"/>
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/title_view"/>
+        android:layout_below="@id/title_view"
+        android:layout_above="@id/bottom_ll"
+        />
 
     <com.virgo.financeloan.ui.view.EmptyView
         android:id="@+id/empty_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/title_view" />
+        android:layout_below="@id/title_view"
+        android:visibility="gone"/>
 </RelativeLayout>

@@ -15,6 +15,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.virgo.financeloan.AppApplication;
 import com.virgo.financeloan.R;
 import com.virgo.financeloan.model.request.RecordReqVo;
+import com.virgo.financeloan.model.responce.BaseBean;
 import com.virgo.financeloan.model.responce.LoanRecordVo;
 import com.virgo.financeloan.model.responce.RepayPlanData;
 import com.virgo.financeloan.model.responce.RepayRecordData;
@@ -25,6 +26,7 @@ import com.virgo.financeloan.mvp.RepaymentPlanPresenter;
 import com.virgo.financeloan.mvp.contract.RepaymentPlanContract;
 import com.virgo.financeloan.ui.view.CustomTitleView;
 import com.virgo.financeloan.ui.view.EmptyView;
+import com.virgo.financeloan.ui.view.PlanHeadView;
 import com.virgo.financeloan.util.CommonUtil;
 import com.virgo.financeloan.util.UniqueKey;
 
@@ -121,7 +123,7 @@ public class RepaymentPlanListActivity extends BaseActivity<RepaymentPlanPresent
 
     @Override
     public void onFailureRepaymentPlan(String code, String msg) {
-
+        checkToken(code);
     }
 
     public static void newIntent(Context context, LoanRecordVo loanRecordVo) {
@@ -156,6 +158,16 @@ public class RepaymentPlanListActivity extends BaseActivity<RepaymentPlanPresent
 
     @Override
     public void onFailureRepaymentTrial(String code, String msg) {
+
+    }
+
+    @Override
+    public void onSuccessConfirm(BaseBean baseBean) {
+
+    }
+
+    @Override
+    public void onFailureConfirm(String code, String msg) {
 
     }
 }

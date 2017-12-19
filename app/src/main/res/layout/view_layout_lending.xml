@@ -41,7 +41,7 @@
             android:gravity="center_vertical"
             android:inputType="number"
             android:maxEms="20"
-            android:paddingLeft="5dp" />
+            android:paddingLeft="10dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -71,7 +71,7 @@
             android:background="@drawable/bg_edit"
             android:gravity="center_vertical"
             android:maxEms="6"
-            android:paddingLeft="5dp" />
+            android:paddingLeft="10dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -101,7 +101,7 @@
             android:background="@drawable/bg_edit"
             android:gravity="center_vertical"
             android:maxEms="25"
-            android:paddingLeft="5dp" />
+            android:paddingLeft="10dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -121,6 +121,7 @@
             android:paddingBottom="2dp"
             android:paddingTop="10dp"
             android:text="@string/add_account"
+            android:autoLink="all"
             android:textColor="@color/color_666666"
             android:textSize="@dimen/font_size_15" />
 
@@ -132,6 +133,7 @@
             android:paddingBottom="2dp"
             android:paddingTop="10dp"
             android:text="@string/change_account"
+            android:autoLink="all"
             android:textColor="@color/color_666666"
             android:layout_marginLeft="40dp"
             android:textSize="@dimen/font_size_15" />

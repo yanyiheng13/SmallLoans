@@ -3,6 +3,7 @@ package com.virgo.financeloan.mvp;
 
 import com.sai.framework.mvp.BasePresenter;
 import com.virgo.financeloan.AppApplication;
+import com.virgo.financeloan.model.request.LoanUserConfirmReqVo;
 import com.virgo.financeloan.model.request.RecordReqVo;
 import com.virgo.financeloan.model.request.TrialByProductNoReqVo;
 import com.virgo.financeloan.model.responce.BaseBean;
@@ -41,6 +42,22 @@ public class RepaymentPlanPresenter extends BasePresenter<Repository, RepaymentP
             public void onFailure(String code, String error) {
                 super.onFailure(code, error);
                 getRootView().onFailureRepaymentPlan(code, error);
+            }
+        }).application(AppApplication.mApplication).start();
+    }
+
+    public void loanRecordConfirm(LoanUserConfirmReqVo confirmReqVo, String version, String token) {
+        new RxHelper().view(getRootView()).load(getModel().getRemote().orderConfirm(getRequestBody(confirmReqVo), version, token)).callBack(new RxHelper
+                .CallBackAdapter<BaseBean>() {
+            @Override
+            public void onSuccess(String response, BaseBean result) {
+                getRootView().onSuccessConfirm(result);
+            }
+
+            @Override
+            public void onFailure(String code, String error) {
+                super.onFailure(code, error);
+                getRootView().onFailureConfirm(code, error);
             }
         }).application(AppApplication.mApplication).start();
     }

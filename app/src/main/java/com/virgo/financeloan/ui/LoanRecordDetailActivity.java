@@ -166,6 +166,11 @@ public class LoanRecordDetailActivity extends BaseActivity<LoanRecordDetailPrese
         mTvStartEndTime.setText(detailData.getStartToEndDate());
         mListProtocol = detailData.getContractInfoList();
 
+        if ("0".equals(detailData.getNoRepayAmount())) {
+            mRlPlan.setVisibility(View.GONE);
+            mViewLine.setVisibility(View.GONE);
+        }
+
         if (mListProtocol == null || mListProtocol.size() == 0) {
             return;
         }

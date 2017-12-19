@@ -51,6 +51,26 @@ public class BaseActivity<P extends BasePresenter> extends SaiActivity<P> {
 
     }
 
+    protected void checkToken(String code) {
+        if (!"2002".equals(code)) {
+            return;
+        }
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setTitle("重新登录");
+        builder.setMessage("您得登录状态已过期，为了您的账号安全，请重新登录");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SharePrefrenceUtil.setString("user", "logindata", "");
+                AppApplication.setUserData(null);
+                LoginActivity.newIntent(BaseActivity.this);
+                finish();
+            }
+        });
+        builder.setNegativeButton("取消", null);
+        builder.show();
+    }
+
     @Override
     public void hideLoadDialog() {
 

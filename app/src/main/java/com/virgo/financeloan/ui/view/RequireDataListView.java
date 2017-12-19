@@ -1,10 +1,12 @@
 package com.virgo.financeloan.ui.view;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.virgo.financeloan.R;
 import com.virgo.financeloan.ui.BankFlowActivity;
@@ -12,6 +14,7 @@ import com.virgo.financeloan.ui.EnterpriseDataActivity;
 import com.virgo.financeloan.ui.FamilyDataActivity;
 import com.virgo.financeloan.ui.PersonDataActivity;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import lombok.Getter;
@@ -31,6 +34,14 @@ public class RequireDataListView extends LinearLayout {
     @Setter
     @Getter
     private String orderNum;
+    @BindView(R.id.data_person_submit_tv)
+    TextView mTv1;
+    @BindView(R.id.data_enterprise_submit_tv)
+    TextView mTv2;
+    @BindView(R.id.data_family_submit_tv)
+    TextView mTv3;
+    @BindView(R.id.data_bank_submit_tv)
+    TextView mTv4;
 
     public RequireDataListView(Context context) {
         this(context, null);
@@ -44,6 +55,10 @@ public class RequireDataListView extends LinearLayout {
         super(context, attrs, defStyleAttr);
         inflate(context, R.layout.view_require_data, this);
         ButterKnife.bind(this);
+        setLine(mTv1);
+        setLine(mTv2);
+        setLine(mTv3);
+        setLine(mTv4);
     }
 
     @OnClick({R.id.data_person_submit_tv, R.id.data_enterprise_submit_tv, R.id.data_family_submit_tv, R.id.data_bank_submit_tv})
@@ -78,11 +93,18 @@ public class RequireDataListView extends LinearLayout {
         }
     }
 
+    private void setLine(TextView textView) {
+        textView.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
+        textView.getPaint().setAntiAlias(true);//抗锯齿
+    }
+
     private OnTabClickListener listener;
+
     public interface OnTabClickListener {
         void onTabClick(int tab);
     }
-    public void setOnTabClickListener (OnTabClickListener listener) {
+
+    public void setOnTabClickListener(OnTabClickListener listener) {
         this.listener = listener;
     }
 

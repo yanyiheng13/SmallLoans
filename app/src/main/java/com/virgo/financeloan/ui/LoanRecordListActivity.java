@@ -100,7 +100,8 @@ public class LoanRecordListActivity extends BaseActivity<LoanRecordListPresent> 
                 tvSure.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        showDialog("确认本笔贷款", "您将确认本笔贷款，确认后将进入放宽阶段", item, true);
+                        RepaymentTrialActivity.newIntent(LoanRecordListActivity.this, item);
+//                        showDialog("确认本笔贷款", "您将确认本笔贷款，确认后将进入放宽阶段", item, true);
                     }
                 });
                 tvCancel.setOnClickListener(new View.OnClickListener() {
@@ -151,6 +152,16 @@ public class LoanRecordListActivity extends BaseActivity<LoanRecordListPresent> 
         mRecycleView.setAdapter(mAdapter);
         mEmptyView.onStart();
         askData();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (mType == 1) {
+//            getPresenter().loanRecordAllList("v1", AppApplication.getUserData().token);
+        } else {
+            getPresenter().loanRecordConfirmList("v1", AppApplication.getUserData().token);
+        }
     }
 
     private void askData() {

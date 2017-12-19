@@ -111,19 +111,25 @@ public class BankFlowActivity extends BaseActivity implements GroupView.OnUpView
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case PictureConfig.CHOOSE_REQUEST:
-                    UpImgCommonView upImgCommonView = ((UpImgCommonView) mCurrentView);
-                    List<LocalMedia> listCommon = PictureSelector.obtainMultipleResult(data);
-                    upImgCommonView.setMSelectPic(listCommon);
-                    upImgCommonView.getMListPic().clear();
-                    upImgCommonView.getMListPic().addAll(listCommon);
+                    UpImgCommonView marriage = ((UpImgCommonView) mCurrentView);
+                    //从相册中回来数据
+                    List<LocalMedia> listMarriage = PictureSelector.obtainMultipleResult(data);
+                    //清除显示集合的数据（包括历史上传数据  +  上次选中的图片  + 添加按钮数据）
+                    marriage.getMListPic().clear();
+                    //将历史上传数据加入到显示的集合当中
+
+                    //再将档次相册回来的数据添加到选中的数据中
+                    marriage.getMSelectPic().addAll(listMarriage);
+                    //再将总共选中的数据添加到总的显示数据中
+                    marriage.getMListPic().addAll(marriage.getMSelectPic());
+                    //将添加按钮数据加入到显示集合的数据中
                     LocalMedia mediaDivorce = new LocalMedia();
                     mediaDivorce.isAddPic = true;
-                    upImgCommonView.getMListPic().add(mediaDivorce);
-                    upImgCommonView.notifyDataSetChanged();
+                    marriage.getMListPic().add(mediaDivorce);
+                    //更新数据
+                    marriage.notifyDataSetChanged();
                     if (mCurrentView == mEnterpriseContentView) {//企业银行流水
-
                     } else if (mCurrentView == mOtherPropertyContentView) {//个人银行流水
-
                     }
                     break;
             }
@@ -132,6 +138,7 @@ public class BankFlowActivity extends BaseActivity implements GroupView.OnUpView
 
     /**
      * 保存和拿取数据
+     *
      * @param savedInstanceState
      */
     private void saveOrData(Bundle savedInstanceState) {

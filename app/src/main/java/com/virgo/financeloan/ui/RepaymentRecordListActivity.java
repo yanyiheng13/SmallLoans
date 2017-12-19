@@ -14,15 +14,18 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.virgo.financeloan.AppApplication;
 import com.virgo.financeloan.R;
 import com.virgo.financeloan.model.request.RecordReqVo;
+import com.virgo.financeloan.model.responce.BaseBean;
 import com.virgo.financeloan.model.responce.LoanRecordVo;
 import com.virgo.financeloan.model.responce.RepayPlanData;
 import com.virgo.financeloan.model.responce.RepayRecordData;
+import com.virgo.financeloan.model.responce.TrialData;
 import com.virgo.financeloan.model.responce.TrialMainPlanData;
 import com.virgo.financeloan.model.responce.UserData;
 import com.virgo.financeloan.mvp.RepaymentPlanPresenter;
 import com.virgo.financeloan.mvp.contract.RepaymentPlanContract;
 import com.virgo.financeloan.ui.view.CustomTitleView;
 import com.virgo.financeloan.ui.view.EmptyView;
+import com.virgo.financeloan.util.CommonUtil;
 import com.virgo.financeloan.util.UniqueKey;
 
 import java.util.List;
@@ -79,8 +82,28 @@ public class RepaymentRecordListActivity extends BaseActivity<RepaymentPlanPrese
                 TextView mTvFaRate = helper.getView(R.id.plan_fa_amount_rate_tv);//罚息
                 RelativeLayout mRlFa = helper.getView(R.id.plan_fa_amount_rate_rl);//罚息父布局
 
-//                mTvTime.setText(item.get);
-//                mTvRepayment.setText("￥" + item.getTotalAmount());
+                mTvTime.setText(item.getRepayDate());
+                mTvRepayment.setText(CommonUtil.formatAmountByKeepTwo(item.getRepayAmount()));
+
+//                List<TrialData.RepaymentPlanInfo> repaymentPlanInfos = item.getRepaymentPlanInfoList();
+//                if (repaymentPlanInfos != null && repaymentPlanInfos.size() >= 2) {
+//                    TrialData.RepaymentPlanInfo repaymentPlanInfo1 = repaymentPlanInfos.get(0);
+//                    TrialData.RepaymentPlanInfo repaymentPlanInfo2 = repaymentPlanInfos.get(1);
+//                    if (repaymentPlanInfo1 != null) {
+//                        if ("PRI".equals(repaymentPlanInfo1.getRepaymentAccount())) {
+//                            tvPrincipal.setText(CommonUtil.formatAmountByKeepTwo(repaymentPlanInfo1.getRepaymentAmount()));
+//                        } else if ("INT".equals(repaymentPlanInfo1.getRepaymentAccount())) {
+//                            tvInterest.setText(CommonUtil.formatAmountByKeepTwo(repaymentPlanInfo1.getRepaymentAmount()));
+//                        }
+//                    }
+//                    if (repaymentPlanInfo2 != null) {
+//                        if ("PRI".equals(repaymentPlanInfo2.getRepaymentAccount())) {
+//                            tvPrincipal.setText(CommonUtil.formatAmountByKeepTwo(repaymentPlanInfo2.getRepaymentAmount()));
+//                        } else if ("INT".equals(repaymentPlanInfo2.getRepaymentAccount())) {
+//                            tvInterest.setText(CommonUtil.formatAmountByKeepTwo(repaymentPlanInfo2.getRepaymentAmount()));
+//                        }
+//                    }
+//                }
             }
         };
         mRecyclerView.setAdapter(mAdapter);
@@ -120,6 +143,7 @@ public class RepaymentRecordListActivity extends BaseActivity<RepaymentPlanPrese
 
     @Override
     public void onFailureRepaymentRecord(String code, String msg) {
+        checkToken(code);
         mEmptyView.onError();
     }
 
@@ -140,6 +164,16 @@ public class RepaymentRecordListActivity extends BaseActivity<RepaymentPlanPrese
 
     @Override
     public void onFailureRepaymentTrial(String code, String msg) {
+
+    }
+
+    @Override
+    public void onSuccessConfirm(BaseBean baseBean) {
+
+    }
+
+    @Override
+    public void onFailureConfirm(String code, String msg) {
 
     }
 

@@ -81,6 +81,10 @@ public class UpImgCommonView extends BaseLinearLayout {
     @Setter
     @Getter
     private String fileType;
+    /**
+     * 前端维护的一个order要传给后端的
+     */
+    private int orderToServer;
 
     /**
      * 操作类型 ADD(Integer.valueOf(0), "新增"),
@@ -134,15 +138,26 @@ public class UpImgCommonView extends BaseLinearLayout {
             if (size > 9) {
                 size = 9;
             }
+            int maxOrder = 1;
             for (int i = 0; i < size; i++) {
                 UploadFileVo uploadFileVo = mediaList.get(i);
                 if (uploadFileVo == null) {
                     continue;
                 }
+                String order = uploadFileVo.getOrder();
                 LocalMedia localMedia = new LocalMedia();
                 localMedia.picPath = uploadFileVo.getFileAdrress();
                 localMedia.fileId = uploadFileVo.getId();
+
                 localMedia.isFromServer = true;
+                localMedia.order = order;
+                if (!TextUtils.isEmpty(order)) {
+                    int o = Integer.valueOf(order);
+                    if (o > maxOrder) {
+                        maxOrder = o;
+                    }
+                }
+                orderToServer = maxOrder;
                 mSelectPic.add(localMedia);
             }
         }
@@ -199,6 +214,11 @@ public class UpImgCommonView extends BaseLinearLayout {
             viewArray[i].getLayoutParams().width = widths;
             viewArray[i].getLayoutParams().height = widths;
 
+            if (TextUtils.isEmpty(item.order)) {
+                orderToServer ++;
+                item.order = orderToServer + "";
+            }
+
             //图片显示区域
             String path = "";
             if (item.isAddPic) {
@@ -230,7 +250,7 @@ public class UpImgCommonView extends BaseLinearLayout {
                 mImageClearArray[i].setVisibility(View.VISIBLE);
                 if (!item.isUping && TextUtils.isEmpty(item.picPath)) {
                     //添加
-                    mImageArray[i].addPic(path, orderNum, fileType, "12");
+                    mImageArray[i].addPic(path, orderNum, fileType, item.order);
                     item.isUping = true;
                 }
                 RequestOptions options = new RequestOptions()
@@ -255,13 +275,14 @@ public class UpImgCommonView extends BaseLinearLayout {
                         //如果上传失败  点击重新上传
                         if (item.isError) {
 //                             //添加
-                            mImageArray[finalI].addPic(finalPath, orderNum, fileType, "12");
+                            mImageArray[finalI].addPic(finalPath, orderNum, fileType, item.order);
                             item.isUping = true;
                         } else if (item.isFromServer) {
                             //需要跳转到图片下载界面  预览图片
                             PicPreActivity.newIntent(getContext(), item.picPath, true);
                         } else if (!item.isUping) {
                             //跳转到当前上传图片预览界面
+                            PicPreActivity.newIntent(getContext(), finalPath, false);
                         }
                     }
                 }

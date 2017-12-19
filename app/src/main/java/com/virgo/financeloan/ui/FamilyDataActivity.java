@@ -92,17 +92,17 @@ public class FamilyDataActivity extends BaseActivity implements GroupView.OnUpVi
         mCarContentView = new UpImgCommonView(this).setOnAddPicClickListener(this);
         mOtherPropertyContentView = new UpImgCommonView(this).setOnAddPicClickListener(this);
 
-        //销售证明
+        //房本
         mHouseContentView.setOrderNum(orderNum);
-        mHouseContentView.setFileType(String.valueOf(FileEnums.FileTypeEnum.BUSINESS_LICENSE.code));
+        mHouseContentView.setFileType(String.valueOf(FileEnums.FileTypeEnum.PRIVATE_HOUSE.code));
         mHouseContentView.setAlreadyUpPic(mHouseList);
         //车本复印件
         mCarContentView.setOrderNum(orderNum);
-        mCarContentView.setFileType(String.valueOf(FileEnums.FileTypeEnum.COMPANY_ARTICLES.code));
+        mCarContentView.setFileType(String.valueOf(FileEnums.FileTypeEnum.PRIVATE_VEHICLE.code));
         mCarContentView.setAlreadyUpPic(mCarList);
         //其他财产证明
         mOtherPropertyContentView.setOrderNum(orderNum);
-        mOtherPropertyContentView.setFileType(String.valueOf(FileEnums.FileTypeEnum.OPEN_ACCOUNT_PERMISSION.code));
+        mOtherPropertyContentView.setFileType(String.valueOf(FileEnums.FileTypeEnum.PRIVATE_OTHER.code));
         mOtherPropertyContentView.setAlreadyUpPic(mOtherPropertyList);
 
         mHouseView.setGroupName(R.string.house_data).isRequireDot(false).setCustomView(mHouseContentView, true).setOnUpViewGroupListener(this);

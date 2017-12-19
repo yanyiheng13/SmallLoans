@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.virgo.financeloan.AppApplication;
 import com.virgo.financeloan.R;
 import com.virgo.financeloan.model.responce.LoanUsingVo;
 import com.virgo.financeloan.model.responce.LoanVo;
@@ -17,6 +18,7 @@ import com.virgo.financeloan.mvp.LoanListPresent;
 import com.virgo.financeloan.mvp.contract.LoanListContract;
 import com.virgo.financeloan.ui.BaseFragment;
 import com.virgo.financeloan.ui.LoanDetailActivity;
+import com.virgo.financeloan.ui.LoginActivity;
 import com.virgo.financeloan.ui.view.CustomTitleView;
 import com.virgo.financeloan.ui.view.EmptyView;
 import com.virgo.financeloan.ui.view.LoanRefreshLayout;
@@ -84,6 +86,10 @@ public class LoansFragment extends BaseFragment<LoanListPresent> implements Empt
                 rootView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        if (!AppApplication.isLogin()) {
+                            LoginActivity.newIntent(getActivity(), LoginActivity.TAG_LOGIN);
+                            return;
+                        }
                         if (listData == null || listData.size() == 0 || finalAgingVo == null || finalAgingVo.getAgingInfoList() == null || finalAgingVo.getAgingInfoList().size() <= 0) {
                             showDialog();
                             return;
