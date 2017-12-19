@@ -51,23 +51,40 @@ public class RequireDataListView extends LinearLayout {
         switch (view.getId()) {
             //个人资料去提交
             case R.id.data_person_submit_tv:
-                PersonDataActivity.newIntent(getContext(), orderNum);
+                if (listener != null) {
+                    listener.onTabClick(0);
+                }
                 break;
             //企业资料
             case R.id.data_enterprise_submit_tv:
-                EnterpriseDataActivity.newIntent(getContext());
+                if (listener != null) {
+                    listener.onTabClick(1);
+                }
                 break;
             //家庭财产信息
             case R.id.data_family_submit_tv:
-                FamilyDataActivity.newIntent(getContext());
+                if (listener != null) {
+                    listener.onTabClick(2);
+                }
                 break;
             //银行流水
             case R.id.data_bank_submit_tv:
-                BankFlowActivity.newIntent(getContext());
+                if (listener != null) {
+                    listener.onTabClick(3);
+                }
                 break;
             default:
                 break;
         }
     }
+
+    private OnTabClickListener listener;
+    public interface OnTabClickListener {
+        void onTabClick(int tab);
+    }
+    public void setOnTabClickListener (OnTabClickListener listener) {
+        this.listener = listener;
+    }
+
 
 }

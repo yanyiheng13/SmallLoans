@@ -6,12 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.webkit.WebView;
 
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.virgo.financeloan.R;
+import com.virgo.financeloan.model.responce.UploadFileVo;
 import com.virgo.financeloan.ui.behavior.OnAddPicClickListener;
 import com.virgo.financeloan.ui.behavior.OnAddPicClickListener2;
 import com.virgo.financeloan.ui.view.GroupView;
@@ -19,6 +19,7 @@ import com.virgo.financeloan.ui.view.HouseholdView;
 import com.virgo.financeloan.ui.view.IdCardView;
 import com.virgo.financeloan.ui.view.UpImgCommonView;
 
+import java.io.Serializable;
 import java.util.List;
 
 import butterknife.BindView;
@@ -88,14 +89,31 @@ public class PersonDataActivity extends BaseActivity implements GroupView.OnUpVi
     private int mCurrentTab = 0;// 0 正面 1反面
     private String orderNum;
 
+    /**
+     * 本人身份证
+     */
+    private List<UploadFileVo> mListId;
+    /**
+     * 配偶身份证
+     */
+    private List<UploadFileVo> mConsortListId;
+    /**
+     * 户口本
+     */
+    private List<UploadFileVo> mHouseholdList;
+    /**
+     * 结婚证
+     */
+    private List<UploadFileVo> mMarriageList;
+    /**
+     * 离婚证
+     */
+    private List<UploadFileVo> mDivorceList;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState == null) {
-            orderNum = getIntent().getStringExtra("orderNum");
-        } else {
-            orderNum = savedInstanceState.getString("orderNum");
-        }
+        saveOrData(savedInstanceState);
         setContentView(R.layout.activity_person_data);
         ButterKnife.bind(this);
 
@@ -107,9 +125,11 @@ public class PersonDataActivity extends BaseActivity implements GroupView.OnUpVi
         //结婚证
         mMarriageContentView.setOrderNum(orderNum);
         mMarriageContentView.setFileType(String.valueOf(FileEnums.FileTypeEnum.MARRIAGE_CERTIFICATE.code));
+        mMarriageContentView.setAlreadyUpPic(mMarriageList);
         //离婚证
         mDivorceContentView.setOrderNum(orderNum);
         mDivorceContentView.setFileType(String.valueOf(FileEnums.FileTypeEnum.DIVORCE_CERTIFICATE.code));
+        mDivorceContentView.setAlreadyUpPic(mDivorceList);
         //身份证
         mIdCardView.setOrderNum(orderNum);
         mIdCardView.setFileType1(String.valueOf(FileEnums.FileTypeEnum.SELF_ID_CARD_FRONT.code));
@@ -122,7 +142,7 @@ public class PersonDataActivity extends BaseActivity implements GroupView.OnUpVi
         mHouseholdContentView.setOrderNum(orderNum);
         mHouseholdContentView.setFileType1(String.valueOf(FileEnums.FileTypeEnum.BOOKLET_FRONT_PAGE.code));
         mHouseholdContentView.setFileType2(String.valueOf(FileEnums.FileTypeEnum.BOOKLET.code));
-        //本人身份证
+
         mIndividualIdView.setGroupName(R.string.individual_id).isRequireDot(true).setCustomView(mIdCardView, true).setOnUpViewGroupListener(this);
         mConsortIdView.setGroupName(R.string.consort_id).isRequireDot(false).setCustomView(mConsortIdCardView, false).setOnUpViewGroupListener(this);
         mHouseholdView.setGroupName(R.string.household).isRequireDot(true).setCustomView(mHouseholdContentView, false).setOnUpViewGroupListener(this);
@@ -151,18 +171,6 @@ public class PersonDataActivity extends BaseActivity implements GroupView.OnUpVi
 
     }
 
-    public static void newIntent(Context context, String orderNum) {
-        Intent intent = new Intent(context, PersonDataActivity.class);
-        intent.putExtra("orderNum", orderNum);
-        context.startActivity(intent);
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("orderNum", orderNum);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -180,25 +188,40 @@ public class PersonDataActivity extends BaseActivity implements GroupView.OnUpVi
                         householdView.setData(PictureSelector.obtainMultipleResult(data), mCurrentTab);
                     } else if (mCurrentView == mDivorceContentView) {//离婚证
                         UpImgCommonView divorce = ((UpImgCommonView) mCurrentView);
-                        List<LocalMedia> listDivorce = PictureSelector.obtainMultipleResult(data);
+                        UpImgCommonView marriage = ((UpImgCommonView) mCurrentView);
+                        //从相册中回来数据
+                        List<LocalMedia> listMarriage = PictureSelector.obtainMultipleResult(data);
+                        //清除显示集合的数据（包括历史上传数据  +  上次选中的图片  + 添加按钮数据）
                         divorce.getMListPic().clear();
-                        divorce.getMListPic().addAll(divorce.getMSelectPic());
-                        divorce.setMSelectPic(listDivorce);
-                        divorce.getMListPic().addAll(listDivorce);
-                        LocalMedia mediaDivorce = new LocalMedia();
-                        mediaDivorce.isAddPic = true;
-                        divorce.getMListPic().add(mediaDivorce);
+                        //将历史上传数据加入到显示的集合当中
+
+                        //再将档次相册回来的数据添加到选中的数据中
+                        divorce.getMSelectPic().addAll(listMarriage);
+                        //再将总共选中的数据添加到总的显示数据中
+                        divorce.getMListPic().addAll(marriage.getMSelectPic());
+                        //将添加按钮数据加入到显示集合的数据中
+                        LocalMedia divorceDivorce = new LocalMedia();
+                        divorceDivorce.isAddPic = true;
+                        divorce.getMListPic().add(divorceDivorce);
+                        //更新数据
                         divorce.notifyDataSetChanged();
                     } else if (mCurrentView == mMarriageContentView) {//结婚证
                         UpImgCommonView marriage = ((UpImgCommonView) mCurrentView);
+                        //从相册中回来数据
                         List<LocalMedia> listMarriage = PictureSelector.obtainMultipleResult(data);
+                        //清除显示集合的数据（包括历史上传数据  +  上次选中的图片  + 添加按钮数据）
                         marriage.getMListPic().clear();
+                        //将历史上传数据加入到显示的集合当中
+
+                        //再将档次相册回来的数据添加到选中的数据中
+                        marriage.getMSelectPic().addAll(listMarriage);
+                        //再将总共选中的数据添加到总的显示数据中
                         marriage.getMListPic().addAll(marriage.getMSelectPic());
-                        marriage.setMSelectPic(listMarriage);
-                        marriage.getMListPic().addAll(listMarriage);
+                        //将添加按钮数据加入到显示集合的数据中
                         LocalMedia mediaDivorce = new LocalMedia();
                         mediaDivorce.isAddPic = true;
                         marriage.getMListPic().add(mediaDivorce);
+                        //更新数据
                         marriage.notifyDataSetChanged();
                     }
                     break;
@@ -215,5 +238,55 @@ public class PersonDataActivity extends BaseActivity implements GroupView.OnUpVi
     public void onAddPicClick(View view, int position) {
         mCurrentView = view;
         mCurrentTab = position;
+    }
+
+    /**
+     * 保存和拿取数据
+     * @param savedInstanceState
+     */
+    private void saveOrData(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            Intent intent = getIntent();
+            orderNum = intent.getStringExtra("orderNum");
+            mListId = (List<UploadFileVo>) intent.getSerializableExtra("mListId");
+            mConsortListId = (List<UploadFileVo>) intent.getSerializableExtra("mConsortListId");
+            mHouseholdList = (List<UploadFileVo>) intent.getSerializableExtra("mHouseholdList");
+            mMarriageList = (List<UploadFileVo>) intent.getSerializableExtra("mMarriageList");
+            mDivorceList = (List<UploadFileVo>) intent.getSerializableExtra("mDivorceList");
+        } else {
+            orderNum = savedInstanceState.getString("orderNum");
+            mListId = (List<UploadFileVo>) savedInstanceState.getSerializable("mListId");
+            mConsortListId = (List<UploadFileVo>) savedInstanceState.getSerializable("mConsortListId");
+            mHouseholdList = (List<UploadFileVo>) savedInstanceState.getSerializable("mHouseholdList");
+            mMarriageList = (List<UploadFileVo>) savedInstanceState.getSerializable("mMarriageList");
+            mDivorceList = (List<UploadFileVo>) savedInstanceState.getSerializable("mDivorceList");
+        }
+    }
+
+    public static void newIntent(Context context, String orderNum,
+                                 List<UploadFileVo> listId,
+                                 List<UploadFileVo> consortListId,
+                                 List<UploadFileVo> householdList,
+                                 List<UploadFileVo> marriageList,
+                                 List<UploadFileVo> divorceList) {
+        Intent intent = new Intent(context, PersonDataActivity.class);
+        intent.putExtra("orderNum", orderNum);
+        intent.putExtra("mListId", (Serializable) listId);
+        intent.putExtra("mConsortListId", (Serializable) consortListId);
+        intent.putExtra("mHouseholdList", (Serializable) householdList);
+        intent.putExtra("mMarriageList", (Serializable) marriageList);
+        intent.putExtra("mDivorceList", (Serializable) divorceList);
+        context.startActivity(intent);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("orderNum", orderNum);
+        outState.putSerializable("mListId", (Serializable) mListId);
+        outState.putSerializable("mConsortListId", (Serializable) mConsortListId);
+        outState.putSerializable("mHouseholdList", (Serializable) mHouseholdList);
+        outState.putSerializable("mMarriageList", (Serializable) mMarriageList);
+        outState.putSerializable("mDivorceList", (Serializable) mDivorceList);
     }
 }

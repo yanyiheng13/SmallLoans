@@ -11,10 +11,13 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.virgo.financeloan.R;
+import com.virgo.financeloan.model.responce.UploadFileVo;
 import com.virgo.financeloan.ui.behavior.OnAddPicClickListener;
 import com.virgo.financeloan.ui.view.GroupView;
 import com.virgo.financeloan.ui.view.UpImgCommonView;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -51,23 +54,40 @@ public class BankFlowActivity extends BaseActivity implements GroupView.OnUpView
     private UpImgCommonView mOtherPropertyContentView;
 
     private View mCurrentView;
+    /**
+     * 企业银行流水
+     */
+    private List<UploadFileVo> mEnterpriseBankList;
+    /**
+     * 个人银行流水
+     */
+    private List<UploadFileVo> mPersonBankList;
+    /**
+     * 订单id
+     */
+    private String orderNum;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        saveOrData(savedInstanceState);
         setContentView(R.layout.activity_bank_flow);
         ButterKnife.bind(this);
         mEnterpriseContentView = new UpImgCommonView(this).setOnAddPicClickListener(this);
         mOtherPropertyContentView = new UpImgCommonView(this).setOnAddPicClickListener(this);
 
+        //企业银行流水
+        mEnterpriseContentView.setOrderNum(orderNum);
+        mEnterpriseContentView.setFileType(String.valueOf(FileEnums.FileTypeEnum.ENTERPRISE_BANK_WATER.code));
+        mEnterpriseContentView.setAlreadyUpPic(mEnterpriseBankList);
+        //个人银行流水
+        mOtherPropertyContentView.setOrderNum(orderNum);
+        mOtherPropertyContentView.setFileType(String.valueOf(FileEnums.FileTypeEnum.PRIVATE_BANK_WATER.code));
+        mOtherPropertyContentView.setAlreadyUpPic(mPersonBankList);
+
         mEnterpriseBankView.setGroupName(R.string.enterprise_bank_flow).isRequireDot(false).setCustomView(mEnterpriseContentView, true).setOnUpViewGroupListener(this);
         mPersonBank.setGroupName(R.string.person_bank_flow).isRequireDot(true).setCustomView(mOtherPropertyContentView, false).setOnUpViewGroupListener(this);
 
-    }
-
-    public static void newIntent(Context context) {
-        Intent intent = new Intent(context, BankFlowActivity.class);
-        context.startActivity(intent);
     }
 
     @Override
@@ -108,5 +128,40 @@ public class BankFlowActivity extends BaseActivity implements GroupView.OnUpView
                     break;
             }
         }
+    }
+
+    /**
+     * 保存和拿取数据
+     * @param savedInstanceState
+     */
+    private void saveOrData(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            Intent intent = getIntent();
+            orderNum = intent.getStringExtra("orderNum");
+            mEnterpriseBankList = (List<UploadFileVo>) intent.getSerializableExtra("mEnterpriseBankList");
+            mPersonBankList = (List<UploadFileVo>) intent.getSerializableExtra("mPersonBankList");
+        } else {
+            orderNum = savedInstanceState.getString("orderNum");
+            mEnterpriseBankList = (List<UploadFileVo>) savedInstanceState.getSerializable("mEnterpriseBankList");
+            mPersonBankList = (List<UploadFileVo>) savedInstanceState.getSerializable("mPersonBankList");
+        }
+    }
+
+    public static void newIntent(Context context, String orderNum,
+                                 List<UploadFileVo> enList,
+                                 List<UploadFileVo> personList) {
+        Intent intent = new Intent(context, BankFlowActivity.class);
+        intent.putExtra("orderNum", orderNum);
+        intent.putExtra("mEnterpriseBankList", (Serializable) enList);
+        intent.putExtra("mPersonBankList", (Serializable) personList);
+        context.startActivity(intent);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("orderNum", orderNum);
+        outState.putSerializable("mEnterpriseBankList", (Serializable) mEnterpriseBankList);
+        outState.putSerializable("mPersonBankList", (Serializable) mPersonBankList);
     }
 }

@@ -59,6 +59,7 @@
     <string name="title_loan_detail">贷款明细</string>
     <string name="title_loan_info">贷款信息</string>
     <string name="title_repayment_record">还款记录</string>
+    <string name="title_pic_pre">图片预览</string>
 
     <!--sub title-->
     <string name="require_data">需要的资料</string>

@@ -98,6 +98,9 @@ public interface RemoteService {
     //上传资料列表
     @POST("loan/loanDetail/apply/upload/list/{version}/{token}")
     Flowable<ResponseBody> upDataList(@Path("version") String version, @Path("token") String token, @Body RequestBody body);
+    //资料图片详情
+    @POST("loan/loanDetail/apply/upload/getBytes/{version}/{token}")
+    Flowable<ResponseBody> dataDetail(@Path("version") String version, @Path("token") String token, @Body RequestBody body);
 
     /**
      * 上传图片

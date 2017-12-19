@@ -23,6 +23,7 @@ import com.virgo.financeloan.R;
 import com.virgo.financeloan.model.request.LoanApplyReqVo;
 import com.virgo.financeloan.model.request.ProtocolContentReqVo;
 import com.virgo.financeloan.model.request.ProtocolListReqVo;
+import com.virgo.financeloan.model.request.QueryUploadFileReqVo;
 import com.virgo.financeloan.model.request.TrialReqVo;
 import com.virgo.financeloan.model.responce.AgingVo;
 import com.virgo.financeloan.model.responce.BaseBean;
@@ -34,6 +35,7 @@ import com.virgo.financeloan.model.responce.LoanVo;
 import com.virgo.financeloan.model.responce.ProtocolContentVo;
 import com.virgo.financeloan.model.responce.ProtocolVo;
 import com.virgo.financeloan.model.responce.RepaymentWayAndAgingVo;
+import com.virgo.financeloan.model.responce.UploadFileVo;
 import com.virgo.financeloan.model.responce.UserData;
 import com.virgo.financeloan.mvp.LoanDetailPresenter;
 import com.virgo.financeloan.mvp.contract.LoanDetailContract;
@@ -66,7 +68,7 @@ import butterknife.OnClick;
  * @Copyright (c) 2017. 闫毅恒 Inc. All rights reserved.
  */
 
-public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implements EmptyView.OnDataLoadStatusListener, LoanDetailContract.View, View.OnFocusChangeListener {
+public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implements EmptyView.OnDataLoadStatusListener, LoanDetailContract.View, View.OnFocusChangeListener, RequireDataListView.OnTabClickListener {
 
     @BindView(R.id.empty_view)
     EmptyView mEmptyView;
@@ -113,10 +115,10 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
     TextView mTvTime;
 
     /**
-     *  需求信息
+     * 需求信息
      */
     @BindView(R.id.require_data_list)
-    RequireDataListView  mRequireListView;
+    RequireDataListView mRequireListView;
     /**
      * 更多协议
      */
@@ -183,6 +185,77 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
      */
     private RepaymentWayAndAgingVo mRepaymentWayAndAgingVo;
 
+    //个人信息
+    /**
+     * 本人身份证
+     */
+    private List<UploadFileVo> mListId = new ArrayList<>();
+    /**
+     * 配偶身份证
+     */
+    private List<UploadFileVo> mConsortListId = new ArrayList<>();
+    /**
+     * 户口本
+     */
+    private List<UploadFileVo> mHouseholdList = new ArrayList<>();
+    /**
+     * 结婚证
+     */
+    private List<UploadFileVo> mMarriageList = new ArrayList<>();
+    /**
+     * 离婚证
+     */
+    private List<UploadFileVo> mDivorceList = new ArrayList<>();
+
+    //企业资料
+    /**
+     * 营业执照
+     */
+    private List<UploadFileVo> mBusinessList = new ArrayList<>();
+    /**
+     * 公司执照
+     */
+    private List<UploadFileVo> mArticlesAssociationList = new ArrayList<>();
+    /**
+     * 开户许可
+     */
+    private List<UploadFileVo> mOpeningPermitList = new ArrayList<>();
+    /**
+     * 租赁合同
+     */
+    private List<UploadFileVo> mLeaseContractList = new ArrayList<>();
+    /**
+     * 产品购销合同
+     */
+    private List<UploadFileVo> mPurchaseSaleContractList = new ArrayList<>();
+    /**
+     * 销售证明
+     */
+    private List<UploadFileVo> mSalesConfirmationList = new ArrayList<>();
+
+    //家庭财产信息
+    /**
+     * 销售证明
+     */
+    private List<UploadFileVo> mHouseList = new ArrayList<>();
+    /**
+     * 车本复印件
+     */
+    private List<UploadFileVo> mCarList = new ArrayList<>();
+    /**
+     * 其他财产证明
+     */
+    private List<UploadFileVo> mOtherPropertyList = new ArrayList<>();
+
+    //银行流水
+    /**
+     * 企业银行流水
+     */
+    private List<UploadFileVo> mEnterpriseBankList = new ArrayList<>();
+    /**
+     * 个人银行流水
+     */
+    private List<UploadFileVo> mPersonBankList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -195,8 +268,11 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
         setContentView(R.layout.activity_loan_detail);
         ButterKnife.bind(this);
         ViewUtil.setBuyLayoutAnimator(mTvApply, true);
+
         mEditAmount.setOnFocusChangeListener(this);
         mEmptyView.setNoDataTxtResId(R.string.loan_no_data);
+        mEmptyView.setOnDataLoadStatusListener(this);
+        mRequireListView.setOnTabClickListener(this);
         mTvName.setText(mLoanVo.getProductClassifyName());
         mTvBank.setText(mLoanVo.getProductBaseDescribe());
         mTvRate.setText(mLoanVo.getRefMonthRate());
@@ -221,10 +297,16 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
         ProtocolListReqVo reqVo = new ProtocolListReqVo();
         reqVo.setProductBaseNo(mLoanVo.getProductBaseNo());
 
+        //如果
         mOrderNo = SharePrefrenceUtil.getString("config", mLoanVo.getProductBaseNo());
-//        if (TextUtils.isEmpty(mOrderNo)) {
+        if (TextUtils.isEmpty(mOrderNo)) {
             getPresenter().getOrderNo(UniqueKey.VERSION.V1, userData.token);
-//        }
+        } else {
+            mRequireListView.setOrderNum(mOrderNo);
+            QueryUploadFileReqVo reqVos = new QueryUploadFileReqVo();
+            reqVos.setLoanOrderNo(mOrderNo);
+            getPresenter().upDataList(reqVos, UniqueKey.VERSION.V1, AppApplication.getUserData().getToken());
+        }
         getPresenter().protocolList(UniqueKey.VERSION.V1, userData.getToken(), reqVo);
 
         List<LoanUsingVo> listUsing = mLoanVo.getLoanPurposeInfoList();
@@ -253,9 +335,6 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
                 String use = mTvUse.getText().toString();//用途
                 String timeLimit = mTvTime.getText().toString();//时间期限
                 String amount = mEditAmount.getText().toString();//贷款金额
-                String bankNum = mLendingView.getMTvBankNum().getText().toString();//银行账号
-                String accountName = mLendingView.getMTvAccountName().getText().toString();//账户名称
-                String nodeBank = mLendingView.getMTvNodeBank().getText().toString();//开户支行
                 if (TextUtils.isEmpty(use)) {
                     Toast.makeText(this, "请选择借款用途", Toast.LENGTH_SHORT).show();
                     break;
@@ -314,7 +393,6 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
                 trialReqVo.setLoanAmt(CommonUtil.yuanToCent(ammounts.replace(",", "")));
                 trialReqVo.setProductBaseNo(mLoanVo.getProductBaseNo());
                 trialReqVo.setRepaymentWaySerialNumber(mRepaymentWayAndAgingVo.getRepaymentWaySerialNumber());
-                trialReqVo.setRate(mLoanVo.getRefMonthRate());
                 TrialListActivity.newIntent(this, trialReqVo);
                 break;
             case R.id.loan_detail_use_tv:
@@ -426,7 +504,6 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
 
     @Override
     public void onSuccessCardList(CardData cardData) {
-        mEmptyView.onSuccess();
         LoadingDialog.hide();
         if (cardData == null) {
             mLendingView.setData(null);
@@ -442,16 +519,17 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
 
     @Override
     public void onFailureCardList(String code, String msg) {
-        mEmptyView.onError();
         LoadingDialog.hide();
     }
 
     /**
      * 提交贷款申请
+     *
      * @param baseBean
      */
     @Override
     public void onSuccessApply(BaseBean baseBean) {
+        SharePrefrenceUtil.setString("config", mLoanVo.getProductBaseNo(), "");
         LoadingDialog.hide();
         showDialog();
     }
@@ -464,6 +542,7 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
 
     /**
      * 请求协议列表
+     *
      * @param voList
      */
     @Override
@@ -496,6 +575,7 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
 
     /**
      * 请求协议内容
+     *
      * @param contentVo
      */
     @Override
@@ -515,6 +595,7 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
 
     /**
      * 请求订单号
+     *
      * @param loanOrderNoVo
      */
     @Override
@@ -523,16 +604,20 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
             mOrderNo = loanOrderNoVo.getLoanOrderNo();
             SharePrefrenceUtil.setString("config", mLoanVo.getProductBaseNo(), loanOrderNoVo.getLoanOrderNo());
             mRequireListView.setOrderNum(mOrderNo);
+            QueryUploadFileReqVo reqVo = new QueryUploadFileReqVo();
+            reqVo.setLoanOrderNo(mOrderNo);
+            getPresenter().upDataList(reqVo, UniqueKey.VERSION.V1, AppApplication.getUserData().getToken());
         }
     }
 
     @Override
     public void onFailureOrderNo(String code, String msg) {
-
+        mEmptyView.onError();
     }
 
     /**
      * 上传图片至资源服务器
+     *
      * @param baseBean
      */
     @Override
@@ -543,6 +628,25 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
     @Override
     public void onFailurePic(String code, String msg) {
 
+    }
+
+    /**
+     * 请求上传图片地址列表
+     *
+     * @param uploadFileVos
+     */
+    @Override
+    public void onSuccessPicList(List<UploadFileVo> uploadFileVos) {
+        mEmptyView.onSuccess();
+        if (uploadFileVos != null && uploadFileVos.size() > 0) {
+            //对历史上传图片进行分组处理
+            makeData(uploadFileVos);
+        }
+    }
+
+    @Override
+    public void onFailurePicList(String code, String msg) {
+        mEmptyView.onError();
     }
 
     private void showDialog() {
@@ -616,5 +720,84 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
                     .build();
         }
         return mPowerMenuUse;
+    }
+
+    private void makeData(List<UploadFileVo> uploadFileVos) {
+        int size = uploadFileVos.size();
+        for (int i = 0; i < size; i++) {
+            UploadFileVo uploadFileVo = uploadFileVos.get(i);
+            if (uploadFileVo == null || TextUtils.isEmpty(uploadFileVo.getFileType())) {
+                continue;
+            }
+            int code = Integer.valueOf(uploadFileVo.getFileType());
+            //个人身份证
+            if (code == FileEnums.FileTypeEnum.SELF_ID_CARD_FRONT.code || code == FileEnums.FileTypeEnum.SELF_ID_CARD_REVERSE.code) {
+                mListId.add(uploadFileVo);
+                //配偶身份证
+            } else if (code == FileEnums.FileTypeEnum.HOME_ID_CARD_FRONT.code || code == FileEnums.FileTypeEnum.HOME_ID_CARD_REVERSE.code) {
+                mConsortListId.add(uploadFileVo);
+                //户口本
+            } else if (code == FileEnums.FileTypeEnum.BOOKLET_FRONT_PAGE.code || code == FileEnums.FileTypeEnum.BOOKLET.code) {
+                mHouseholdList.add(uploadFileVo);
+                //结婚证
+            } else if (code == FileEnums.FileTypeEnum.MARRIAGE_CERTIFICATE.code) {
+                mMarriageList.add(uploadFileVo);
+                //离婚证
+            } else if (code == FileEnums.FileTypeEnum.DIVORCE_CERTIFICATE.code) {
+                mDivorceList.add(uploadFileVo);
+                //营业执照
+            } else if (code == FileEnums.FileTypeEnum.BUSINESS_LICENSE.code) {
+                mBusinessList.add(uploadFileVo);
+                //公司章程
+            } else if (code == FileEnums.FileTypeEnum.COMPANY_ARTICLES.code) {
+                mArticlesAssociationList.add(uploadFileVo);
+                //开户许可
+            } else if (code == FileEnums.FileTypeEnum.OPEN_ACCOUNT_PERMISSION.code) {
+                mOpeningPermitList.add(uploadFileVo);
+                //租赁合同
+            } else if (code == FileEnums.FileTypeEnum.RENT_CONTRACT.code) {
+                mLeaseContractList.add(uploadFileVo);
+                //产品购销合同
+            } else if (code == FileEnums.FileTypeEnum.PURCHASING_SELLING_CONTRACT.code) {
+                mPurchaseSaleContractList.add(uploadFileVo);
+                //销售证明
+            } else if (code == FileEnums.FileTypeEnum.SALE_CERTIFICATE.code) {
+                mHouseList.add(uploadFileVo);
+                //车本复印件
+            } else if (code == FileEnums.FileTypeEnum.PRIVATE_VEHICLE.code) {
+                mCarList.add(uploadFileVo);
+                //其他财产证明
+            } else if (code == FileEnums.FileTypeEnum.PRIVATE_OTHER.code) {
+                mOtherPropertyList.add(uploadFileVo);
+                //企业银行流水
+            } else if (code == FileEnums.FileTypeEnum.ENTERPRISE_BANK_WATER.code) {
+                mEnterpriseBankList.add(uploadFileVo);
+                //个人银行流水
+            } else if (code == FileEnums.FileTypeEnum.PRIVATE_BANK_WATER.code) {
+                mPersonBankList.add(uploadFileVo);
+            }
+        }
+    }
+
+    /**
+     * 跳转资料上传页
+     * @param tab
+     */
+    @Override
+    public void onTabClick(int tab) {
+        switch (tab) {
+            case 0:
+                PersonDataActivity.newIntent(getContext(), mOrderNo, mListId, mConsortListId, mHouseholdList, mMarriageList, mDivorceList);
+                break;
+            case 1:
+                EnterpriseDataActivity.newIntent(getContext(), mOrderNo, mBusinessList, mArticlesAssociationList, mOpeningPermitList, mLeaseContractList, mPurchaseSaleContractList, mSalesConfirmationList);
+                break;
+            case 2:
+                FamilyDataActivity.newIntent(getContext(), mOrderNo, mHouseList, mCarList, mOtherPropertyList);
+                break;
+            case 3:
+                BankFlowActivity.newIntent(getContext(), mOrderNo, mEnterpriseBankList, mPersonBankList);
+                break;
+        }
     }
 }

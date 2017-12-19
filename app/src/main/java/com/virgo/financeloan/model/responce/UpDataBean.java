@@ -10,9 +10,15 @@ public class UpDataBean {
     public String message;
     public String code;
     public String result;
-    public String data;
+    public Data data;
 
     public boolean isSuccess(){
         return "0".equals(code);
+    }
+
+    @lombok.Data
+    public class Data {
+        public String id;
+        public String path;
     }
 }

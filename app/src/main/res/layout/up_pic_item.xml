@@ -22,8 +22,21 @@
         android:layout_height="match_parent"
         android:layout_above="@id/view_line1"
         android:layout_toRightOf="@id/view_line"
-        android:scaleType="centerCrop"
+        android:scaleType="centerInside"
         tools:src="@mipmap/icon_add_pic" />
+
+    <TextView
+        android:id="@+id/tv_up"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/view_line1"
+        android:layout_toRightOf="@id/view_line"
+        android:textColor="@color/white"
+        android:text="已上传"
+        android:gravity="center"
+        android:visibility="gone"
+        android:background="@drawable/bg_already_up" />
+
 
     <ImageView
         android:id="@+id/maintain_pic_clear_img"

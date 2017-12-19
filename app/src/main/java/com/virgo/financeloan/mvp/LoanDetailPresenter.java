@@ -7,12 +7,14 @@ import com.virgo.financeloan.AppApplication;
 import com.virgo.financeloan.model.request.LoanApplyReqVo;
 import com.virgo.financeloan.model.request.ProtocolContentReqVo;
 import com.virgo.financeloan.model.request.ProtocolListReqVo;
+import com.virgo.financeloan.model.request.QueryUploadFileReqVo;
 import com.virgo.financeloan.model.responce.BaseBean;
 import com.virgo.financeloan.model.responce.CardData;
 import com.virgo.financeloan.model.responce.IsOkData;
 import com.virgo.financeloan.model.responce.LoanOrderNoVo;
 import com.virgo.financeloan.model.responce.ProtocolContentVo;
 import com.virgo.financeloan.model.responce.ProtocolVo;
+import com.virgo.financeloan.model.responce.UploadFileVo;
 import com.virgo.financeloan.mvp.contract.LoanDetailContract;
 import com.virgo.financeloan.net.Repository;
 import com.virgo.financeloan.net.rx.RxHelper;
@@ -53,6 +55,27 @@ public class LoanDetailPresenter extends BasePresenter<Repository, LoanDetailCon
             public void onFailure(String code, String error) {
                 super.onFailure(code, error);
                 getRootView().onFailureApply(code, error);
+            }
+        }).start();
+    }
+
+    /**
+     * 查询上传资料列表
+     * @param version
+     * @param token
+     */
+    public void upDataList(QueryUploadFileReqVo uploadFileReqVo, String version, String token) {
+        new RxHelper().view(getRootView()).load(getModel().getRemote().upDataList(version, token, getRequestBody(uploadFileReqVo))).callBack(new RxHelper
+                .CallBackAdapter<BaseBean<List<UploadFileVo>>>() {
+            @Override
+            public void onSuccess(String response,BaseBean<List<UploadFileVo>> list) {
+                getRootView().onSuccessPicList(list.data);
+            }
+
+            @Override
+            public void onFailure(String code, String error) {
+                super.onFailure(code, error);
+                getRootView().onFailurePicList(code, error);
             }
         }).start();
     }

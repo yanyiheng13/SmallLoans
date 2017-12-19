@@ -7,6 +7,7 @@ import com.virgo.financeloan.model.responce.CardData;
 import com.virgo.financeloan.model.responce.LoanOrderNoVo;
 import com.virgo.financeloan.model.responce.ProtocolContentVo;
 import com.virgo.financeloan.model.responce.ProtocolVo;
+import com.virgo.financeloan.model.responce.UploadFileVo;
 
 import java.util.List;
 
@@ -39,6 +40,9 @@ public class LoanDetailContract {
 
         void onSuccessPic(BaseBean baseBean);
         void onFailurePic(String code, String msg);
+
+        void onSuccessPicList(List<UploadFileVo> uploadFileVos);
+        void onFailurePicList(String code, String msg);
     }
 
     public interface ViewList extends MvpView {

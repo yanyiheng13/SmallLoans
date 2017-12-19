@@ -76,6 +76,9 @@
             android:name="com.virgo.financeloan.ui.PersonDataActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name="com.virgo.financeloan.ui.PicPreActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name="com.virgo.financeloan.ui.EnterpriseDataActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

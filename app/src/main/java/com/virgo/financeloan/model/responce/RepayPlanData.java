@@ -23,7 +23,7 @@ public class RepayPlanData {
     /**
      * 还款时间.
      */
-//    private String repaymentDate;
+    private String repaymentDate;
 
     /**
      * 还款计划状态

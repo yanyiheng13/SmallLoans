@@ -67,7 +67,6 @@ public class TrialListActivity extends BaseActivity<TrialPresent> implements Tri
                 tvCount.setText(item.getPeriod());
 //                tvPrincipal.setText(CommonUtil.formatAmountByInteger(item.getCurrentTotalAmount()));
                 tvRepayments.setText(item.getRepaymentDate());
-                tvRate.setText(mTrialReqVo.getRate());
 
                 List<TrialData.RepaymentPlanInfo> repaymentPlanInfos = item.getRepaymentPlanInfoList();
                 if (repaymentPlanInfos != null && repaymentPlanInfos.size() >= 2) {
@@ -114,6 +113,6 @@ public class TrialListActivity extends BaseActivity<TrialPresent> implements Tri
 
     @Override
     public void onDataLoadAgain() {
-
+        getPresenter().trialList(mTrialReqVo, "v1");
     }
 }

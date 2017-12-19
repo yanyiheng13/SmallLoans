@@ -2,9 +2,11 @@ package com.virgo.financeloan.ui.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.luck.picture.lib.entity.LocalMedia;
 import com.virgo.financeloan.AppApplication;
 import com.virgo.financeloan.R;
 import com.virgo.financeloan.model.responce.UpDataBean;
@@ -46,14 +48,9 @@ public class UploadPicView extends RelativeLayout {
     @BindView(R.id.image_pic)
     ImageView mUpImgView;
 
-    /**
-     * 图片Id
-     */
-    @Getter
     @Setter
-    private String picId;
-
-    private boolean isUping;
+    @Getter
+    private LocalMedia currentMedia;
 
     public UploadPicView(Context context) {
         this(context, null);
@@ -67,14 +64,6 @@ public class UploadPicView extends RelativeLayout {
         super(context, attrs, defStyleAttr);
         inflate(context, R.layout.view_upload_pic, this);
         ButterKnife.bind(this, this);
-    }
-
-    public void setUping(boolean isUping) {
-        this.isUping = isUping;
-    }
-
-    public boolean getUping() {
-        return isUping;
     }
 
     /**
@@ -133,13 +122,13 @@ public class UploadPicView extends RelativeLayout {
     /**
      * 删除图片
      */
-    public void deletePic(String orderNo, String fileType, String position) {
+    public void deletePic(String orderNo, String fileType) {
         Map<String, RequestBody> hashMap = new HashMap<>();
         hashMap.put("fileType", toRequestBody(fileType));
         hashMap.put("loanOrderNo", toRequestBody(orderNo));
         hashMap.put("operateType", toRequestBody("2"));
-        hashMap.put("order", toRequestBody(position));
-
+        hashMap.put("path", toRequestBody(currentMedia.picPath));
+        hashMap.put("fileId", toRequestBody(currentMedia.fileId));
         //获取接口实例
         RemoteService movieService = retrofit.create(RemoteService.class);
         Call<UpDataBean> call = Repository.get().getRemote().uploadFile(UniqueKey.VERSION.V1, AppApplication.getUserData().getToken(), hashMap, null);
@@ -157,8 +146,9 @@ public class UploadPicView extends RelativeLayout {
                 public void run() {
                     UpDataBean dataBean = response.body();
                     if (dataBean != null && dataBean.isSuccess()) {
+
                     } else {
-                        setError();
+
                     }
                 }
             });
@@ -169,7 +159,7 @@ public class UploadPicView extends RelativeLayout {
             UploadPicView.this.post(new Runnable() {
                 @Override
                 public void run() {
-                    setError();
+
                 }
             });
         }
@@ -187,10 +177,14 @@ public class UploadPicView extends RelativeLayout {
                     UpDataBean dataBean = response.body();
                     if (dataBean != null && dataBean.isSuccess()) {
                         setProgress(100);
-                        picId = dataBean.getData();
-                        isUping = false;
+                        currentMedia.picPath = dataBean.getData().path;
+                        currentMedia.fileId = dataBean.getData().id;
+                        currentMedia.isUping = false;
+                        currentMedia.isError = false;
                     } else {
                         setError();
+                        currentMedia.isUping = false;
+                        currentMedia.isError = true;
                     }
                 }
             });
@@ -202,6 +196,8 @@ public class UploadPicView extends RelativeLayout {
                 @Override
                 public void run() {
                     setError();
+                    currentMedia.isUping = false;
+                    currentMedia.isError = true;
                 }
             });
         }

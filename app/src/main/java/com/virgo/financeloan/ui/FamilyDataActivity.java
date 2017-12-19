@@ -11,10 +11,13 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.virgo.financeloan.R;
+import com.virgo.financeloan.model.responce.UploadFileVo;
 import com.virgo.financeloan.ui.behavior.OnAddPicClickListener;
 import com.virgo.financeloan.ui.view.GroupView;
 import com.virgo.financeloan.ui.view.UpImgCommonView;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -62,24 +65,50 @@ public class FamilyDataActivity extends BaseActivity implements GroupView.OnUpVi
 
     private View mCurrentView;
 
+    /**
+     * 销售证明
+     */
+    private List<UploadFileVo> mHouseList;
+    /**
+     * 车本复印件
+     */
+    private List<UploadFileVo> mCarList;
+    /**
+     * 其他财产证明
+     */
+    private List<UploadFileVo> mOtherPropertyList;
+    /**
+     * 订单id
+     */
+    private String orderNum;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        saveOrData(savedInstanceState);
         setContentView(R.layout.activity_family_data);
         ButterKnife.bind(this);
         mHouseContentView = new UpImgCommonView(this).setOnAddPicClickListener(this);
         mCarContentView = new UpImgCommonView(this).setOnAddPicClickListener(this);
         mOtherPropertyContentView = new UpImgCommonView(this).setOnAddPicClickListener(this);
 
+        //销售证明
+        mHouseContentView.setOrderNum(orderNum);
+        mHouseContentView.setFileType(String.valueOf(FileEnums.FileTypeEnum.BUSINESS_LICENSE.code));
+        mHouseContentView.setAlreadyUpPic(mHouseList);
+        //车本复印件
+        mCarContentView.setOrderNum(orderNum);
+        mCarContentView.setFileType(String.valueOf(FileEnums.FileTypeEnum.COMPANY_ARTICLES.code));
+        mCarContentView.setAlreadyUpPic(mCarList);
+        //其他财产证明
+        mOtherPropertyContentView.setOrderNum(orderNum);
+        mOtherPropertyContentView.setFileType(String.valueOf(FileEnums.FileTypeEnum.OPEN_ACCOUNT_PERMISSION.code));
+        mOtherPropertyContentView.setAlreadyUpPic(mOtherPropertyList);
+
         mHouseView.setGroupName(R.string.house_data).isRequireDot(false).setCustomView(mHouseContentView, true).setOnUpViewGroupListener(this);
         mCarView.setGroupName(R.string.car_data).isRequireDot(false).setCustomView(mCarContentView, false).setOnUpViewGroupListener(this);
         mOtherPropertyView.setGroupName(R.string.other_property).isRequireDot(false).setCustomView(mOtherPropertyContentView, false).setOnUpViewGroupListener(this);
 
-    }
-
-    public static void newIntent(Context context) {
-        Intent intent = new Intent(context, FamilyDataActivity.class);
-        context.startActivity(intent);
     }
 
     @Override
@@ -103,15 +132,23 @@ public class FamilyDataActivity extends BaseActivity implements GroupView.OnUpVi
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case PictureConfig.CHOOSE_REQUEST:
-                    UpImgCommonView upImgCommonView = ((UpImgCommonView)mCurrentView);
-                    List<LocalMedia> listCommon = PictureSelector.obtainMultipleResult(data);
-                    upImgCommonView.setMSelectPic(listCommon);
-                    upImgCommonView.getMListPic().clear();
-                    upImgCommonView.getMListPic().addAll(listCommon);
+                    UpImgCommonView marriage = ((UpImgCommonView) mCurrentView);
+                    //从相册中回来数据
+                    List<LocalMedia> listMarriage = PictureSelector.obtainMultipleResult(data);
+                    //清除显示集合的数据（包括历史上传数据  +  上次选中的图片  + 添加按钮数据）
+                    marriage.getMListPic().clear();
+                    //将历史上传数据加入到显示的集合当中
+
+                    //再将档次相册回来的数据添加到选中的数据中
+                    marriage.getMSelectPic().addAll(listMarriage);
+                    //再将总共选中的数据添加到总的显示数据中
+                    marriage.getMListPic().addAll(marriage.getMSelectPic());
+                    //将添加按钮数据加入到显示集合的数据中
                     LocalMedia mediaDivorce = new LocalMedia();
                     mediaDivorce.isAddPic = true;
-                    upImgCommonView.getMListPic().add(mediaDivorce);
-                    upImgCommonView.notifyDataSetChanged();
+                    marriage.getMListPic().add(mediaDivorce);
+                    //更新数据
+                    marriage.notifyDataSetChanged();
                     if (mCurrentView == mHouseContentView) {//房本
 
                     } else if (mCurrentView == mCarContentView) {//车本
@@ -122,5 +159,45 @@ public class FamilyDataActivity extends BaseActivity implements GroupView.OnUpVi
                     break;
             }
         }
+    }
+
+    /**
+     * 保存和拿取数据
+     * @param savedInstanceState
+     */
+    private void saveOrData(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            Intent intent = getIntent();
+            orderNum = intent.getStringExtra("orderNum");
+            mHouseList = (List<UploadFileVo>) intent.getSerializableExtra("mHouseList");
+            mCarList = (List<UploadFileVo>) intent.getSerializableExtra("mCarList");
+            mOtherPropertyList = (List<UploadFileVo>) intent.getSerializableExtra("mOtherPropertyList");
+        } else {
+            orderNum = savedInstanceState.getString("orderNum");
+            mHouseList = (List<UploadFileVo>) savedInstanceState.getSerializable("mHouseList");
+            mCarList = (List<UploadFileVo>) savedInstanceState.getSerializable("mCarList");
+            mOtherPropertyList = (List<UploadFileVo>) savedInstanceState.getSerializable("mOtherPropertyList");
+        }
+    }
+
+    public static void newIntent(Context context, String orderNum,
+                                 List<UploadFileVo> houseList,
+                                 List<UploadFileVo> carList,
+                                 List<UploadFileVo> otherList) {
+        Intent intent = new Intent(context, FamilyDataActivity.class);
+        intent.putExtra("orderNum", orderNum);
+        intent.putExtra("mHouseList", (Serializable) houseList);
+        intent.putExtra("mCarList", (Serializable) carList);
+        intent.putExtra("mOtherPropertyList", (Serializable) otherList);
+        context.startActivity(intent);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("orderNum", orderNum);
+        outState.putSerializable("mHouseList", (Serializable) mHouseList);
+        outState.putSerializable("mCarList", (Serializable) mCarList);
+        outState.putSerializable("mOtherPropertyList", (Serializable) mOtherPropertyList);
     }
 }

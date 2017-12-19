@@ -12,7 +12,6 @@ import java.io.Serializable;
  * email：893855882@qq.com
  * data：2017/5/24
  */
-
 public class LocalMedia implements Serializable {
     private String path;
     private String compressPath;
@@ -29,6 +28,12 @@ public class LocalMedia implements Serializable {
     private int height;
 
     public boolean isAddPic;
+    public boolean isUping;
+    public boolean isError;
+    public boolean isFromServer;
+
+    public String picPath;
+    public String fileId;
 
     public LocalMedia() {
 

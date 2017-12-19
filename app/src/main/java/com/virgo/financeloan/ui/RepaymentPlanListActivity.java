@@ -80,7 +80,7 @@ public class RepaymentPlanListActivity extends BaseActivity<RepaymentPlanPresent
                 TextView mTvFaRate = helper.getView(R.id.order_fa_rate_amount_tv);//罚息
                 LinearLayout mLlFa = helper.getView(R.id.order_fa_amount_ll);//罚息父布局
 
-//                mTvTime.setText(item.get);
+                mTvTime.setText(item.getRepaymentDate());
                 mLlFa.setVisibility(View.GONE);
                 mTvRepayment.setText(CommonUtil.formatAmountByKeepTwo(item.getTotalAmount()) + "元");
                 mTvPeriod.setText("第" + item.getPeriod() + "期");
