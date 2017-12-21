@@ -8,6 +8,10 @@ import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
+
+import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -16,6 +20,7 @@ import java.net.SocketException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Enumeration;
+import java.util.Map;
 
 /**
  * 一些通用的类
@@ -277,6 +282,21 @@ public class CommonUtil {
                 ((ip >> 8) & 0xFF) + "." +
                 ((ip >> 16) & 0xFF) + "." +
                 (ip >> 24 & 0xFF);
+    }
+
+    public static String parse(String template, Map<String, Object> params) {
+
+        // 初始化并取得Velocity引擎
+        VelocityEngine ve = new VelocityEngine();
+        ve.init();
+
+        VelocityContext context = new VelocityContext(params);
+        // 输出流
+        StringWriter writer = new StringWriter();
+        // 转换输出
+        ve.evaluate(context, writer, "", template); // 关键方法
+
+        return writer.toString();
     }
 
 }

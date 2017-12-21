@@ -84,7 +84,7 @@ public class RepaymentPlanListActivity extends BaseActivity<RepaymentPlanPresent
 
                 mTvTime.setText(item.getRepaymentDate());
                 mLlFa.setVisibility(View.GONE);
-                mTvRepayment.setText(CommonUtil.formatAmountByKeepTwo(item.getTotalAmount()) + "元");
+                mTvRepayment.setText(CommonUtil.formatAmountByKeepTwo(item.getTotalAmount()) );
                 mTvPeriod.setText("第" + item.getPeriod() + "期");
                 mTvStatus.setText(item.getStatus());
                 List<RepayRecordVo> listData = item.getSubjectList();

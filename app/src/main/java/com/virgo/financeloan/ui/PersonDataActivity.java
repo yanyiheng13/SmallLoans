@@ -225,7 +225,7 @@ public class PersonDataActivity extends BaseActivity implements GroupView.OnUpVi
                         IdCardView idCardView = (IdCardView) mCurrentView;
                         idCardView.setData(PictureSelector.obtainMultipleResult(data), mCurrentTab);
                     } else if (mCurrentView == mHouseholdContentView) {//户口本
-                        HouseholdView householdView = (HouseholdView) mCurrentView;
+                        IdCardView householdView = (IdCardView) mCurrentView;
                         householdView.setData(PictureSelector.obtainMultipleResult(data), mCurrentTab);
                     } else if (mCurrentView == mDivorceContentView) {//离婚证
                         UpImgCommonView divorce = ((UpImgCommonView) mCurrentView);

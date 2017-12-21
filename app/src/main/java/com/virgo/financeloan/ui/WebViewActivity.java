@@ -12,6 +12,10 @@ import android.webkit.WebView;
 
 import com.virgo.financeloan.AppApplication;
 import com.virgo.financeloan.R;
+import com.virgo.financeloan.util.CommonUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,7 +44,14 @@ public class WebViewActivity extends BaseActivity {
         String webContent = AppApplication.mApplication.getWebContent();
         if (TextUtils.isEmpty(webContent)) { finish(); return;}
         initWebView();
-        mWebView.loadDataWithBaseURL(null, webContent, "text/html", "utf-8", null);
+        Map<String, Object> context = new HashMap<>();
+        final Map<String, String> loanAuditDetail = new HashMap<>();
+
+        context.put("loanAuditDetail", loanAuditDetail);
+        loanAuditDetail.put("loanApplyNo", "loanApplyNoXIXI");
+        loanAuditDetail.put("userAccountId", "userAccountIdXIXI");
+
+        mWebView.loadDataWithBaseURL(null, CommonUtil.parse(webContent, context), "text/html", "utf-8", null);
     }
 
     private void initWebView() {

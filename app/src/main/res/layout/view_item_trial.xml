@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
+    android:background="@color/white"
     android:orientation="horizontal"
-    android:background="@color/white">
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
 
     <TextView
         android:id="@+id/trial_count_tv"
@@ -15,7 +15,7 @@
         android:gravity="center"
         android:textColor="@color/color_666666"
         android:textSize="@dimen/font_size_15"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/repayments_time_tv"

@@ -50,6 +50,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/subject_left_tv1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
@@ -74,6 +75,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/subject_left_tv2"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
@@ -99,6 +101,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/subject_left_tv3"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"

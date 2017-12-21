@@ -77,7 +77,7 @@ public class TrialListActivity extends BaseActivity<TrialPresent> implements Tri
                 TextView tvRepayments = helper.getView(R.id.repayments_time_tv);//还款时间
 
                 tvCount.setText(item.getPeriod());
-                tvRate.setText(CommonUtil.formatAmountByInteger(item.getCurrentTotalAmount()));
+                tvRate.setText(CommonUtil.formatAmountByKeepTwo(item.getCurrentTotalAmount()));
                 tvRepayments.setText(item.getRepaymentDate());
 
                 List<TrialData.RepaymentPlanInfo> repaymentPlanInfos = item.getRepaymentPlanInfoList();

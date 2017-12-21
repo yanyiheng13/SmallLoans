@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import com.virgo.financeloan.model.responce.BaseBean;
 import com.virgo.financeloan.model.responce.LoanRecordVo;
 import com.virgo.financeloan.model.responce.RepayPlanData;
 import com.virgo.financeloan.model.responce.RepayRecordData;
+import com.virgo.financeloan.model.responce.RepayRecordVo;
 import com.virgo.financeloan.model.responce.TrialData;
 import com.virgo.financeloan.model.responce.TrialMainPlanData;
 import com.virgo.financeloan.model.responce.UserData;
@@ -77,33 +79,44 @@ public class RepaymentRecordListActivity extends BaseActivity<RepaymentPlanPrese
             protected void convert(BaseViewHolder helper, final RepayRecordData item) {
                 TextView mTvTime = helper.getView(R.id.plan_time_tv);//time
                 TextView mTvRepayment = helper.getView(R.id.plan_amount_tv);//本次还款金额
-                TextView mTvBenJin = helper.getView(R.id.plan_amount_bottom_tv);//本次还款金额
-                TextView mTvRate = helper.getView(R.id.plan_amount_rate_tv);//利息
-                TextView mTvFaRate = helper.getView(R.id.plan_fa_amount_rate_tv);//罚息
+                TextView mTvAmount1 = helper.getView(R.id.plan_amount_bottom_tv);//本次还款金额
+                TextView mTvAmount2 = helper.getView(R.id.plan_amount_rate_tv);//利息
+                TextView mTvAmount3 = helper.getView(R.id.plan_fa_amount_rate_tv);//罚息
+
+                TextView mTvLeft1 = helper.getView(R.id.subject_left_tv1);
+                TextView mTvLeft2 = helper.getView(R.id.subject_left_tv2);
+                TextView mTvLeft3 = helper.getView(R.id.subject_left_tv3);
+
                 RelativeLayout mRlFa = helper.getView(R.id.plan_fa_amount_rate_rl);//罚息父布局
 
                 mTvTime.setText(item.getRepayDate());
-                mTvRepayment.setText(CommonUtil.formatAmountByKeepTwo(item.getRepayAmount()));
+                mTvRepayment.setText("还款金额" + CommonUtil.formatAmountByKeepTwo(item.getRepayAmount()));
 
-//                List<TrialData.RepaymentPlanInfo> repaymentPlanInfos = item.getRepaymentPlanInfoList();
-//                if (repaymentPlanInfos != null && repaymentPlanInfos.size() >= 2) {
-//                    TrialData.RepaymentPlanInfo repaymentPlanInfo1 = repaymentPlanInfos.get(0);
-//                    TrialData.RepaymentPlanInfo repaymentPlanInfo2 = repaymentPlanInfos.get(1);
-//                    if (repaymentPlanInfo1 != null) {
-//                        if ("PRI".equals(repaymentPlanInfo1.getRepaymentAccount())) {
-//                            tvPrincipal.setText(CommonUtil.formatAmountByKeepTwo(repaymentPlanInfo1.getRepaymentAmount()));
-//                        } else if ("INT".equals(repaymentPlanInfo1.getRepaymentAccount())) {
-//                            tvInterest.setText(CommonUtil.formatAmountByKeepTwo(repaymentPlanInfo1.getRepaymentAmount()));
-//                        }
-//                    }
-//                    if (repaymentPlanInfo2 != null) {
-//                        if ("PRI".equals(repaymentPlanInfo2.getRepaymentAccount())) {
-//                            tvPrincipal.setText(CommonUtil.formatAmountByKeepTwo(repaymentPlanInfo2.getRepaymentAmount()));
-//                        } else if ("INT".equals(repaymentPlanInfo2.getRepaymentAccount())) {
-//                            tvInterest.setText(CommonUtil.formatAmountByKeepTwo(repaymentPlanInfo2.getRepaymentAmount()));
-//                        }
-//                    }
-//                }
+                List<RepayRecordVo> list = item.getSubjectList();
+                if (list != null || list.size() > 0) {
+                    for (int i = 0; i < list.size(); i ++) {
+                        RepayRecordVo repayRecordVo = list.get(i);
+                        if (repayRecordVo == null) {continue;}
+                        if (i == 0) {
+                            mTvAmount1.setText(CommonUtil.formatAmountByKeepTwo(repayRecordVo.getSubjectAmount()));
+                            mTvLeft1.setText(repayRecordVo.getSubjectDesc());
+                        } else if (i == 1) {
+                            mTvAmount2.setText(CommonUtil.formatAmountByKeepTwo(repayRecordVo.getSubjectAmount()));
+                            mTvLeft2.setText(repayRecordVo.getSubjectDesc());
+                        } else if (i == 2) {
+                            mTvAmount3.setText(CommonUtil.formatAmountByKeepTwo(repayRecordVo.getSubjectAmount()));
+                            mTvLeft3.setText(repayRecordVo.getSubjectDesc());
+                        }
+                    }
+                }
+                if (list != null) {
+                    if (list.size() == 2) {
+                        mRlFa.setVisibility(View.GONE);
+                    } else if (list.size() > 2) {
+                        mRlFa.setVisibility(View.VISIBLE);
+                    }
+                }
+
             }
         };
         mRecyclerView.setAdapter(mAdapter);
@@ -138,6 +151,7 @@ public class RepaymentRecordListActivity extends BaseActivity<RepaymentPlanPrese
             mEmptyView.onEmpty();
             return;
         }
+        mAdapter.setNewData(repayRecordData);
         mEmptyView.onSuccess();
     }
 

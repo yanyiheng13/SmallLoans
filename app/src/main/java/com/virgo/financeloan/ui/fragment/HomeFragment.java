@@ -25,6 +25,7 @@ import com.virgo.financeloan.mvp.contract.LoanListContract;
 import com.virgo.financeloan.ui.BaseFragment;
 import com.virgo.financeloan.ui.LoanDetailActivity;
 import com.virgo.financeloan.ui.LoginActivity;
+import com.virgo.financeloan.ui.WebViewActivity;
 import com.virgo.financeloan.ui.view.CustomTitleView;
 import com.virgo.financeloan.ui.view.EmptyView;
 import com.virgo.financeloan.ui.view.LoanRefreshLayout;
@@ -119,7 +120,8 @@ public class HomeFragment extends BaseFragment<LoanListPresent> implements BaseS
                             showDialog();
                             return;
                         }
-                        LoanDetailActivity.newIntent(HomeFragment.this.getContext(), item);
+//                        LoanDetailActivity.newIntent(HomeFragment.this.getContext(), item);
+                        WebViewActivity.newIntent(getContext());
                     }
                 });
             }

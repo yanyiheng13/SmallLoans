@@ -79,7 +79,7 @@
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/apply_loan_tv"
             android:gravity="center_vertical"
-            android:lines="2"
+            android:minLines="2"
             android:textColor="@color/color_666666"
             android:textSize="15sp"
             tools:text="产品介绍" />

@@ -90,15 +90,15 @@ public class CardListActivity extends BaseActivity<CardListPresenter> implements
                 helper.setText(R.id.bank_num_tv, item.getBankCardNo());//银行卡卡号
                 helper.setText(R.id.bank_node_tv, item.getOpenAccountBankName());//开户行支行
                 //长安实践监听
-                helper.getView(R.id.root_ll).setOnLongClickListener(new View.OnLongClickListener() {
-
-                    @Override
-                    public boolean onLongClick(View v) {
-                        mCardVo = item;
-                        showDelete(item);
-                        return false;
-                    }
-                });
+//                helper.getView(R.id.root_ll).setOnLongClickListener(new View.OnLongClickListener() {
+//
+//                    @Override
+//                    public boolean onLongClick(View v) {
+//                        mCardVo = item;
+//                        showDelete(item);
+//                        return false;
+//                    }
+//                });
                 helper.getView(R.id.root_ll).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

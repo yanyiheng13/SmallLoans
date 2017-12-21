@@ -5,8 +5,8 @@
     android:layout_height="wrap_content"
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
     android:layout_below="@id/title_view"
     android:background="@color/white"
     android:orientation="horizontal">
@@ -18,7 +18,7 @@
         android:gravity="center"
         android:text="期数"
         android:visibility="gone"
-        android:textColor="@color/color_333333"
+        android:textColor="@color/color_666666"
         android:textSize="@dimen/font_size_15" />
 
     <TextView
@@ -27,7 +27,7 @@
         android:layout_weight="1.2"
         android:gravity="center"
         android:text="还款日期"
-        android:textColor="@color/color_333333"
+        android:textColor="@color/color_666666"
         android:textSize="@dimen/font_size_15" />
 
     <TextView
@@ -36,7 +36,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="本金"
-        android:textColor="@color/color_333333"
+        android:textColor="@color/color_666666"
         android:textSize="@dimen/font_size_15" />
 
     <TextView
@@ -45,7 +45,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="利息"
-        android:textColor="@color/color_333333"
+        android:textColor="@color/color_666666"
         android:textSize="@dimen/font_size_15" />
 
 
@@ -55,7 +55,7 @@
         android:layout_weight="1.2"
         android:gravity="center"
         android:text="还款额"
-        android:textColor="@color/color_333333"
+        android:textColor="@color/color_666666"
         android:textSize="@dimen/font_size_15" />
 
 </LinearLayout>

@@ -144,7 +144,7 @@ public class EnterpriseDataActivity extends BaseActivity implements GroupView.On
         //开户许可
         mOpeningPermitContentView.setOrderNum(orderNum);
         mOpeningPermitContentView.setFileType(String.valueOf(FileEnums.FileTypeEnum.OPEN_ACCOUNT_PERMISSION.code));
-        mOpeningPermitContentView.setAlreadyUpPic(mArticlesAssociationList);
+        mOpeningPermitContentView.setAlreadyUpPic(mOpeningPermitList);
         //租赁合同
         mLeaseContractContentView.setOrderNum(orderNum);
         mLeaseContractContentView.setFileType(String.valueOf(FileEnums.FileTypeEnum.RENT_CONTRACT.code));
@@ -160,7 +160,7 @@ public class EnterpriseDataActivity extends BaseActivity implements GroupView.On
 
         mBusinessLicenseView.setGroupName(R.string.business_license).isRequireDot(true).setCustomView(mBusinessLicenseContentView, true).setOnUpViewGroupListener(this);
         mArticlesAssociationView.setGroupName(R.string.articles_association).isRequireDot(false).setCustomView(mArticlesAssociationContentView, false).setOnUpViewGroupListener(this);
-        mOpeningPermitView.setGroupName(R.string.opening_permit).isRequireDot(true).setCustomView(mOpeningPermitContentView, false).setOnUpViewGroupListener(this);
+        mOpeningPermitView.setGroupName(R.string.opening_permit).isRequireDot(false).setCustomView(mOpeningPermitContentView, false).setOnUpViewGroupListener(this);
         mLeaseContractView.setGroupName(R.string.lease_contract).isRequireDot(false).setCustomView(mLeaseContractContentView, false).setOnUpViewGroupListener(this);
         mPurchaseSaleContractView.setGroupName(R.string.purchase_sale_contract).isRequireDot(false).setCustomView(mPurchaseSaleContractContentView, false).setOnUpViewGroupListener(this);
         mSalesConfirmationView.setGroupName(R.string.sales_confirmation).isRequireDot(false).setCustomView(mSalesConfirmationContentView, false).setOnUpViewGroupListener(this);

@@ -363,6 +363,10 @@ public class LoanDetailActivity extends BaseActivity<LoanDetailPresenter> implem
                     Toast.makeText(this, "请添加银行卡信息", Toast.LENGTH_SHORT).show();
                     break;
                 }
+                if (mListId.size() < 2 || mHouseholdList.size() < 2 || mBusinessList.size() <= 0 || mPersonBankList.size() <= 0) {
+                    Toast.makeText(this, "请上传必要资料", Toast.LENGTH_SHORT).show();
+                    break;
+                }
                 LoadingDialog.show(this, false);
                 LoanApplyReqVo loanApplyReqVo = new LoanApplyReqVo();
                 loanApplyReqVo.setRepaymentWaySerialNumber(mRepaymentWayAndAgingVo != null ? mRepaymentWayAndAgingVo.getRepaymentWaySerialNumber() : "");

@@ -93,4 +93,6 @@ dependencies {
     compile 'com.github.canner:android-stepsview:1.1.0'
     implementation files('libs/sun.misc.BASE64Decoder.jar')
     compile project(path: ':picture_library')
+    implementation files('libs/velocity-tools-2.0.jar')
+    implementation files('libs/velocity-engine-core-2.0.jar')
 }

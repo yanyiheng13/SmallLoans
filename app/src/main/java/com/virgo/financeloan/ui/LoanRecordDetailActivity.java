@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -115,6 +116,21 @@ public class LoanRecordDetailActivity extends BaseActivity<LoanRecordDetailPrese
     @BindView(R.id.view_line)
     View mViewLine;
     /**
+     * 还款进度跟布局
+     */
+    @BindView(R.id.repayment_progress_root_ll)
+    LinearLayout mLlProgressRoot;
+    /**
+     * 已结清父布局
+     */
+    @BindView(R.id.ll_amount)
+    LinearLayout mLlAmount;
+    /**
+     * 已结清
+     */
+    @BindView(R.id.repayment_total_amount_tv)
+    TextView mTvTotalAmount;
+    /**
      * 借款信息 列表传过来的数据
      */
     private LoanRecordVo mLoanRecordVo;
@@ -166,9 +182,12 @@ public class LoanRecordDetailActivity extends BaseActivity<LoanRecordDetailPrese
         mTvStartEndTime.setText(detailData.getStartToEndDate());
         mListProtocol = detailData.getContractInfoList();
 
-        if ("0".equals(detailData.getNoRepayAmount())) {
+        if ("0".equals(detailData.getNoRepayAmount()) || TextUtils.isEmpty(detailData.getNoRepayAmount())) {
             mRlPlan.setVisibility(View.GONE);
             mViewLine.setVisibility(View.GONE);
+            mLlProgressRoot.setVisibility(View.GONE);
+            mLlAmount.setVisibility(View.VISIBLE);
+            mTvTotalAmount.setText(CommonUtil.formatAmountByKeepTwo(detailData.getRepaidAmount()) + "元");
         }
 
         if (mListProtocol == null || mListProtocol.size() == 0) {

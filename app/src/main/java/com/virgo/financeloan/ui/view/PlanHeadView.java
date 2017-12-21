@@ -1,7 +1,9 @@
 package com.virgo.financeloan.ui.view;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,8 @@ import com.virgo.financeloan.model.responce.TrialData;
 import com.virgo.financeloan.model.responce.TrialMainPlanData;
 import com.virgo.financeloan.util.CommonUtil;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -101,6 +105,12 @@ public class PlanHeadView extends LinearLayout {
                 View view = LayoutInflater.from(getContext()).inflate(R.layout.view_subject_item, null);
                 TextView tvSubject = (TextView) view.findViewById(R.id.subject_tv);
                 TextView tvSubjectMoney = (TextView) view.findViewById(R.id.subject_money);
+                View viewLine = view.findViewById(R.id.view_line);
+                if (i == planInfoList.size() - 1) {
+                    viewLine.setVisibility(View.GONE);
+                } else {
+                    viewLine.setVisibility(View.VISIBLE);
+                }
                 tvSubject.setText(planInfo.getRepaymentAccountName());
                 tvSubjectMoney.setText(CommonUtil.formatAmountByAutomation(planInfo.getRepaymentAmount()));
                 mLlContain.addView(view);
@@ -110,9 +120,11 @@ public class PlanHeadView extends LinearLayout {
     }
 
     public void upData(TrialData trialData, LoanVo mLoanVo) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date curDate = new Date(System.currentTimeMillis());
         mName.setText(mLoanVo.getProductBaseName());
         mTvRate.setText(mLoanVo.getRefMonthRate());
-        mTvStartTime.setText("2017-12-20");
+        mTvStartTime.setText(formatter.format(curDate));
         mTvEndTime.setText(trialData.getLoanMaturityDate());
         mTvDaiKuan.setText(CommonUtil.formatAmountByAutomation(trialData.getContractMoney()));
         mTvDaoZhao.setText(CommonUtil.formatAmountByAutomation(trialData.getReceiveMoney()));
@@ -128,6 +140,12 @@ public class PlanHeadView extends LinearLayout {
                 View view = LayoutInflater.from(getContext()).inflate(R.layout.view_subject_item, null);
                 TextView tvSubject = (TextView) view.findViewById(R.id.subject_tv);
                 TextView tvSubjectMoney = (TextView) view.findViewById(R.id.subject_money);
+                View viewLine = view.findViewById(R.id.view_line);
+                if (i == planInfoList.size() - 1) {
+                    viewLine.setVisibility(View.GONE);
+                } else {
+                    viewLine.setVisibility(View.VISIBLE);
+                }
                 tvSubject.setText(planInfo.getRepaymentAccountName());
                 tvSubjectMoney.setText(CommonUtil.formatAmountByAutomation(planInfo.getRepaymentAmount()));
                 mLlContain.addView(view);
