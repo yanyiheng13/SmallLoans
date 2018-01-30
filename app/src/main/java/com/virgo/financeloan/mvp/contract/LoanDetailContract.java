@@ -3,10 +3,8 @@ package com.virgo.financeloan.mvp.contract;
 
 import com.sai.framework.mvp.MvpView;
 import com.virgo.financeloan.model.responce.BaseBean;
-import com.virgo.financeloan.model.responce.CardData;
+import com.virgo.financeloan.user.model.response.CardData;
 import com.virgo.financeloan.model.responce.LoanOrderNoVo;
-import com.virgo.financeloan.model.responce.ProtocolContentVo;
-import com.virgo.financeloan.model.responce.ProtocolVo;
 import com.virgo.financeloan.model.responce.UploadFileVo;
 
 import java.util.List;
@@ -29,27 +27,10 @@ public class LoanDetailContract {
         void onSuccessApply(BaseBean baseBean);
         void onFailureApply(String code, String msg);
 
-        void onSuccessProtocol(List<ProtocolVo> voList);
-        void onFailureProtocol(String code, String msg);
-
-        void onSuccessProtocolContent(ProtocolContentVo contentVo);
-        void onFailureProtocolContent(String code, String msg);
-
         void onSuccessOrderNo(LoanOrderNoVo loanOrderNoVo);
         void onFailureOrderNo(String code, String msg);
 
-        void onSuccessPic(BaseBean baseBean);
-        void onFailurePic(String code, String msg);
-
         void onSuccessPicList(List<UploadFileVo> uploadFileVos);
         void onFailurePicList(String code, String msg);
-    }
-
-    public interface ViewList extends MvpView {
-        void onSuccessCardList(CardData cardData);
-        void onFailureCardList(String code, String msg);
-
-        void onSuccessDelete(BaseBean baseBean);
-        void onFailureDelete(String code, String msg);
     }
 }

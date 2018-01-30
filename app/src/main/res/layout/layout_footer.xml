@@ -1,9 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
     <View
+        android:id="@+id/view_gap"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/white"/>
+        android:layout_height="30dp"
+        android:background="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/ll_click_more"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <CheckBox
+            android:id="@+id/check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp" />
+
+        <com.virgo.financeloan.ui.view.ClickMoreTextView
+            android:id="@+id/click_more_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="30dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@color/white" />
+
+    </LinearLayout>
 </LinearLayout>

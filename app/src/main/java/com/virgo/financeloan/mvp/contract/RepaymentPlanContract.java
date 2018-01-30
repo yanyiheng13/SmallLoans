@@ -5,7 +5,7 @@ import com.sai.framework.mvp.MvpView;
 import com.virgo.financeloan.model.responce.BaseBean;
 import com.virgo.financeloan.model.responce.RepayPlanData;
 import com.virgo.financeloan.model.responce.RepayRecordData;
-import com.virgo.financeloan.model.responce.TrialMainPlanData;
+import com.virgo.financeloan.model.responce.TrialData;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class RepaymentPlanContract {
         void onSuccessRepaymentPlan(List<RepayPlanData> repayPlanData);
         void onFailureRepaymentPlan(String code, String msg);
 
-        void onSuccessRepaymentTrial(TrialMainPlanData trialMainPlanData);
+        void onSuccessRepaymentTrial(TrialData trialData);
         void onFailureRepaymentTrial(String code, String msg);
 
         void onSuccessConfirm(BaseBean baseBean);

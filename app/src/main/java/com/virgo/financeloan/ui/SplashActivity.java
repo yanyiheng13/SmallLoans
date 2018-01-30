@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 
 import com.virgo.financeloan.R;
+import com.virgo.financeloan.home.HomeActivity;
 
 
 /**

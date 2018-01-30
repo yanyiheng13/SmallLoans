@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?><!--添加银行卡界面-->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <com.virgo.financeloan.ui.view.CustomTitleView
         android:id="@+id/title_view"
@@ -12,43 +11,13 @@
         app:default_title="@string/title_add_bank" />
 
     <LinearLayout
-        android:id="@+id/bank_account_num_ll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="30dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minEms="4"
-            android:text="@string/bank_account"
-            android:textColor="@color/color_545454"
-            android:textSize="@dimen/font_size_15" />
-
-        <EditText
-            android:id="@+id/bank_account_num_et"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/bg_edit"
-            android:gravity="center_vertical"
-            android:inputType="number"
-            android:maxEms="20"
-            android:paddingLeft="5dp" />
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/bank_account_name_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/title_view"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -65,17 +34,83 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="20dp"
             android:background="@drawable/bg_edit"
             android:gravity="center_vertical"
             android:maxEms="6"
-            android:paddingLeft="5dp" />
+            android:paddingLeft="5dp"
+            android:textSize="@dimen/font_size_15" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bank_account_num_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bank_account_name_ll"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minEms="4"
+            android:text="@string/bank_account"
+            android:textColor="@color/color_545454"
+            android:textSize="@dimen/font_size_15" />
+
+        <EditText
+            android:id="@+id/bank_account_num_et"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/bg_edit"
+            android:gravity="center_vertical"
+            android:inputType="number"
+            android:maxEms="20"
+            android:paddingLeft="5dp"
+            android:textSize="@dimen/font_size_15" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bank_account_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bank_account_num_ll"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minEms="4"
+            android:text="@string/bank_account_select"
+            android:textColor="@color/color_545454"
+            android:textSize="@dimen/font_size_15" />
+
+        <TextView
+            android:id="@+id/bank_account_select_tv"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/bg_edit"
+            android:gravity="center_vertical"
+            android:hint="点击选择所属银行"
+            android:inputType="number"
+            android:maxEms="20"
+            android:paddingLeft="5dp"
+            android:textSize="@dimen/font_size_15" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/bank_account_bank_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/bank_account_ll"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:layout_marginTop="10dp"
@@ -95,23 +130,28 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="20dp"
             android:background="@drawable/bg_edit"
             android:gravity="center_vertical"
+            android:hint="例如：建国路支行"
             android:maxEms="25"
-            android:paddingLeft="5dp" />
+            android:paddingLeft="5dp"
+            android:textSize="@dimen/font_size_15" />
     </LinearLayout>
+
     <TextView
         android:id="@+id/login_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginTop="30dp"
-        android:minEms="8"
+        android:layout_below="@id/bank_account_bank_ll"
         android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/round_change_color"
         android:gravity="center"
+        android:minEms="8"
         android:text="@string/btn_submit"
         android:textColor="@color/white"
         android:textSize="@dimen/font_size_17" />
 
-</LinearLayout>
+</RelativeLayout>

@@ -1,1 +1,2 @@
-include ':app', ':libframework', "powermenu", "picture_library"
+include ':app', ':libframework', ':base_common'
+//":powermenu", ":picture_library"

@@ -1,31 +1,16 @@
 package com.virgo.financeloan.mvp;
 
 
-import com.luck.picture.lib.entity.LocalMedia;
 import com.sai.framework.mvp.BasePresenter;
 import com.virgo.financeloan.AppApplication;
-import com.virgo.financeloan.model.request.LoanApplyReqVo;
 import com.virgo.financeloan.model.request.ProtocolContentReqVo;
-import com.virgo.financeloan.model.request.ProtocolListReqVo;
 import com.virgo.financeloan.model.request.RecordReqVo;
 import com.virgo.financeloan.model.responce.BaseBean;
-import com.virgo.financeloan.model.responce.CardData;
-import com.virgo.financeloan.model.responce.LoanOrderNoVo;
 import com.virgo.financeloan.model.responce.LoanRecordDetailData;
 import com.virgo.financeloan.model.responce.ProtocolContentVo;
-import com.virgo.financeloan.model.responce.ProtocolVo;
-import com.virgo.financeloan.mvp.contract.LoanDetailContract;
 import com.virgo.financeloan.mvp.contract.LoanRecordDetailContract;
 import com.virgo.financeloan.net.Repository;
 import com.virgo.financeloan.net.rx.RxHelper;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 
 /**
  * 功能说明： 贷款明细详情

@@ -36,7 +36,7 @@
                     android:id="@+id/user_head_img"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:src="@mipmap/icon" />
+                    android:src="@mipmap/ic_my_default_head" />
                 <!--用户姓名-->
                 <TextView
                     android:id="@+id/txt_user_name"
@@ -56,8 +56,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="16dp"
-                    android:visibility="gone"
-                    android:src="@mipmap/icon_arrow" />
+                    android:src="@mipmap/icon_arrow"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/certification_tv"
@@ -147,15 +147,47 @@
                     android:textSize="@dimen/font_size_16" />
             </RelativeLayout>
 
-            <View
+            <RelativeLayout
+                android:id="@+id/mine_mr_bai_rl"
                 android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/line_color" />
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white">
+
+                <ImageView
+                    android:id="@+id/mr_bai_arrow_img"
+                    android:layout_width="8dp"
+                    android:layout_height="14dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:src="@mipmap/icon_arrow" />
+
+                <ImageView
+                    android:id="@+id/mr_bai_icon_img"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/ic_my_current" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/mr_bai_icon_img"
+                    android:text="福贝"
+                    android:textColor="@color/color_666666"
+                    android:textSize="@dimen/font_size_16" />
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/my_setting_rl"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/white">
 
                 <ImageView

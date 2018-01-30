@@ -3,7 +3,6 @@ package com.virgo.financeloan.mvp;
 
 import com.virgo.financeloan.model.request.LoginReqVo;
 import com.virgo.financeloan.model.responce.BaseBean;
-import com.virgo.financeloan.model.responce.IsOkData;
 import com.virgo.financeloan.model.responce.UserData;
 import com.virgo.financeloan.mvp.contract.LoginContract;
 import com.virgo.financeloan.net.Repository;

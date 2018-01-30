@@ -2,19 +2,16 @@ package com.virgo.financeloan.model.responce;
 
 import lombok.Data;
 
-import java.util.Date;
 import java.util.List;
 
 /**
- * <P>Description: . </P>
- * <P>CALLED BY:   齐霞飞 </P>
- * <P>UPDATE BY:   齐霞飞 </P>
- * <P>CREATE DATE: 2017/11/23</P>
- * <P>UPDATE DATE: 2017/11/23</P>
+ * 功能说明：产品详情页的试算信息
  *
- * @author qixiafei
- * @version 1.0
- * @since java 1.7.0
+ * @author： Yiheng Yan
+ * @email： yanyiheng86@163.com
+ * @version： 1.0
+ * @date： 2017/12/14
+ * @Copyright (c) 2017. yanyiheng Inc. All rights reserved.
  */
 @Data
 public class TrialData {

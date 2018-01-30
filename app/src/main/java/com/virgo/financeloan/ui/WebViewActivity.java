@@ -12,10 +12,6 @@ import android.webkit.WebView;
 
 import com.virgo.financeloan.AppApplication;
 import com.virgo.financeloan.R;
-import com.virgo.financeloan.util.CommonUtil;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,14 +40,19 @@ public class WebViewActivity extends BaseActivity {
         String webContent = AppApplication.mApplication.getWebContent();
         if (TextUtils.isEmpty(webContent)) { finish(); return;}
         initWebView();
-        Map<String, Object> context = new HashMap<>();
-        final Map<String, String> loanAuditDetail = new HashMap<>();
+//        Map<String, Object> context = new HashMap<>();
+//        final Map<String, String> loanAuditDetail = new HashMap<>();
+//        context.put("loanAuditDetail", loanAuditDetail);
+//
+//        loanAuditDetail.put("loanApplyNo", "loanApplyNoXIXI");
+//        loanAuditDetail.put("userAccountId", "userAccountIdXIXI");
+//        loanAuditDetail.put("loanAmt", "1000");
+//        loanAuditDetail.put("userAccountName", "王芳");
+//        loanAuditDetail.put("idCardNo", "410326199201036753");
+//        loanAuditDetail.put("loanAccountName", "王芳");
+//        loanAuditDetail.put("loanAccount", "410326199201036753");
 
-        context.put("loanAuditDetail", loanAuditDetail);
-        loanAuditDetail.put("loanApplyNo", "loanApplyNoXIXI");
-        loanAuditDetail.put("userAccountId", "userAccountIdXIXI");
-
-        mWebView.loadDataWithBaseURL(null, CommonUtil.parse(webContent, context), "text/html", "utf-8", null);
+        mWebView.loadDataWithBaseURL(null, webContent, "text/html", "utf-8", null);
     }
 
     private void initWebView() {
@@ -86,10 +87,10 @@ public class WebViewActivity extends BaseActivity {
         //开启缓存
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 
-
         webSettings.setDefaultTextEncodingName("utf-8");
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
+        webSettings.setAllowUniversalAccessFromFileURLs(true);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);//适应内容大小
 //        myWebViewClient = new MyWebViewClient();
 //        mWebView.setWebViewClient(myWebViewClient);
@@ -100,9 +101,6 @@ public class WebViewActivity extends BaseActivity {
         //解决https在5.0以上的跨域问题
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             CookieManager.getInstance().setAcceptThirdPartyCookies(mWebView, true);
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            webSettings.setAllowUniversalAccessFromFileURLs(true);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);

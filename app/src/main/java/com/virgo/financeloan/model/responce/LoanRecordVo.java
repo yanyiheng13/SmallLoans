@@ -68,7 +68,7 @@ public class LoanRecordVo implements Serializable {
      */
     private String loanStatus;
     /**
-     * 账单编号
+     * 账单编号 放款中
      */
     private String bookedBillId;
 

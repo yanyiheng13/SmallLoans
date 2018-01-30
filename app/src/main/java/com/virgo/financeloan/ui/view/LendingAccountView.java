@@ -8,9 +8,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.virgo.financeloan.R;
-import com.virgo.financeloan.model.responce.CardVo;
-import com.virgo.financeloan.ui.AddCardActivity;
-import com.virgo.financeloan.ui.CardListActivity;
+import com.virgo.financeloan.user.model.response.CardVo;
+import com.virgo.financeloan.user.activity.AddCardActivity;
+import com.virgo.financeloan.user.activity.CardListActivity;
 import com.virgo.financeloan.util.ViewUtil;
 
 import java.util.List;

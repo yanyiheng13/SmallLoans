@@ -2,9 +2,6 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
-
-
 
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
@@ -24,12 +21,11 @@ android {
             dirs 'libs'
         }
     }
-    buildToolsVersion '26.0.2'
+    buildToolsVersion rootProject.ext.buildToolsVersion
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-//    compile project(':ucrop')
     compile(
             deps.appcompat_v7,
             deps.support_design

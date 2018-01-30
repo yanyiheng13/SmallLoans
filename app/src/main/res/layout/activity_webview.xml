@@ -7,7 +7,7 @@
     <com.virgo.financeloan.ui.view.CustomTitleView
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
-        app:default_title="@string/title_agreement_detail"/>
+        app:default_title="@string/title_contract_detail"/>
     <WebView
         android:id="@+id/web_view"
         android:layout_width="match_parent"

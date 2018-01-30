@@ -16,5 +16,5 @@ public class ProtocolContentVo {
     /**
      * 协议内容(Html模板).
      */
-    private String content;
+    private String template;
 }

@@ -1,5 +1,7 @@
 package com.virgo.financeloan.model.responce;
 
+import com.virgo.financeloan.loan.model.response.ProtocolItemVo;
+
 import java.util.List;
 
 import lombok.Data;
@@ -62,6 +64,6 @@ public class LoanRecordDetailData {
     /**
      * 协议列表
      */
-    private List<ProtocolVo> contractInfoList;
+    private List<ProtocolItemVo> contractInfoList;
 
 }

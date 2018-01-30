@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.virgo.financeloan.ui.view.CustomTitleView
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height" />
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="@mipmap/icon_pdf" />
+
+    <TextView
+        android:id="@+id/pdf_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:text="乐视支付协议.pdf"
+        android:textColor="@color/color_666666"
+        android:textSize="@dimen/font_size_12" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/pdf_pb_download"
+            style="@style/tallerBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dip"
+            android:progressDrawable="@drawable/progressbar_color" />
+
+        <TextView
+            android:id="@+id/pdf_tv_open"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="#1F92F9"
+            android:gravity="center"
+            android:text="用其他应用打开"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size_15"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="暂时不能打开该类型文件"
+        android:textColor="@color/color_666666"
+        android:textSize="@dimen/font_size_12" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="你可以用其他应用打开"
+        android:textColor="@color/color_666666"
+        android:textSize="@dimen/font_size_12" />
+</LinearLayout>

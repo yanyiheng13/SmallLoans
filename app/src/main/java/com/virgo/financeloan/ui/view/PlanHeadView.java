@@ -14,7 +14,6 @@ import com.virgo.financeloan.R;
 import com.virgo.financeloan.model.responce.LoanRecordVo;
 import com.virgo.financeloan.model.responce.LoanVo;
 import com.virgo.financeloan.model.responce.TrialData;
-import com.virgo.financeloan.model.responce.TrialMainPlanData;
 import com.virgo.financeloan.util.CommonUtil;
 
 import java.text.SimpleDateFormat;
@@ -86,7 +85,7 @@ public class PlanHeadView extends LinearLayout {
 
     }
 
-    public void upData(TrialMainPlanData trialMainPlanData, LoanRecordVo mLoanRecordVo) {
+    public void upData(TrialData trialMainPlanData, LoanRecordVo mLoanRecordVo) {
         mName.setText(mLoanRecordVo.getProductBaseName());
         mTvRate.setText(mLoanRecordVo.getMonthRate());
         mTvStartTime.setText(mLoanRecordVo.getLoanApplyDate());

@@ -9,10 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.virgo.financeloan.R;
-import com.virgo.financeloan.ui.BankFlowActivity;
-import com.virgo.financeloan.ui.EnterpriseDataActivity;
-import com.virgo.financeloan.ui.FamilyDataActivity;
-import com.virgo.financeloan.ui.PersonDataActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

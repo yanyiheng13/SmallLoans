@@ -71,11 +71,14 @@ public interface RemoteService {
     @POST("loan/loanDetail/apply/account/remove/{version}/{token}")
     Flowable<ResponseBody> deleteAccount(@Path("version") String version, @Path("token") String token, @Body RequestBody body);
     //协议列表
-    @POST("loan/loanDetail/apply/protocol/list/{version}/{token}")
+    @POST("contract/productBase/list/{version}/{token}")
     Flowable<ResponseBody> protocolList(@Path("version") String version, @Path("token") String token, @Body RequestBody body);
     //协议内容
-    @POST("loan/loanDetail/apply/protocol/content/{version}/{token}")
+    @POST("contract/productBase/template/{version}/{token}")
     Flowable<ResponseBody> protocolContent(@Path("version") String version, @Path("token") String token, @Body RequestBody body);
+    //协议map
+    @POST("contract/productBase/fill/{version}/{token}")
+    Flowable<ResponseBody> mapInfo(@Path("version") String version, @Path("token") String token, @Body RequestBody body);
     //获取订单号
     @POST("loan/loanDetail/apply/getLoanOrderNo/{version}/{token}")
     Flowable<ResponseBody> getOrderNo(@Path("version") String version, @Path("token") String token);
@@ -99,7 +102,7 @@ public interface RemoteService {
     @POST("loan/loanDetail/apply/upload/list/{version}/{token}")
     Flowable<ResponseBody> upDataList(@Path("version") String version, @Path("token") String token, @Body RequestBody body);
     //资料图片详情
-    @POST("loan/loanDetail/apply/upload/getBytes/{version}/{token}")
+    @POST("file/getBytes/{version}/{token}")
     Flowable<ResponseBody> dataDetail(@Path("version") String version, @Path("token") String token, @Body RequestBody body);
 
     /**

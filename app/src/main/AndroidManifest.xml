@@ -37,6 +37,16 @@
         android:roundIcon="@mipmap/icon_launch"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!--<provider-->
+            <!--android:name="android.support.v4.content.FileProvider"-->
+            <!--android:authorities="cn.lovexiaoai.myapp.fileprovider"-->
+            <!--android:exported="false"-->
+            <!--android:grantUriPermissions="true">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
+                <!--android:resource="@xml/filepaths" />-->
+        <!--</provider>-->
+
         <activity
             android:name="com.virgo.financeloan.ui.SplashActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -51,7 +61,7 @@
             android:name="com.virgo.financeloan.ui.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.virgo.financeloan.ui.HomeActivity"
+            android:name="com.virgo.financeloan.home.HomeActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -61,49 +71,55 @@
             android:name="com.virgo.financeloan.ui.SettingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.virgo.financeloan.ui.LoanRecordListActivity"
+            android:name="com.virgo.financeloan.loan.activity.LoanRecordListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.virgo.financeloan.ui.TrialListActivity"
+            android:name="com.virgo.financeloan.loan.activity.TrialListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.virgo.financeloan.ui.LoanRecordDetailActivity"
+            android:name="com.virgo.financeloan.loan.activity.LoanRecordDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.virgo.financeloan.ui.AddCardActivity"
+            android:name="com.virgo.financeloan.user.activity.AddCardActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.virgo.financeloan.ui.PersonDataActivity"
+            android:name="com.virgo.financeloan.user.activity.CardSelectListActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.virgo.financeloan.loan.activity.PersonDataActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.virgo.financeloan.ui.PicPreActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.virgo.financeloan.ui.EnterpriseDataActivity"
+            android:name="com.virgo.financeloan.loan.activity.EnterpriseDataActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.virgo.financeloan.ui.FamilyDataActivity"
+            android:name="com.virgo.financeloan.loan.activity.FamilyDataActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.virgo.financeloan.ui.BankFlowActivity"
+            android:name="com.virgo.financeloan.loan.activity.BankFlowActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.virgo.financeloan.ui.CardListActivity"
+            android:name="com.virgo.financeloan.user.activity.CardListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.virgo.financeloan.ui.RepaymentTrialActivity"
+            android:name="com.virgo.financeloan.loan.activity.RepaymentTrialActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.virgo.financeloan.ui.RepaymentRecordListActivity"
+            android:name="com.virgo.financeloan.loan.activity.RepaymentRecordListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.virgo.financeloan.ui.RepaymentPlanListActivity"
+            android:name="com.virgo.financeloan.loan.activity.PdfDownloadActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.virgo.financeloan.loan.activity.RepaymentPlanListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.virgo.financeloan.ui.WebViewActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.virgo.financeloan.ui.LoanDetailActivity"
+            android:name="com.virgo.financeloan.loan.activity.LoanDetailActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden" />
     </application>

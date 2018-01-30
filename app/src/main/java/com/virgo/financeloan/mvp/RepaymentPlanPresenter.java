@@ -9,7 +9,7 @@ import com.virgo.financeloan.model.request.TrialByProductNoReqVo;
 import com.virgo.financeloan.model.responce.BaseBean;
 import com.virgo.financeloan.model.responce.RepayPlanData;
 import com.virgo.financeloan.model.responce.RepayRecordData;
-import com.virgo.financeloan.model.responce.TrialMainPlanData;
+import com.virgo.financeloan.model.responce.TrialData;
 import com.virgo.financeloan.mvp.contract.RepaymentPlanContract;
 import com.virgo.financeloan.net.Repository;
 import com.virgo.financeloan.net.rx.RxHelper;
@@ -86,9 +86,9 @@ public class RepaymentPlanPresenter extends BasePresenter<Repository, RepaymentP
      */
     public void repaymentTrial(String version, String token, TrialByProductNoReqVo noReqVo) {
         new RxHelper().view(getRootView()).load(getModel().getRemote().repaymentTrial(version, token, getRequestBody(noReqVo))).callBack(new RxHelper
-                .CallBackAdapter<BaseBean<TrialMainPlanData>>() {
+                .CallBackAdapter<BaseBean<TrialData>>() {
             @Override
-            public void onSuccess(String response, BaseBean<TrialMainPlanData> result) {
+            public void onSuccess(String response, BaseBean<TrialData> result) {
                 getRootView().onSuccessRepaymentTrial(result.data);
             }
 

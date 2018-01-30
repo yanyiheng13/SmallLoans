@@ -8,7 +8,7 @@ import lombok.Data;
  * @author： Yiheng Yan
  * @email： yanyiheng86@163.com
  * @version： 1.0
- * @date： 2017/12/14 18:45
+ * @date： 2017/12/14
  * @Copyright (c) 2017. yanyiheng Inc. All rights reserved.
  */
 @Data

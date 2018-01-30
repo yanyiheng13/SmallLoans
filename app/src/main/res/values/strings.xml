@@ -34,8 +34,9 @@
 
     <string name="lending_account_info">放款账户信息</string>
     <string name="bank_account">银行账号</string>
+    <string name="bank_account_select">选择银行</string>
     <string name="account_name">账户名</string>
-    <string name="open_bank_name">开户行</string>
+    <string name="open_bank_name">开户支行</string>
     <string name="add_account">添加账号</string>
     <string name="change_account">更换账号</string>
 
@@ -60,6 +61,7 @@
     <string name="title_loan_info">贷款信息</string>
     <string name="title_repayment_record">还款记录</string>
     <string name="title_pic_pre">图片预览</string>
+    <string name="title_contract_detail">协议详情</string>
 
     <!--sub title-->
     <string name="require_data">需要的资料</string>

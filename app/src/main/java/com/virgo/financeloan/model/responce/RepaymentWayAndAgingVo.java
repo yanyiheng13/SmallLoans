@@ -6,7 +6,7 @@ import java.util.List;
 import lombok.Data;
 
 /**
- * 功能说明：产品列表item对象
+ * 功能说明：还款对象
  *
  * @author： Yiheng Yan
  * @email： yanyiheng@le.com

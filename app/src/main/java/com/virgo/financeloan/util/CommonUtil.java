@@ -10,7 +10,11 @@ import android.text.TextUtils;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
 
+import java.io.IOException;
 import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.net.Inet4Address;
@@ -24,6 +28,7 @@ import java.util.Map;
 
 /**
  * 一些通用的类
+ *
  * @author: huajie
  * @version: 1.0
  * @date: 2017/1/24
@@ -288,13 +293,27 @@ public class CommonUtil {
 
         // 初始化并取得Velocity引擎
         VelocityEngine ve = new VelocityEngine();
-        ve.init();
+        try {
+            ve.init();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         VelocityContext context = new VelocityContext(params);
         // 输出流
         StringWriter writer = new StringWriter();
         // 转换输出
-        ve.evaluate(context, writer, "", template); // 关键方法
+        try {
+            ve.evaluate(context, writer, "", template); // 关键方法
+        } catch (ParseErrorException e) {
+            e.printStackTrace();
+        } catch (MethodInvocationException e) {
+            e.printStackTrace();
+        } catch (ResourceNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return writer.toString();
     }
